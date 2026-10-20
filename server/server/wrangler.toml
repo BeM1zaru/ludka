@@ -1,0 +1,21 @@
+# Настройки сервера «Лудки» для Cloudflare (сборка из GitHub).
+# Секреты (BOT_TOKEN, WEBHOOK_SECRET) здесь НЕ хранятся — они задаются в панели Cloudflare.
+name = "ludka"
+main = "worker.js"
+compatibility_date = "2026-10-01"
+workers_dev = true
+keep_vars = true
+
+[[d1_databases]]
+binding = "DB"
+database_name = "ludka-db"
+database_id = "7b92e7f2-c6e9-402b-a2f4-60067adbf0c3"
+
+[triggers]
+crons = ["5 21 * * SUN"]
+
+[vars]
+APP_URL = "https://bem1zaru.github.io/ludka/"
+ALLOWED_ORIGIN = "https://bem1zaru.github.io"
+GAME_URL = "https://t.me/LudkaCasinoGame_Bot"
+SUPPORT_CONTACT = "@bemizaru"
