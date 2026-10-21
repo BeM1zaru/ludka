@@ -906,6 +906,9 @@ h1, h2, h3 { font-family: var(--f-classic); }
 /* ---------- друзья: лестница, вызов, подарки, карточка ---------- */
 .ladder { display: grid; gap: 6px; }
 html, body { max-width: 100%; overflow-x: clip; }
+.beta-sum { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 4px 0; }
+.beta-sum div { display: grid; gap: 2px; padding: 10px; border-radius: 8px; background: #ffffff0d; text-align: center; }
+.beta-sum span { font-size: 12px; color: var(--muted); } .beta-sum b { font-size: 20px; color: var(--gold-hi); font-variant-numeric: tabular-nums; } .beta-sum small { font-size: 11px; color: var(--muted); }
 .updbar { position: fixed; left: 12px; right: 12px; bottom: calc(12px + env(safe-area-inset-bottom, 0px)); z-index: 90; display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 10px 10px 14px; border-radius: 12px; background: #1b1320f2; border: 1px solid #e3c27a77; box-shadow: 0 8px 30px #000a; font-size: 14px; font-weight: 700; color: var(--fg, #f3eefb); }
 .updbar .btn { padding: 9px 14px; font-size: 14px; flex: none; }
 .refbox { display: grid; gap: 10px; padding: 16px; border-radius: var(--r); border: 1px solid #3fd58f55; background: linear-gradient(180deg, #10241b, #0d140f); }
@@ -1114,7 +1117,7 @@ body.dock .app { margin-left: max(360px, calc(50% - 240px + 170px)); }
 /* ================= Настройки ================= */
 // Адрес сервера (Cloudflare Worker), например "https://ludka.ИМЯ.workers.dev". Пусто — демо: всё считается на устройстве.
 const API_BASE = "https://ludka.bemizaru.workers.dev";
-const APP_VER = 202610212154; // номер сборки — ставит build.js
+const APP_VER = 202610212208; // номер сборки — ставит build.js
 const BOT_USERNAME = "LudkaCasinoGame_Bot";
 const BETS = [10, 50, 100, 500, 1000];
 
@@ -1686,7 +1689,7 @@ const E = (() => {
     if (P.g) fail("Сначала завершите текущую игру", 409);
     if (P.resetAt && NOW - P.resetAt < 30 * H24) fail("Начать заново можно раз в 30 дней", 429);
     const keep = { created: P.created, rev: P.rev, name: P.name, code: P.code, adult: P.adult, rg: P.rg, spent: P.spent, refs: P.refs, refBy: P.refBy, refDone: P.refDone, gifts: P.gifts,
-      refMax: P.refMax, refBase: P.refBase, refOwed: P.refOwed, refSent: P.refSent, refEarn: P.refEarn, promos: P.promos,
+      refMax: P.refMax, refBase: P.refBase, betaIn: P.betaIn, refOwed: P.refOwed, refSent: P.refSent, refEarn: P.refEarn, promos: P.promos,
       cos: { owned: P.cos.owned, eq: P.cos.eq, vip: P.cos.vip, wt: P.cos.wt }, resetAt: NOW };
     for (const k of Object.keys(P)) delete P[k];
     Object.assign(P, newPlayer(NOW), keep);
@@ -1708,6 +1711,35 @@ const E = (() => {
   const dayWord = n => n % 10 === 1 && n % 100 !== 11 ? "день" : n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20) ? "дня" : "дней";
   const promoText = rw => rw.map(r => r.k === "chips" ? `${r.n.toLocaleString("ru-RU")} бемок` : r.k === "vip" ? `VIP на ${r.n} ${dayWord(r.n)}` : `${cosItem(r.id).g.toLowerCase()} «${cosItem(r.id).t}»`).join(" + ");
   // начислить награду кода; сам код (лимиты, повторы) проверяет сервер, условия игрока — здесь
+  /* ---------- перенос прогресса из беты (тогда игра в Telegram работала как демо и хранила всё на телефоне) ----------
+     Данные приходят с телефона и их можно подделать, поэтому переносим один раз и с потолками. */
+  const BETA_CREATED_BEFORE = Date.UTC(2026, 9, 29), BETA_UNTIL = Date.UTC(2026, 11, 1);
+  const BETA_MAX_CHIPS = 100000, BETA_MAX_LVL = 20, BETA_MAX_IDLE = 300000;
+  const betaCan = P => !P.betaIn && P.created < BETA_CREATED_BEFORE && NOW < BETA_UNTIL;
+  A["beta.import"] = (P, x, ev) => {
+    if (P.betaIn) fail("Прогресс из беты уже перенесён");
+    if (!betaCan(P)) fail("Перенос прогресса из беты больше недоступен");
+    const d = x && typeof x === "object" ? x : {}, num = (v, max) => Math.max(0, Math.min(max, Math.floor(Number(v) || 0)));
+    const before = P.chips, out = { chips: 0, lvl: 0, ach: 0, idle: 0 };
+    // бемки: не меньше, чем сейчас, и не больше потолка
+    const chips = num(d.chips, BETA_MAX_CHIPS); if (chips > P.chips) { out.chips = chips - P.chips; P.chips = chips; }
+    // уровень (без наград за уровни — их уже получили в бете)
+    const lvl = Math.max(1, num(d.lvl, BETA_MAX_LVL)); if (lvl > P.prog.lvl) { out.lvl = lvl - P.prog.lvl; P.prog.lvl = lvl; P.prog.xp = 0; }
+    // достижения — только отметка, без повторной награды
+    for (const id of Array.isArray(d.ach) ? d.ach.slice(0, 200) : []) if (ACH.some(a => a.id === id) && !P.ach.got[id]) { P.ach.got[id] = NOW; out.ach++; }
+    // «Моё казино»: здания, перчатка и сейф в пределах суммарной стоимости BETA_MAX_IDLE
+    const I = idleS(P), src = d.idle && typeof d.idle === "object" ? d.idle : {}; let budget = BETA_MAX_IDLE;
+    for (const b of IDLE_B) { const want = num(src.b && src.b[b.k], 300); while (bLevel(P, b.k) < want) { const c = bCost(P, b); if (c > budget) break; budget -= c; I.b[b.k] = bLevel(P, b.k) + 1; out.idle++; } }
+    const glove = num(src.glove, 30); while (I.glove < glove && GLOVE_COST(I.glove) <= budget) { budget -= GLOVE_COST(I.glove); I.glove++; out.idle++; }
+    const safe = num(src.safe, SAFE.length - 1); while (I.safe < safe && SAFE[I.safe + 1].cost <= budget) { budget -= SAFE[I.safe + 1].cost; I.safe++; out.idle++; }
+    I.last = NOW;
+    // перенесённые бемки не идут в партнёрку пригласившему: проценты только с проигрышей сверх них
+    if (P.refBy) P.refBase = Math.max(P.refBase || 0, P.refMax || 0) + (P.chips - before);
+    // достижения, которые теперь выполнены (уровень и т.п.), отмечаем без награды — иначе получилось бы больше потолка
+    for (const a of ACH) if (a.p && !P.ach.got[a.id]) { const [v, goal] = a.p(P); if (v >= goal) P.ach.got[a.id] = NOW; }
+    P.betaIn = NOW;
+    return out;
+  };
   A["promo.apply"] = (P, x, ev) => {
     const pr = CTX.promo; if (!pr) fail("Промокоды работают в Telegram", 403);
     if (pr.minRounds && P.ach.c.rounds < pr.minRounds) fail(`Код станет доступен после ${pr.minRounds} сыгранных раундов`);
@@ -2155,7 +2187,7 @@ const E = (() => {
     act, view, pub, newPlayer, fix, setNow, product, grant, revoke, canSpend, spend, crashWait, isoWeek, weekEnd, today, dayOf,
     START_CHIPS, MIN_BET, MAX_BET, MAX_TABLE, PACKS, DAY_LIMIT_STARS, MONTH_LIMIT_STARS, RG_DAY, RG_MONTH, RG_REMIND, H24, GAME_NAMES, STATEFUL,
     promoParse, promoText, xpNeed, xpFor, levelReward, GAME_EDGE, XP_K, XP_BACK, Q_MIN_BET, levelTitle, Q_A, Q_B, Q_ALL_BONUS, qDef, qProgress, qAllDone, STREAK, FW, streakNext, dailyAmount, rgLimits,
-    ACH, ACH_CLIENT, COS, BUNDLES, VIP_PRICE, VIP_DAYS, cosItem, vipOn, owns, eqd, WEEK_TITLES, weekTitle, FRIEND_BONUS, REF_SHARE,
+    ACH, ACH_CLIENT, COS, BUNDLES, VIP_PRICE, VIP_DAYS, cosItem, vipOn, owns, eqd, WEEK_TITLES, weekTitle, FRIEND_BONUS, REF_SHARE, BETA_MAX_CHIPS, BETA_MAX_LVL, betaCan,
     IDLE_B, IDLE_MS, IDLE_SOFT, SAFE, GLOVE_COST, PRESTIGE_AT, bLevel, bCost, bRate, idleRate, idleGain, safeCap, tapValue,
     SYMS, WHEEL, REDS, colorOf, OUT, SUITS, RANKS, score, CRASH_RTP, CRASH_SPEED, AUTOS, ROAD, ROAD_RTP, roadMult, MINES_RTP, MINE_OPTS, minesMult,
     P_ROWS, P_RISK, RF_COLS, RF_ROWS, RF_SYMS, RF_SCAT, RF_SCAT_PAY, RF_PAY_SCALE, rfNew, rfIdx, rfPlay, SC_PRIZES, JP_SEED, JP_RATE, JP_ODDS,
@@ -2454,6 +2486,7 @@ function renderLobby() {
   if (UPD && !updTried(UPD) && !(S.pilot?.bets || []).some(b => !b.done)) return updGo();
   if (S.rg.pause > nowS()) return renderPause();
   idleTabShow(true); idleDock();
+  setTimeout(betaOffer, 400);
   const TABLES = [
     { k: "pilot", cat: "fast", cls: "t-pilot", deco: ICON.pilot, h: "Пилот", p: "Общий раунд для всех: две ставки, заберите до того, как улетит", fn: renderPilot },
     { k: "kirka", cat: "slots", cls: "t-kirka", deco: ICON.kirka, h: "Кирка", p: "Кирки ломают шахту, сундуки на дне умножают выигрыш", fn: renderKirka },
@@ -2618,6 +2651,45 @@ function profileModal() {
 
 /* ================= Промокоды ================= */
 // Коды создаёт админ в боте (/promo add). Проверка — на сервере: один код один раз на аккаунт.
+/* ---------- перенос прогресса из беты ----------
+   В бете игра в Telegram работала как демо и хранила прогресс на телефоне. Предлагаем один раз перенести его на сервер. */
+function betaSave() {
+  try {
+    if (store.get("betaDone", 0)) return null;
+    let P = store.get("P", null);
+    if (!P && store.get("chips", null) !== null) { P = Local.load(); store.set("P", P); } // совсем старый формат — сохраняем в новом, чтобы не потерять
+    if (!P) return null;
+    const lvl = P.prog?.lvl || 1, chips = Math.floor(P.chips || 0), rounds = P.ach?.c?.rounds || 0;
+    if (lvl <= 1 && rounds < 5 && chips <= E.START_CHIPS) return null; // почти не играл — нечего переносить
+    return { chips, lvl, rounds, ach: Object.keys(P.ach?.got || {}), idle: P.idle ? { b: P.idle.b || {}, glove: P.idle.glove || 0, safe: P.idle.safe || 0 } : null };
+  } catch (e) { return null; }
+}
+let betaAsked = false;
+function betaOffer() {
+  if (betaAsked || !LIVE || !S.loaded || S.betaIn || !S.adult || document.querySelector(".modal")) return;
+  if (!(S.created < Date.UTC(2026, 9, 29)) || Date.now() >= Date.UTC(2026, 11, 1)) return;
+  const d = betaSave(); if (!d) return;
+  betaAsked = true;
+  const capped = d.chips > E.BETA_MAX_CHIPS, lvl = Math.min(d.lvl, E.BETA_MAX_LVL);
+  modal(`<h2>🎁 Нашли ваш прогресс из беты</h2>
+    <p>Во время беты игра хранила прогресс только на вашем телефоне. Теперь всё сохраняется на сервере — перенесём старое?</p>
+    <div class="beta-sum"><div><span>Бемки</span><b>${fmt(Math.min(d.chips, E.BETA_MAX_CHIPS))}</b>${capped ? `<small>из ${fmt(d.chips)}</small>` : ""}</div>
+      <div><span>Уровень</span><b>${lvl}</b></div><div><span>Достижения</span><b>${d.ach.length}</b></div></div>
+    <p class="fine">Переносится один раз. Бемки — до ${fmt(E.BETA_MAX_CHIPS)}, уровень — до ${E.BETA_MAX_LVL}, «Моё казино» — в пределах ${fmt(300000)} бемок вложений. Если сейчас у вас больше, ничего не уменьшится. Покупки оформления из беты не переносятся: там они были бесплатными.</p>
+    <p class="fine" id="bmsg" role="status"></p>
+    <button class="btn gold" id="bok">Перенести</button><button class="btn ghost" id="bno">Начать заново</button>`, (m, close) => {
+    const msg = m.querySelector("#bmsg"), ok = m.querySelector("#bok");
+    m.querySelector("#bno").onclick = () => { store.set("betaDone", 1); close(); };
+    ok.onclick = async () => {
+      ok.disabled = true; msg.textContent = "Переносим…";
+      try {
+        const res = await api("beta.import", d); store.set("betaDone", 1); close();
+        popToast(`Прогресс перенесён: ${res.r.chips ? "+" + fmt(res.r.chips) + " бемок, " : ""}уровень ${S.prog.lvl}`);
+        renderLobby();
+      } catch (e) { ok.disabled = false; msg.textContent = e.message || "Не получилось, попробуйте ещё раз"; if (/уже|недоступен/.test(e.message || "")) { store.set("betaDone", 1); setTimeout(close, 1500); } }
+    };
+  });
+}
 function promoModal(prefill = "") {
   modal(`<h2>🎟️ Промокод</h2><p>Коды раздаём в канале игры, у блогеров и по праздникам. Один код можно ввести один раз.</p>
     <label class="fine" for="pcode">Код</label>
