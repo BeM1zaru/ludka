@@ -12,7 +12,7 @@
  *  APP_URL         — адрес игры на GitHub Pages, например https://login.github.io/ludka/
  *  GAME_URL        — ссылка на бота, например https://t.me/LudkaCasinoGame_Bot
  *  ALLOWED_ORIGIN  — откуда открывается игра, например https://login.github.io
- *  ADMIN_ID        — ваш числовой Telegram ID (для /refund и /stats)
+ *  ADMIN_ID        — ваш числовой Telegram ID (для /refund, /stats, /load, /backup, /promo)
  *  SUPPORT_CONTACT — куда писать по оплате, например @bemizaru
  * Привязка базы (Bindings → D1 database): имя переменной DB.
  * Расписание (Triggers → Cron): 5 21 * * SUN — звания недели (понедельник 00:05 по Москве).
@@ -47,13 +47,19 @@ const E = (() => {
   const PACKS = [{ id: "c5k", chips: 5000, stars: 25 }, { id: "c25k", chips: 25000, stars: 100 }, { id: "c50k", chips: 50000, stars: 200 }];
   const DAY_LIMIT_STARS = 200, MONTH_LIMIT_STARS = 1000;
   const RG_DAY = [200, 100, 50, 0], RG_MONTH = [1000, 500, 200, 0], RG_REMIND = [0, 30, 60, 120], H24 = 864e5;
-  const GAME_NAMES = { slots: "Neon 777", reef: "Сокровища рифа", roul: "Рулетка", bj: "Таверна «21»", wheel: "Колесо удачи", crash: "Самолётик", mines: "Минное поле", plinko: "Звездопад", road: "Через дорогу", tower: "Ледяная башня", scratch: "Золотой билет" };
-  const STATEFUL = ["bj", "crash", "road", "mines", "tower", "reef", "wheel"];
+  const GAME_NAMES = { slots: "Neon 777", reef: "Сокровища рифа", roul: "Рулетка", bj: "Таверна «21»", wheel: "Колесо удачи", crash: "Самолётик", mines: "Минное поле", plinko: "Звездопад", road: "Через дорогу", tower: "Ледяная башня", scratch: "Золотой билет", kirka: "Кирка", pilot: "Пилот" };
+  const STATEFUL = ["bj", "crash", "road", "mines", "tower", "reef", "wheel", "kirka"];
 
   /* ---------- уровни, задания, бонусы ---------- */
-  const xpNeed = l => 150 + (l - 1) * 75;
-  const xpFor = bet => Math.max(5, Math.min(35, Math.round(10 * (1 + Math.log10(Math.max(1, bet) / 10)))));
-  const levelReward = l => Math.min(5000, 300 * l);
+  // Опыт = 10 за каждую бемку, которую игра в среднем оставляет себе (ставка × доля казино).
+  // Поэтому спам мелкими ставками ничего не даёт: опыт всегда «стоит» одинаково в любой игре.
+  // Награда за уровень ≈ 40% от того, что в среднем ушло на этот уровень, — возврат части, а не заработок.
+  const XP_K = 10, XP_BACK = 0.4, Q_MIN_BET = 50;
+  const GAME_EDGE = { slots: 0.024, roul: 0.027, bj: 0.02, reef: 0.1, wheel: 0.1, crash: 0.1, mines: 0.1, plinko: 0.1, road: 0.1, tower: 0.1, scratch: 0.1, kirka: 0.045, pilot: 0.03 };
+  const xpNeed = l => 1000 + (l - 1) * 600;
+  const xpFor = (bet, g) => bet * (GAME_EDGE[g] ?? 0.05) * XP_K;
+  const levelReward = l => Math.round(XP_BACK * xpNeed(l - 1) / XP_K);
+  const xpNeedOld = l => 150 + (l - 1) * 75;
   const levelTitle = l => l >= 30 ? "Амбассадор микрозаймов" : l >= 20 ? "Игрок" : l >= 10 ? "Лудоман" : l >= 5 ? "Лудик" : "Недолудик";
   const Q_A = [{ id: "rounds20", t: "Сыграйте 20 раундов", goal: 20, k: "rounds", r: 500 }, { id: "rounds50", t: "Сыграйте 50 раундов", goal: 50, k: "rounds", r: 1000 },
     { id: "games3", t: "Сыграйте в 3 разные игры", goal: 3, k: "games", r: 600 }, { id: "games5", t: "Сыграйте в 5 разных игр", goal: 5, k: "games", r: 1000 }];
@@ -74,7 +80,7 @@ const E = (() => {
   const ACH = [
     { g: "Начало", id: "first_round", i: "🎲", t: "Первый шаг", d: "Сыграйте первый раунд", r: 100 },
     { g: "Начало", id: "first_win", i: "🎉", t: "Первая победа", d: "Выиграйте в первый раз", r: 200 },
-    { g: "Начало", id: "explorer", i: "🧭", t: "Турист", d: "Сыграйте во все 11 игр", r: 2000, p: P => [P.ach.c.games.length, 11] },
+    { g: "Начало", id: "explorer", i: "🧭", t: "Турист", d: "Сыграйте во все 13 игр", r: 2000, p: P => [P.ach.c.games.length, 13] },
     { g: "Начало", id: "rounds100", i: "💯", t: "Сотка", d: "Сыграйте 100 раундов", r: 500, p: P => [P.ach.c.rounds, 100] },
     { g: "Начало", id: "rounds1000", i: "🎰", t: "Тысячник", d: "Сыграйте 1 000 раундов", r: 2000, p: P => [P.ach.c.rounds, 1000] },
     { g: "Начало", id: "rounds10000", i: "🏛️", t: "Старожил", d: "Сыграйте 10 000 раундов", r: 10000, p: P => [P.ach.c.rounds, 10000] },
@@ -98,6 +104,10 @@ const E = (() => {
     { g: "Игры", id: "plinko_edge", i: "☄️", t: "На краю", d: "Попадите в крайнюю ячейку «Звездопада»", r: 2000 },
     { g: "Игры", id: "tower_top", i: "🏔️", t: "Покоритель", d: "Поднимитесь на вершину «Ледяной башни»", r: 2000 },
     { g: "Игры", id: "scratch_100", i: "🎟️", t: "Золотая жила", d: "Выиграйте ×100 и больше на «Золотом билете»", r: 3000 },
+    { g: "Игры", id: "kirka_bonus", i: "⛏️", t: "Глубокая жила", d: "Запустите бесплатные спуски в «Кирке»", r: 1500 },
+    { g: "Игры", id: "kirka_chest", i: "🧰", t: "Клад", d: "Откройте сундук на дне «Кирки»", r: 1000 },
+    { g: "Игры", id: "pilot_x20", i: "🛩️", t: "Ас", d: "Заберите ×20 и выше в «Пилоте»", r: 2000 },
+    { g: "Игры", id: "pilot_double", i: "✌️", t: "Две ставки", d: "Выиграйте обеими ставками в одном раунде «Пилота»", r: 800 },
     { g: "Игры", id: "wheel_super", i: "⭐", t: "Супер!", d: "Попадите в «Супер» с поставленной на него ставкой", r: 2000 },
     { g: "Рост", id: "lvl5", i: "🥉", t: "Лудик", d: "Достигните 5 уровня", r: 500, p: P => [P.prog.lvl, 5] },
     { g: "Рост", id: "lvl10", i: "🥈", t: "Лудоман", d: "Достигните 10 уровня", r: 1500, p: P => [P.prog.lvl, 10] },
@@ -146,6 +156,8 @@ const E = (() => {
     { id: "chick_party", cat: "games", slot: "chicken", g: "Через дорогу", t: "Курица-тусовщица", price: null, free: { t: "Пригласите 5 друзей", ok: P => (P.refs || 0) >= 5 } },
     { id: "frame_owner", cat: "profile", slot: "frame", g: "Рамка аватара", t: "Владелец казино", price: null, free: { t: "Откройте новое заведение в «Моём казино»", ok: P => (P.idle?.pr || 0) >= 1 } },
     { id: "title_owner", cat: "profile", slot: "title", g: "Звание", t: "Владелец казино", price: null, free: { t: "Откройте новое заведение в «Моём казино»", ok: P => (P.idle?.pr || 0) >= 1 } },
+    { id: "frame_first", cat: "profile", slot: "frame", g: "Рамка аватара", t: "Первые игроки", price: null, promo: 1 },
+    { id: "title_first", cat: "profile", slot: "title", g: "Звание", t: "Первопроходец", price: null, promo: 1 },
     { id: "sound_retro", cat: "fx", slot: "sound", g: "Набор звуков", t: "Ретро-аркада", price: 40 },
     { id: "sound_live", cat: "fx", slot: "sound", g: "Набор звуков", t: "Живое казино", price: 40 },
     { id: "fx_fireworks", cat: "fx", slot: "fx", g: "Эффект выигрыша", t: "Фейерверк", price: 50 },
@@ -169,6 +181,9 @@ const E = (() => {
   ];
   const weekTitle = P => { const w = P.cos.wt; return w && w.until > NOW && WEEK_TITLES[w.place - 1] ? { ...WEEK_TITLES[w.place - 1], place: w.place } : null; };
   const FRIEND_BONUS = 5000;
+  // Партнёрка «как у блогеров»: пригласивший получает 10% чистого проигрыша друга (платит казино, не друг).
+  // Считается от самого глубокого минуса: отыгрался — новых процентов нет, пока не уйдёт ниже прежнего.
+  const REF_SHARE = 0.10, REF_SEND_STEP = 100, REF_SEND_MS = 20000;
 
   /* ---------- «Моё казино» ---------- */
   const IDLE_B = [
@@ -306,6 +321,81 @@ const E = (() => {
   const TW_ROWS = 8, TW_RTP = 0.90;
   const TW = { easy: { t: "Лёгкий", cols: 4, safe: 3 }, mid: { t: "Средний", cols: 3, safe: 2 }, hard: { t: "Сложный", cols: 2, safe: 1 }, hell: { t: "Безумный", cols: 3, safe: 1 } };
   const twMult = (lv, k) => Math.floor(TW_RTP * Math.pow(TW[lv].cols / TW[lv].safe, k) * 100) / 100;
+  /* ---------- «Кирка»: шахта 5×6, кирки падают сверху ---------- */
+  // Блоки: [прочность, выплата в ставках]. Кирки: число ударов. Отдача ≈ 96%, потолок 5000×.
+  const KR_COLS = 5, KR_ROWS = 6, KR_DROP = 3, KR_FS = 4, KR_MAX = 5000, KR_SCALE = 0.955;
+  const KR_BLK = { dirt: { t: "Земля", hp: 1, pay: 0 }, stone: { t: "Камень", hp: 2, pay: 0.2 }, coal: { t: "Уголь", hp: 3, pay: 0.75 },
+    ruby: { t: "Рубин", hp: 4, pay: 1.8 }, gold: { t: "Золото", hp: 5, pay: 5.5 }, dia: { t: "Алмаз", hp: 6, pay: 9 }, obs: { t: "Обсидиан", hp: 7, pay: 45 } };
+  const KR_ROWW = [
+    { dirt: 70, stone: 30 }, { dirt: 45, stone: 55 },
+    { stone: 50, coal: 30, ruby: 14, gold: 5, dia: 1 },
+    { stone: 40, coal: 30, ruby: 18, gold: 8, dia: 3, obs: 1 },
+    { stone: 30, coal: 28, ruby: 22, gold: 12, dia: 6, obs: 2 },
+    { stone: 22, coal: 25, ruby: 25, gold: 15, dia: 9, obs: 4 }];
+  const KR_SYM = { none: 6000, wood: 2000, stone: 1100, gold: 450, dia: 170, tnt: 320, book: 200, eye: 260 };
+  const KR_PICK = { wood: 1, stone: 2, gold: 3, dia: 5 };
+  const KR_CHEST = [[2, 50], [3, 25], [5, 15], [10, 8], [25, 2]];
+  const wPick = w => { const keys = Object.keys(w), t = keys.reduce((a, k) => a + w[k], 0); let r = rand(t); for (const k of keys) { if ((r -= w[k]) < 0) return k; } return keys[0]; };
+  function krGrid() { return Array.from({ length: KR_COLS }, () => Array.from({ length: KR_ROWS }, (_, r) => { const k = wPick(KR_ROWW[r]); return { k, hp: KR_BLK[k].hp }; })); }
+  // один спуск кирок: меняет поле g и сундуки ch; возвращает шаги для анимации
+  function krSpin(g, ch) {
+    const drop = Array.from({ length: KR_COLS }, () => Array.from({ length: KR_DROP }, () => wPick(KR_SYM)));
+    const orig = drop.map(c => c.slice()), steps = [];
+    let win = 0, eyes = 0;
+    const top = c => g[c].findIndex(b => b);
+    const brk = (c, r, out) => {
+      const b = g[c][r]; if (!b) return;
+      win += KR_BLK[b.k].pay; g[c][r] = null; out.push({ c, r, k: b.k, pay: KR_BLK[b.k].pay });
+      if (g[c].every(x => !x) && !ch[c]) { ch[c] = whPick(KR_CHEST); out.push({ c, chest: ch[c] }); }
+    };
+    for (let c = 0; c < KR_COLS; c++) {
+      const bi = drop[c].indexOf("book");
+      if (bi >= 0) { const up = []; for (let i = 0; i < KR_DROP; i++) if (KR_PICK[drop[c][i]] && drop[c][i] !== "dia") { drop[c][i] = "dia"; up.push(i); } steps.push({ c, i: bi, s: "book", up }); }
+      for (let i = 0; i < KR_DROP; i++) {
+        const s = drop[c][i];
+        if (s === "eye") { eyes++; steps.push({ c, i, s }); continue; }
+        if (s === "tnt") { const r = top(c), out = []; if (r >= 0) for (const cc of [c - 1, c, c + 1]) if (cc >= 0 && cc < KR_COLS) brk(cc, r, out); steps.push({ c, i, s, r, out }); continue; }
+        let h = KR_PICK[s] || 0; if (!h) continue;
+        const out = [];
+        while (h > 0) { const r = top(c); if (r < 0) break; g[c][r].hp--; h--; out.push({ c, r, hp: g[c][r].hp }); if (g[c][r].hp <= 0) brk(c, r, out); }
+        steps.push({ c, i, s, out });
+      }
+    }
+    return { drop: orig, steps, win: Math.round(win * 100) / 100, eyes };
+  }
+  const krMult = ch => ch.reduce((a, x) => a + (x || 0), 0) || 1;
+  /* ---------- «Пилот»: общий раунд для всех игроков ---------- */
+  // Раунд: приём ставок → полёт (множитель растёт) → падение → пауза. Точка падения: P(≥x) = 0,97/x → отдача 97%.
+  const PL_BET_MS = 7000, PL_PAUSE = 3000, PL_SPEED = 0.08, PL_RTP = 0.97, PL_GRACE = 400, PL_CAP = 10000;
+  const PL_AUTO_MAX = 1000;
+  const plPoint = u => Math.min(PL_CAP, Math.max(1, Math.floor(PL_RTP / (1 - u) * 100) / 100));
+  // следующий раунд после prev; u — случайное число 0…1 (на сервере — из секрета)
+  function plNext(prev, now, u) {
+    const start = Math.max(now, prev ? prev.crash + PL_PAUSE : 0), point = plPoint(u), fly = start + PL_BET_MS;
+    return { n: prev ? prev.n + 1 : 1, start, fly, crash: Math.round(fly + Math.log(point) / PL_SPEED * 1000), point };
+  }
+  const plPhase = (R, t) => t < R.fly ? "bet" : t < R.crash ? "fly" : t < R.crash + PL_PAUSE ? "end" : "next";
+  const plMult = (R, t) => Math.max(1, Math.exp(PL_SPEED * Math.max(0, t - R.fly) / 1000));
+  // что раунда можно показывать всем (точку — только после падения)
+  const plPublic = (R, t) => R && ({ n: R.n, start: R.start, fly: R.fly, ...(t >= R.crash ? { crash: R.crash, point: R.point } : {}) });
+  const plS = P => P.pilot || (P.pilot = { bets: [] });
+  // рассчитать ставки, чьи раунды уже закончились (автовывод или проигрыш)
+  function plSettle(P, ev) {
+    const pc = CTX.pilot; if (!pc || !P.pilot) return;
+    for (const b of P.pilot.bets) {
+      if (b.done) continue;
+      const R = pc.rounds?.[b.n] || (pc.cur && pc.cur.n === b.n ? pc.cur : null);
+      if (!R) continue;
+      if (!b.h && NOW >= R.fly) b.h = { ...roundStart(P, "pilot", b.bet, ev, true), t: R.fly }; // раунд состоялся
+      if (NOW < R.crash + PL_GRACE) continue;
+      const m = b.auto && b.auto < R.point ? b.auto : 0;
+      b.pay = m ? Math.floor(b.bet * m) : 0; b.cash = m; b.done = 1;
+      roundEnd(P, b.h, b.pay, ev, m || R.point);
+      (CTX.pilotLog = CTX.pilotLog || []).push({ n: b.n, slot: b.slot, cash: m, pay: b.pay });
+      if (m >= 20) achGive(P, "pilot_x20", ev);
+    }
+    P.pilot.bets = P.pilot.bets.filter(b => !b.done || NOW - b.t < 60000).slice(-8);
+  }
   const shuffle = a => { for (let i = a.length - 1; i > 0; i--) { const j = rand(i + 1); [a[i], a[j]] = [a[j], a[i]]; } return a; };
 
   /* ================= Игрок ================= */
@@ -314,7 +404,7 @@ const E = (() => {
     return {
       v: 1, created: now, rev: 0, name: "Игрок", code: "", adult: false,
       chips: START_CHIPS, stats: { maxChips: START_CHIPS, bigWin: 0 },
-      prog: { xp: 0, lvl: 1 }, streak: { last: "", n: 0 },
+      prog: { xp: 0, lvl: 1, v: 2 }, streak: { last: "", n: 0 },
       q: { day: "", list: [], c: {}, done: [], bonus: false }, wheelDay: "",
       rg: { day: 200, month: 1000, pend: null, remind: 60, pause: 0 },
       spent: { day: "", dayStars: 0, month: "", monthStars: 0 },
@@ -329,10 +419,13 @@ const E = (() => {
   }
   // дополняет старые записи новыми полями
   function fix(P) {
-    const d = newPlayer(NOW);
+    const d = newPlayer(NOW), xpV = P.prog ? P.prog.v : 2;
     for (const k in d) if (P[k] === undefined) P[k] = d[k];
     for (const k of ["stats", "prog", "streak", "rg", "spent", "lb", "cos"]) P[k] = { ...d[k], ...P[k] };
     P.ach = { got: P.ach.got || {}, c: { ...d.ach.c, ...(P.ach.c || {}) } };
+    // партнёрка для тех, кто играл до неё: старый минус не считается, проценты только с новых проигрышей
+    if (P.refBase === undefined) { P.refBase = P.refDone ? Math.max(0, -(P.lb.aNet || 0)) : 0; P.refMax = Math.max(P.refMax || 0, P.refBase); }
+    if (xpV !== 2) { P.prog.xp = Math.floor(Math.min(1, (P.prog.xp || 0) / xpNeedOld(P.prog.lvl)) * xpNeed(P.prog.lvl)); P.prog.v = 2; }
     return P;
   }
 
@@ -378,16 +471,20 @@ const E = (() => {
 
   /* ---------- раунд ---------- */
   function betOk(bet, max = MAX_BET) { bet = Math.round(+bet); if (!(bet >= MIN_BET && bet <= max)) fail(`Ставка от ${MIN_BET} до ${max.toLocaleString("ru-RU")}`); return bet; }
-  function roundStart(P, g, bet, ev) {
+  function canPlay(P, bet) {
     if (!P.adult) fail("Подтвердите возраст", 403);
     if (paused(P)) fail("Вы взяли паузу от игры", 403);
     if (P.chips < bet) fail("Недостаточно бемок", 402);
-    P.chips -= bet;
+  }
+  // charged — ставка уже списана раньше (ставка «Пилота» засчитывается при взлёте)
+  function roundStart(P, g, bet, ev, charged) {
+    if (!charged) { canPlay(P, bet); P.chips -= bet; }
     const c = P.ach.c; c.rounds++; if (!c.games.includes(g)) c.games.push(g);
     achGive(P, "first_round", ev);
     questsEnsure(P);
-    const q = P.q.c; q.rounds = (q.rounds || 0) + 1; q.games = q.games || []; if (!q.games.includes(g)) q.games.push(g); q["g:" + g] = (q["g:" + g] || 0) + 1;
-    addXP(P, xpFor(bet), ev);
+    // задания засчитывают только раунды со ставкой от Q_MIN_BET — иначе их «накручивают» минимальными ставками
+    if (bet >= Q_MIN_BET) { const q = P.q.c; q.rounds = (q.rounds || 0) + 1; q.games = q.games || []; if (!q.games.includes(g)) q.games.push(g); q["g:" + g] = (q["g:" + g] || 0) + 1; }
+    addXP(P, xpFor(bet, g), ev);
     if (P.refBy && !P.refDone) { P.refDone = true; P.chips += FRIEND_BONUS; ev.push({ t: "ref", r: FRIEND_BONUS }); CTX.refCredit = P.refBy; }
     return { g, bet, t: NOW };
   }
@@ -396,9 +493,8 @@ const E = (() => {
     const mm = bet ? (profit + bet) / bet : 0;
     [[10, "mult10"], [50, "mult50"], [100, "mult100"], [1000, "mult1000"]].forEach(([k, id]) => mm >= k && achGive(P, id, ev));
     if (profit >= 10000) achGive(P, "win10k", ev); if (profit >= 100000) achGive(P, "win100k", ev);
-    questsEnsure(P); const c = P.q.c;
-    c.wins = (c.wins || 0) + 1; c.profit = (c.profit || 0) + profit; c.mult = Math.max(c.mult || 0, mm);
-    addXP(P, Math.round(xpFor(bet) / 2), ev);
+    questsEnsure(P);
+    if (bet >= Q_MIN_BET) { const c = P.q.c; c.wins = (c.wins || 0) + 1; c.profit = (c.profit || 0) + profit; c.mult = Math.max(c.mult || 0, mm); }
   }
   function noteWin(P, profit, bet, ev) { if (profit > P.stats.bigWin) P.stats.bigWin = profit; if (profit > 0) onWin(P, profit, bet, ev); }
   // конец раунда: выплата, история, рейтинг, победа
@@ -461,7 +557,7 @@ const E = (() => {
     if (id === "__all") { if (!qAllDone(P) || P.q.bonus) fail("Сундук пока закрыт"); P.q.bonus = true; P.chips += Q_ALL_BONUS; return { r: Q_ALL_BONUS }; }
     if (!P.q.list.includes(id) || P.q.done.includes(id)) fail("Задание недоступно");
     const d = qDef(id); if (qProgress(P, id) < d.goal) fail("Задание ещё не выполнено");
-    P.q.done.push(id); P.chips += d.r; P.ach.c.quests++; addXP(P, 50, ev); if (qAllDone(P)) achGive(P, "quests_all", ev);
+    P.q.done.push(id); P.chips += d.r; P.ach.c.quests++; addXP(P, 200, ev); if (qAllDone(P)) achGive(P, "quests_all", ev);
     return { r: d.r };
   };
   A["ach.claim"] = (P, x, ev) => { if (!ACH_CLIENT.includes(x.id)) fail("Нельзя"); achGive(P, x.id, ev); return { ok: 1 }; };
@@ -480,15 +576,50 @@ const E = (() => {
   A["rg.pause"] = (P, x) => { const d = +x.days; if (![1, 7, 30].includes(d)) fail("Неверный срок"); P.rg.pause = Math.max(P.rg.pause || 0, NOW + d * H24); return { until: P.rg.pause }; };
 
   A["notes.seen"] = P => { P.notes = []; return { ok: 1 }; };
+  // забрать доход с приглашённых (сумму считает сервер по таблице партнёрки)
+  A["ref.collect"] = P => {
+    const n = Math.floor(CTX.refIn || 0); if (n <= 0) fail("Пока нечего забирать");
+    P.chips += n; P.refEarn = (P.refEarn || 0) + n; return { n, total: P.refEarn };
+  };
   // начать заново: покупки, лимиты и пауза сохраняются; не чаще раза в 30 дней
   A.reset = P => {
     if (P.g) fail("Сначала завершите текущую игру", 409);
     if (P.resetAt && NOW - P.resetAt < 30 * H24) fail("Начать заново можно раз в 30 дней", 429);
     const keep = { created: P.created, rev: P.rev, name: P.name, code: P.code, adult: P.adult, rg: P.rg, spent: P.spent, refs: P.refs, refBy: P.refBy, refDone: P.refDone, gifts: P.gifts,
+      refMax: P.refMax, refBase: P.refBase, refOwed: P.refOwed, refSent: P.refSent, refEarn: P.refEarn, promos: P.promos,
       cos: { owned: P.cos.owned, eq: P.cos.eq, vip: P.cos.vip, wt: P.cos.wt }, resetAt: NOW };
     for (const k of Object.keys(P)) delete P[k];
     Object.assign(P, newPlayer(NOW), keep);
     return { ok: 1 };
+  };
+
+  /* промокоды: что даёт код. Запись «5000+vip3+frame_first» — бемки, дни VIP, предметы */
+  const PROMO_MAX_CHIPS = 100000, PROMO_MAX_VIP = 30;
+  function promoParse(spec) {
+    const out = [];
+    for (const part of String(spec || "").toLowerCase().split("+").map(x => x.trim()).filter(Boolean)) {
+      if (/^\d+$/.test(part)) { const n = +part; if (!(n >= 1 && n <= PROMO_MAX_CHIPS)) return null; out.push({ k: "chips", n }); }
+      else if (/^vip\d+$/.test(part)) { const n = +part.slice(3); if (!(n >= 1 && n <= PROMO_MAX_VIP)) return null; out.push({ k: "vip", n }); }
+      else if (cosItem(part)) out.push({ k: "item", id: part });
+      else return null;
+    }
+    return out.length ? out : null;
+  }
+  const dayWord = n => n % 10 === 1 && n % 100 !== 11 ? "день" : n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20) ? "дня" : "дней";
+  const promoText = rw => rw.map(r => r.k === "chips" ? `${r.n.toLocaleString("ru-RU")} бемок` : r.k === "vip" ? `VIP на ${r.n} ${dayWord(r.n)}` : `${cosItem(r.id).g.toLowerCase()} «${cosItem(r.id).t}»`).join(" + ");
+  // начислить награду кода; сам код (лимиты, повторы) проверяет сервер, условия игрока — здесь
+  A["promo.apply"] = (P, x, ev) => {
+    const pr = CTX.promo; if (!pr) fail("Промокоды работают в Telegram", 403);
+    if (pr.minRounds && P.ach.c.rounds < pr.minRounds) fail(`Код станет доступен после ${pr.minRounds} сыгранных раундов`);
+    if (pr.onlyNew && P.created < pr.created) fail("Этот код — только для новых игроков");
+    const rw = promoParse(pr.reward); if (!rw) fail("Код повреждён — напишите в поддержку");
+    for (const r of rw) {
+      if (r.k === "chips") P.chips += r.n;
+      else if (r.k === "vip") P.cos.vip = Math.max(NOW, P.cos.vip || 0) + r.n * 864e5;
+      else { const it = cosItem(r.id); if (!P.cos.owned.includes(r.id)) P.cos.owned.push(r.id); if (!P.cos.eq[it.slot]) P.cos.eq[it.slot] = r.id; }
+    }
+    P.promos = [...(P.promos || []), { code: pr.code, at: NOW }].slice(-30);
+    return { code: pr.code, rewards: rw, text: promoText(rw), chips: rw.filter(r => r.k === "chips").reduce((a, r) => a + r.n, 0) };
   };
 
   /* косметика: надеть / снять */
@@ -755,6 +886,87 @@ const E = (() => {
   };
   A["tower.cash"] = (P, x, ev) => { const g = needG(P, "tower"); if (!g.row) fail("Выберите плитку"); return twCash(P, g, ev); };
 
+  /* пилот */
+  A["pilot.bet"] = (P, x, ev) => {
+    const R = CTX.pilot?.cur; if (!R) fail("Раунд ещё не готов, подождите секунду");
+    const slot = x.slot === 1 ? 1 : 0, bet = betOk(x.bet);
+    const auto = x.auto ? Math.floor(+x.auto * 100) / 100 : 0;
+    if (auto && !(auto >= 1.01 && auto <= PL_AUTO_MAX)) fail(`Автовывод от 1.01× до ${PL_AUTO_MAX}×`);
+    const n = NOW < R.fly - 300 ? R.n : R.n + 1; // во время полёта — ставка на следующий раунд
+    const S2 = plS(P);
+    if (S2.bets.some(b => b.n === n && b.slot === slot)) fail("Эта ставка уже сделана");
+    if (S2.bets.filter(b => !b.done).length >= 4) fail("Слишком много ставок");
+    canPlay(P, bet); P.chips -= bet;
+    S2.bets.push({ n, slot, bet, auto, h: null, cash: 0, pay: 0, done: 0, t: NOW });
+    (CTX.pilotLog = CTX.pilotLog || []).push({ n, slot, bet, auto, op: "bet" });
+    return { n, slot, bet, auto, next: n !== R.n };
+  };
+  A["pilot.cash"] = (P, x, ev) => {
+    const R = CTX.pilot?.cur, slot = x.slot === 1 ? 1 : 0;
+    const b = R && plS(P).bets.find(y => y.n === R.n && y.slot === slot);
+    if (!b) fail("Ставки в этом раунде нет");
+    if (b.done) return { slot, n: b.n, cash: b.cash, pay: b.pay, late: !b.cash };
+    if (NOW < R.fly || !b.h) fail("Самолёт ещё не взлетел");
+    let claim = Math.floor(+x.m * 100) / 100; const mNow = plMult(R, NOW);
+    if (!(claim >= 1) || claim > mNow * 1.02 + 0.01) fail("Неверный множитель");
+    if (b.auto && claim > b.auto) claim = b.auto;
+    b.done = 1;
+    // опоздали к падению, но стоял автовывод ниже точки — он и срабатывает
+    if (NOW > R.crash + PL_GRACE && b.auto && b.auto < R.point) claim = b.auto;
+    else if (NOW > R.crash + PL_GRACE || claim >= R.point) { b.pay = 0; roundEnd(P, b.h, 0, ev, R.point); (CTX.pilotLog = CTX.pilotLog || []).push({ n: b.n, slot, cash: 0, pay: 0 }); return { slot, n: b.n, cash: 0, pay: 0, late: 1 }; }
+    b.cash = claim; b.pay = Math.floor(b.bet * claim);
+    roundEnd(P, b.h, b.pay, ev, claim);
+    if (claim >= 20) achGive(P, "pilot_x20", ev);
+    const both = plS(P).bets.filter(y => y.n === R.n && y.cash > 1);
+    if (both.length === 2) achGive(P, "pilot_double", ev);
+    (CTX.pilotLog = CTX.pilotLog || []).push({ n: b.n, slot, cash: claim, pay: b.pay });
+    return { slot, n: b.n, cash: claim, pay: b.pay };
+  };
+  // снять ставку, пока раунд не начался (на следующий раунд — тоже)
+  A["pilot.cancel"] = (P, x, ev) => {
+    const R = CTX.pilot?.cur, slot = x.slot === 1 ? 1 : 0, S2 = plS(P);
+    const b = R && S2.bets.find(y => !y.done && y.slot === slot && (y.n > R.n || (y.n === R.n && NOW < R.fly - 300)));
+    if (!b) fail("Раунд уже начался — снять ставку нельзя");
+    // раунд для этой ставки ещё не засчитан — просто возвращаем бемки
+    P.chips += b.bet; S2.bets = S2.bets.filter(y => y !== b);
+    (CTX.pilotLog = CTX.pilotLog || []).push({ n: b.n, slot, op: "del" });
+    return { slot, refund: b.bet };
+  };
+  A["pilot.sync"] = () => ({ ok: 1 });
+
+  /* кирка */
+  A["kirka.spin"] = (P, x, ev) => {
+    const G = P.g && P.g.k === "kirka" ? P.g : null;
+    if (P.g && !G) needFree(P, "kirka");
+    if (!G) {
+      const bet = betOk(x.bet), h = roundStart(P, "kirka", bet, ev);
+      const grid = krGrid(), start = JSON.parse(JSON.stringify(grid)), ch = [];
+      const sp = krSpin(grid, ch), mult = krMult(ch);
+      if (ch.some(Boolean)) achGive(P, "kirka_chest", ev);
+      let pay = Math.floor(Math.min(sp.win * mult * KR_SCALE, KR_MAX) * bet);
+      if (sp.eyes >= 3) {
+        achGive(P, "kirka_bonus", ev);
+        P.chips += pay;
+        P.g = { k: "kirka", bet, h, left: KR_FS, grid: krGrid(), ch: [], total: pay };
+        return { start, ...sp, chests: ch, mult, paid: pay, bet, fs: 0, left: KR_FS, total: pay, next: P.g.grid };
+      }
+      roundEnd(P, h, pay, ev, sp.win * mult * KR_SCALE);
+      return { start, ...sp, chests: ch, mult, paid: pay, pay, bet, left: 0 };
+    }
+    // бесплатные спуски: поле и открытые сундуки сохраняются
+    const start = JSON.parse(JSON.stringify(G.grid));
+    const had = G.ch.filter(Boolean).length, sp = krSpin(G.grid, G.ch), mult = krMult(G.ch);
+    if (G.ch.filter(Boolean).length > had) achGive(P, "kirka_chest", ev);
+    let paid = Math.floor(sp.win * mult * KR_SCALE * G.bet);
+    paid = Math.max(0, Math.min(paid, KR_MAX * G.bet - G.total));
+    G.total += paid; P.chips += paid; G.left--;
+    let extra = 0; if (sp.eyes >= 3) { G.left += 2; extra = 2; }
+    if (G.total >= KR_MAX * G.bet) G.left = 0;
+    const out = { start, ...sp, chests: G.ch.slice(), mult, paid, bet: G.bet, fs: 1, left: G.left, total: G.total, extra };
+    if (G.left <= 0) { P.chips -= G.total; roundEnd(P, G.h, G.total, ev); P.g = null; out.end = 1; }
+    return out;
+  };
+
   /* ---------- покупки (сервер вызывает после оплаты, демо — сразу) ---------- */
   // описание товара: { stars, title, description }
   function product(kind, id) {
@@ -799,10 +1011,16 @@ const E = (() => {
     const fn = A[a]; if (!fn) fail("Неизвестное действие", 404);
     const ev = [];
     if (P.cos.wt && P.cos.wt.until <= NOW) P.cos.wt = null;
-    crashSettle(P, ev);
+    crashSettle(P, ev); plSettle(P, ev);
     questsEnsure(P); lbRoll(P); idleAccrue(P); rgLimits(P); spentRoll(P);
     const I = idleS(P); if (!I.hrAt || NOW > I.hrAt + HR_WINDOW) I.hrAt = hrNext();
     const r = fn(P, x, ev);
+    // партнёрка: сколько казино должно пригласившему (10% от самого глубокого чистого минуса)
+    if (P.refBy && P.refDone) {
+      const loss = Math.max(0, -(P.lb.aNet || 0)); if (loss > (P.refMax || 0)) P.refMax = loss;
+      const owed = Math.floor(Math.max(0, (P.refMax || 0) - (P.refBase || 0)) * REF_SHARE); P.refOwed = owed;
+      if (owed > (P.refSent || 0) && (owed - (P.refSent || 0) >= REF_SEND_STEP || NOW - (P.refSentAt || 0) >= REF_SEND_MS || a === "state")) { CTX.refOwed = owed; P.refSent = owed; P.refSentAt = NOW; }
+    }
     if (P.chips > P.stats.maxChips) P.stats.maxChips = P.chips;
     P.chips = Math.max(0, Math.floor(P.chips));
     P.rev = (P.rev || 0) + 1;
@@ -820,6 +1038,7 @@ const E = (() => {
       else if (g.k === "tower") v.g = { k: "tower", bet: g.bet, lv: g.lv, row: g.row, picks: g.picks };
       else if (g.k === "reef") v.g = { k: "reef", bet: g.bet, free: g.free, acc: g.acc, bonusWin: g.bonusWin };
       else if (g.k === "wheel") v.g = { k: "wheel", stake: g.stake, bet: g.total };
+      else if (g.k === "kirka") v.g = { k: "kirka", bet: g.bet, left: g.left, total: g.total, grid: g.grid, ch: g.ch };
     }
     v.now = NOW;
     return v;
@@ -835,15 +1054,19 @@ const E = (() => {
   return {
     act, view, pub, newPlayer, fix, setNow, product, grant, revoke, canSpend, spend, crashWait, isoWeek, weekEnd, today, dayOf,
     START_CHIPS, MIN_BET, MAX_BET, MAX_TABLE, PACKS, DAY_LIMIT_STARS, MONTH_LIMIT_STARS, RG_DAY, RG_MONTH, RG_REMIND, H24, GAME_NAMES, STATEFUL,
-    xpNeed, xpFor, levelReward, levelTitle, Q_A, Q_B, Q_ALL_BONUS, qDef, qProgress, qAllDone, STREAK, FW, streakNext, dailyAmount, rgLimits,
-    ACH, ACH_CLIENT, COS, BUNDLES, VIP_PRICE, VIP_DAYS, cosItem, vipOn, owns, eqd, WEEK_TITLES, weekTitle, FRIEND_BONUS,
+    promoParse, promoText, xpNeed, xpFor, levelReward, GAME_EDGE, XP_K, XP_BACK, Q_MIN_BET, levelTitle, Q_A, Q_B, Q_ALL_BONUS, qDef, qProgress, qAllDone, STREAK, FW, streakNext, dailyAmount, rgLimits,
+    ACH, ACH_CLIENT, COS, BUNDLES, VIP_PRICE, VIP_DAYS, cosItem, vipOn, owns, eqd, WEEK_TITLES, weekTitle, FRIEND_BONUS, REF_SHARE,
     IDLE_B, IDLE_MS, IDLE_SOFT, SAFE, GLOVE_COST, PRESTIGE_AT, bLevel, bCost, bRate, idleRate, idleGain, safeCap, tapValue,
     SYMS, WHEEL, REDS, colorOf, OUT, SUITS, RANKS, score, CRASH_RTP, CRASH_SPEED, AUTOS, ROAD, ROAD_RTP, roadMult, MINES_RTP, MINE_OPTS, minesMult,
     P_ROWS, P_RISK, RF_COLS, RF_ROWS, RF_SYMS, RF_SCAT, RF_SCAT_PAY, RF_PAY_SCALE, rfNew, rfIdx, rfPlay, SC_PRIZES, JP_SEED, JP_RATE, JP_ODDS,
-    WH_TYPES, WH_T, WH_SEGS, WH_COIN, WH_CHEST, WH_SUPER, TW_ROWS, TW_RTP, TW, twMult
+    WH_TYPES, WH_T, WH_SEGS, WH_COIN, WH_CHEST, WH_SUPER, TW_ROWS, TW_RTP, TW, twMult,
+    KR_COLS, KR_ROWS, KR_DROP, KR_FS, KR_MAX, KR_SCALE, KR_BLK, KR_PICK, KR_CHEST, krGrid,
+    PL_BET_MS, PL_PAUSE, PL_SPEED, PL_RTP, PL_GRACE, PL_AUTO_MAX, plPoint, plNext, plPhase, plMult, plPublic
   };
 })();
 /* ENGINE:END */
+
+const APP_VER = 202610212154; // номер сборки — ставит build.js; игра сравнивает его со своим и предлагает обновиться
 
 const INIT_DATA_MAX_AGE = 7 * 24 * 3600;
 const CODE_ABC = "23456789ABCDEFGHJKMNPQRSTUVWXYZ";
@@ -890,6 +1113,11 @@ async function verifyInitData(initData, botToken) {
 
 /* ---------- база ---------- */
 const SCHEMA = [
+  `CREATE TABLE IF NOT EXISTS promos (code TEXT PRIMARY KEY, reward TEXT NOT NULL, uses INTEGER NOT NULL, used INTEGER NOT NULL DEFAULT 0, until INTEGER DEFAULT 0,
+    only_new INTEGER DEFAULT 0, min_rounds INTEGER DEFAULT 0, active INTEGER DEFAULT 1, created INTEGER)`,
+  `CREATE TABLE IF NOT EXISTS promo_uses (code TEXT NOT NULL, uid TEXT NOT NULL, at INTEGER, PRIMARY KEY (code, uid))`,
+  `CREATE TABLE IF NOT EXISTS load_stats (day TEXT PRIMARY KEY, req INTEGER NOT NULL DEFAULT 0, w INTEGER NOT NULL DEFAULT 0, warned INTEGER NOT NULL DEFAULT 0)`,
+  `CREATE TABLE IF NOT EXISTS ref_earn (ref_uid TEXT NOT NULL, uid TEXT NOT NULL, owed INTEGER NOT NULL DEFAULT 0, paid INTEGER NOT NULL DEFAULT 0, PRIMARY KEY (ref_uid, uid))`,
   `CREATE TABLE IF NOT EXISTS players (id TEXT PRIMARY KEY, code TEXT UNIQUE, name TEXT, p TEXT NOT NULL, rev INTEGER NOT NULL DEFAULT 0,
     chips INTEGER DEFAULT 0, max_chips INTEGER DEFAULT 0, rounds INTEGER DEFAULT 0, week TEXT DEFAULT '', wnet INTEGER DEFAULT 0, lvl INTEGER DEFAULT 1,
     pub TEXT, ref_by TEXT, created INTEGER, seen INTEGER)`,
@@ -898,8 +1126,88 @@ const SCHEMA = [
   `CREATE INDEX IF NOT EXISTS i_rounds ON players(rounds DESC)`,
   `CREATE TABLE IF NOT EXISTS friends (a TEXT NOT NULL, b TEXT NOT NULL, at INTEGER, PRIMARY KEY (a, b))`,
   `CREATE TABLE IF NOT EXISTS payments (charge TEXT PRIMARY KEY, uid TEXT NOT NULL, kind TEXT, item TEXT, to_uid TEXT, stars INTEGER, at INTEGER, refunded INTEGER DEFAULT 0)`,
-  `CREATE TABLE IF NOT EXISTS globals (k TEXT PRIMARY KEY, v TEXT)`
+  `CREATE TABLE IF NOT EXISTS globals (k TEXT PRIMARY KEY, v TEXT)`,
+  `CREATE TABLE IF NOT EXISTS pilot_rounds (n INTEGER PRIMARY KEY, start INTEGER, fly INTEGER, crash INTEGER, point REAL)`,
+  `CREATE TABLE IF NOT EXISTS pilot_bets (n INTEGER NOT NULL, uid TEXT NOT NULL, slot INTEGER NOT NULL, name TEXT, bet INTEGER, cash REAL DEFAULT 0, pay INTEGER DEFAULT 0, at INTEGER, PRIMARY KEY (n, uid, slot))`
 ];
+/* ---------- счётчик нагрузки (лимиты бесплатного Cloudflare: 100 000 запросов и 100 000 записей в базу в сутки, сброс в 03:00 по Москве) ---------- */
+const FREE_REQ = 100000, FREE_W = 100000;
+const LOAD = { day: "", req: 0, w: 0, at: 0 };
+const utcDay = t => new Date(t).toISOString().slice(0, 10);
+// оборачиваем базу: считаем записанные строки из ответов D1 (meta.rows_written)
+function countDB(db) {
+  const addW = r => { const m = r && r.meta; if (m) LOAD.w += Number(m.rows_written ?? m.changes ?? 0); return r; };
+  const wrap = st => new Proxy(st, { get(t, k) {
+    if (k === "bind") return (...a) => wrap(t.bind(...a));
+    if (k === "run" || k === "all") return async (...a) => addW(await t[k](...a));
+    const v = t[k]; return typeof v === "function" ? v.bind(t) : v;
+  } });
+  return new Proxy(db, { get(t, k) {
+    if (k === "prepare") return sql => wrap(t.prepare(sql));
+    if (k === "batch") return async list => { const out = await t.batch(list); (out || []).forEach(addW); return out; };
+    const v = t[k]; return typeof v === "function" ? v.bind(t) : v;
+  } });
+}
+// сбрасываем накопленное в базу не чаще раза в 30 секунд (одна запись вместо сотен)
+async function loadFlush(env, force) {
+  const now = Date.now(), day = utcDay(now);
+  if (LOAD.day && LOAD.day !== day) force = true;
+  if (!force && now - LOAD.at < 30000) return;
+  const d = LOAD.day || day, req = LOAD.req, w = LOAD.w;
+  LOAD.day = day; LOAD.req = 0; LOAD.w = 0; LOAD.at = now;
+  if (!req && !w) return;
+  try {
+    await withSchema(env, () => env.RAW_DB.prepare("INSERT INTO load_stats (day, req, w) VALUES (?, ?, ?) ON CONFLICT(day) DO UPDATE SET req = req + excluded.req, w = w + excluded.w").bind(d, req, w + 1).run());
+    const r = await env.RAW_DB.prepare("SELECT req, w, warned FROM load_stats WHERE day = ?").bind(d).first();
+    const pct = Math.max(r.req / FREE_REQ, r.w / FREE_W);
+    const lvl = pct >= 0.9 ? 2 : pct >= 0.7 ? 1 : 0;
+    if (lvl > (r.warned || 0) && env.ADMIN_ID) {
+      await env.RAW_DB.prepare("UPDATE load_stats SET warned = ? WHERE day = ?").bind(lvl, d).run();
+      await tg(env, "sendMessage", { chat_id: env.ADMIN_ID, text: `⚠️ Нагрузка за сегодня — ${Math.round(pct * 100)}% бесплатного лимита Cloudflare.\n${loadLine(r)}\nЕсли дойдёт до 100%, игра перестанет отвечать до 03:00 по Москве. Решение — платный план Workers ($5 в месяц).` });
+    }
+  } catch (e) { console.log("load", e.message); }
+}
+const pctS = (v, max) => `${v.toLocaleString("ru-RU")} из ${max.toLocaleString("ru-RU")} (${Math.round(v / max * 100)}%)`;
+const loadLine = r => `Запросов: ${pctS(r?.req || 0, FREE_REQ)}\nЗаписей в базу: ${pctS(r?.w || 0, FREE_W)}`;
+async function loadReport(env) {
+  await loadFlush(env, true);
+  const now = Date.now(), today = utcDay(now), yest = utcDay(now - 864e5);
+  const rows = (await withSchema(env, () => env.RAW_DB.prepare("SELECT * FROM load_stats WHERE day IN (?, ?)").bind(today, yest).all())).results || [];
+  const T = rows.find(r => r.day === today), Y = rows.find(r => r.day === yest);
+  const left = new Date(Date.UTC(...today.split("-").map((v, i) => i === 1 ? v - 1 : +v)) + 864e5) - now;
+  return `Нагрузка сегодня (сброс через ${Math.floor(left / 36e5)} ч ${Math.floor(left / 6e4) % 60} мин, в 03:00 МСК):\n${loadLine(T)}${Y ? `\n\nВчера:\n${loadLine(Y)}` : ""}\n\nЦифры примерные, точные — в Cloudflare → Workers → ludka → Metrics.`;
+}
+
+/* ---------- резервная копия: /backup присылает базу файлом в бот ---------- */
+const BACKUP_SKIP = /^(sqlite_|_cf_|d1_|pilot_|load_stats)/;
+async function backupFile(env) {
+  const db = env.RAW_DB || env.DB;
+  const tables = ((await db.prepare("SELECT name FROM sqlite_master WHERE type = 'table'").all()).results || []).map(r => r.name).filter(n => !BACKUP_SKIP.test(n));
+  const out = { app: "ludka", at: new Date().toISOString(), ver: APP_VER, schema: SCHEMA, tables: {} };
+  for (const t of tables) {
+    const rows = [];
+    for (let off = 0; ; off += 2000) {
+      const part = (await db.prepare(`SELECT * FROM "${t}" LIMIT 2000 OFFSET ?`).bind(off).all()).results || [];
+      rows.push(...part); if (part.length < 2000) break;
+    }
+    out.tables[t] = rows;
+  }
+  return out;
+}
+async function sendBackup(env, chat_id) {
+  const data = await backupFile(env);
+  const raw = new TextEncoder().encode(JSON.stringify(data));
+  const gz = await new Response(new Blob([raw]).stream().pipeThrough(new CompressionStream("gzip"))).arrayBuffer();
+  const name = `ludka-backup-${data.at.slice(0, 16).replace(/[T:]/g, "-")}.json.gz`;
+  const counts = Object.entries(data.tables).map(([t, r]) => `${t}: ${r.length}`).join(", ");
+  const fd = new FormData();
+  fd.append("chat_id", String(chat_id));
+  fd.append("caption", `Резервная копия «Лудки» · ${counts}\nСохраните файл. Восстановление — в ИНСТРУКЦИИ, раздел «Резервная копия».`);
+  fd.append("document", new Blob([gz], { type: "application/gzip" }), name);
+  const r = await fetch(`https://api.telegram.org/bot${env.BOT_TOKEN}/sendDocument`, { method: "POST", body: fd });
+  const j = await r.json(); if (!j.ok) throw new Error("sendDocument: " + j.description);
+}
+
 async function ensureSchema(env) { await env.DB.batch(SCHEMA.map(s => env.DB.prepare(s))); }
 
 const nameOf = u => String([u.first_name, u.last_name ? u.last_name[0] + "." : ""].filter(Boolean).join(" ") || "Игрок").replace(/[<>]/g, "").slice(0, 32);
@@ -959,22 +1267,172 @@ async function globals(env) {
 }
 const note = (P, text) => { P.notes = [...(P.notes || []), { t: text, at: Date.now() }].slice(-10); };
 
+/* ---------- «Пилот»: общие раунды ---------- */
+// Точка падения раунда n = HMAC(секрет сервера, n) → её нельзя узнать заранее, и она одна для всех игроков.
+async function pilotU(env, n) {
+  const b = await hmac(new TextEncoder().encode("pilot|" + (env.WEBHOOK_SECRET || env.BOT_TOKEN || "ludka")), "round:" + n);
+  let x = 0; for (let i = 0; i < 6; i++) x = x * 256 + b[i];
+  return x / 2 ** 48;
+}
+const roundRow = r => r && { n: r.n, start: r.start, fly: r.fly, crash: r.crash, point: r.point };
+async function pilotCur(env) {
+  try { return await pilotCur0(env); }
+  catch (e) { if (!/no such table/i.test(e.message)) throw e; await ensureSchema(env); return pilotCur0(env); }
+}
+async function pilotCur0(env) {
+  const now = Date.now();
+  for (let i = 0; i < 4; i++) {
+    const last = roundRow(await env.DB.prepare("SELECT * FROM pilot_rounds ORDER BY n DESC LIMIT 1").first());
+    if (last && now < last.crash + E.PL_PAUSE) return last;
+    const R = E.plNext(last, now, await pilotU(env, last ? last.n + 1 : 1));
+    await env.DB.prepare("INSERT OR IGNORE INTO pilot_rounds (n, start, fly, crash, point) VALUES (?, ?, ?, ?, ?)").bind(R.n, R.start, R.fly, R.crash, R.point).run();
+  }
+  return roundRow(await env.DB.prepare("SELECT * FROM pilot_rounds ORDER BY n DESC LIMIT 1").first());
+}
+async function pilotCtx(env, P) {
+  const cur = await pilotCur(env), rounds = {};
+  const ns = [...new Set((P.pilot?.bets || []).filter(b => !b.done && b.n !== cur.n).map(b => b.n))].filter(n => n < cur.n);
+  for (const n of ns) { const r = roundRow(await env.DB.prepare("SELECT * FROM pilot_rounds WHERE n = ?").bind(n).first()); if (r) rounds[n] = r; }
+  return { cur, rounds };
+}
+async function pilotLog(env, uid, name, log) {
+  for (const l of log || []) {
+    if (l.op === "bet") await env.DB.prepare("INSERT OR REPLACE INTO pilot_bets (n, uid, slot, name, bet, cash, pay, at) VALUES (?, ?, ?, ?, ?, 0, 0, ?)").bind(l.n, uid, l.slot, name, l.bet, Date.now()).run();
+    else if (l.op === "del") await env.DB.prepare("DELETE FROM pilot_bets WHERE n = ? AND uid = ? AND slot = ?").bind(l.n, uid, l.slot).run();
+    else await env.DB.prepare("UPDATE pilot_bets SET cash = ?, pay = ? WHERE n = ? AND uid = ? AND slot = ?").bind(l.cash, l.pay, l.n, uid, l.slot).run();
+  }
+}
+// то, что видят все: текущий раунд, история, ставки игроков
+async function pilotView(env, uid, x) {
+  let R = await pilotCur(env);
+  const wait = Number(x.wait || 0);
+  if (wait && R.n === wait) { const ms = R.crash + E.PL_GRACE - Date.now(); if (ms > 0) await sleep(Math.min(ms + 30, 20000)); R = await pilotCur(env); }
+  const now = Date.now();
+  const hist = ((await env.DB.prepare("SELECT n, point FROM pilot_rounds WHERE crash <= ? ORDER BY n DESC LIMIT 24").bind(now).all()).results || []).map(r => r.point);
+  const show = wait && R.n !== wait ? wait : R.n;
+  const rows = (await env.DB.prepare("SELECT uid, slot, name, bet, cash, pay FROM pilot_bets WHERE n = ? ORDER BY bet DESC LIMIT 50").bind(show).all()).results || [];
+  const agg = await env.DB.prepare("SELECT COUNT(*) AS c, SUM(bet) AS s FROM pilot_bets WHERE n = ?").bind(show).first();
+  const prev = show !== R.n ? roundRow(await env.DB.prepare("SELECT * FROM pilot_rounds WHERE n = ?").bind(show).first()) : null;
+  const top = x.top ? ((await env.DB.prepare("SELECT uid, name, bet, cash, pay FROM pilot_bets WHERE at > ? AND pay > 0 ORDER BY cash DESC LIMIT 20").bind(now - 864e5).all()).results || [])
+    .map(r => ({ me: r.uid === uid, name: r.name, bet: r.bet, cash: r.cash, pay: r.pay })) : undefined;
+  return { now, top, cur: E.plPublic(R, now), prev: prev && E.plPublic(prev, now), hist, bets: rows.map(r => ({ me: r.uid === uid, slot: r.slot, name: r.name, bet: r.bet, cash: r.cash, pay: r.pay })), count: agg?.c || 0, sum: agg?.s || 0 };
+}
+
+/* ---------- промокоды ---------- */
+const PROMO_RE = /^[A-ZА-ЯЁ0-9_-]{3,24}$/;
+const PROMO_FAILS = 10; // неверных кодов в сутки — защита от перебора
+const normCode = c => String(c || "").trim().toUpperCase().replace(/\s+/g, "");
+async function withSchema(env, fn) {
+  try { return await fn(); } catch (e) { if (!/no such table/i.test(e.message)) throw e; await ensureSchema(env); return fn(); }
+}
+/* ---------- партнёрка ---------- */
+async function refInfo(env, uid) {
+  const r = await env.DB.prepare("SELECT COALESCE(SUM(owed - paid), 0) AS av, COUNT(*) AS n FROM ref_earn WHERE ref_uid = ?").bind(uid).first();
+  return { available: Math.max(0, r?.av || 0), share: E.REF_SHARE };
+}
+async function refCollect(env, user, G) {
+  const uid = String(user.id);
+  const rows = (await env.DB.prepare("SELECT uid, owed, paid FROM ref_earn WHERE ref_uid = ? AND owed > paid").bind(uid).all()).results || [];
+  let total = 0; const taken = [];
+  for (const row of rows) { // забираем атомарно: если параллельный запрос успел раньше — строка не обновится
+    const d = row.owed - row.paid;
+    const u = await env.DB.prepare("UPDATE ref_earn SET paid = paid + ? WHERE ref_uid = ? AND uid = ? AND paid = ?").bind(d, uid, row.uid, row.paid).run();
+    if (u.meta?.changes) { total += d; taken.push([row.uid, d]); }
+  }
+  if (!total) return { error: "Пока нечего забирать" };
+  try { return await playerAct(env, user, "ref.collect", {}, G, { refIn: total }); }
+  catch (e) { for (const [id, d] of taken) await env.DB.prepare("UPDATE ref_earn SET paid = paid - ? WHERE ref_uid = ? AND uid = ?").bind(d, uid, id).run(); throw e; }
+}
+
+async function redeemPromo(env, user, raw, G) {
+  const uid = String(user.id), code = normCode(raw);
+  let P0 = await loadRow(env, uid); if (!P0) P0 = await createPlayer(env, user);
+  E.fix(P0); E.setNow(Date.now());
+  const day = E.today();
+  if (P0.pf && P0.pf.d === day && P0.pf.n >= PROMO_FAILS) return { error: "Слишком много неверных кодов. Попробуйте завтра.", code: 429 };
+  const bad = async msg => { await mutate(env, uid, P => { const d = E.today(); P.pf = P.pf && P.pf.d === d ? { d, n: P.pf.n + 1 } : { d, n: 1 }; }); return { error: msg }; };
+  if (!PROMO_RE.test(code)) return bad("Такого промокода нет");
+  const pr = await env.DB.prepare("SELECT * FROM promos WHERE code = ?").bind(code).first();
+  if (!pr || !pr.active) return bad("Такого промокода нет");
+  const now = Date.now();
+  if (pr.until && now > pr.until) return { error: "Срок действия кода закончился" };
+  if (pr.used >= pr.uses) return { error: "Этот код уже закончился" };
+  if (pr.min_rounds && P0.ach.c.rounds < pr.min_rounds) return { error: `Код станет доступен после ${pr.min_rounds} сыгранных раундов` };
+  if (pr.only_new && P0.created < pr.created) return { error: "Этот код — только для новых игроков" };
+  // занимаем активацию атомарно: один код — один раз на аккаунт, и не больше лимита
+  const ins = await env.DB.prepare("INSERT OR IGNORE INTO promo_uses (code, uid, at) VALUES (?, ?, ?)").bind(code, uid, now).run();
+  if (!ins.meta.changes) return { error: "Вы уже активировали этот код" };
+  const upd = await env.DB.prepare("UPDATE promos SET used = used + 1 WHERE code = ? AND active = 1 AND used < uses AND (until = 0 OR until > ?)").bind(code, now).run();
+  const undo = async () => { await env.DB.prepare("DELETE FROM promo_uses WHERE code = ? AND uid = ?").bind(code, uid).run(); };
+  if (!upd.meta.changes) { await undo(); return { error: "Этот код уже закончился" }; }
+  try {
+    return await playerAct(env, user, "promo.apply", {}, G, { promo: { code, reward: pr.reward, minRounds: pr.min_rounds, onlyNew: !!pr.only_new, created: pr.created } });
+  } catch (e) {
+    await undo(); await env.DB.prepare("UPDATE promos SET used = used - 1 WHERE code = ?").bind(code).run();
+    if (e.user) return { error: e.message, code: e.code };
+    throw e;
+  }
+}
+// команды админа в боте: /promo add | list | off | on
+const PROMO_HELP = `Промокоды:
+/promo add КОД НАГРАДА ЛИМИТ ДНЕЙ [new] [r50]
+  НАГРАДА: 5000 — бемки; vip3 — дни VIP; frame_first — предмет; можно вместе: 3000+vip3+frame_first
+  ЛИМИТ — сколько человек может ввести; ДНЕЙ — срок (0 — бессрочно)
+  new — только для тех, кто пришёл после создания кода; r50 — после 50 сыгранных раундов
+/promo list — все коды
+/promo off КОД / /promo on КОД — выключить / включить
+Пример: /promo add START 3000+frame_first 500 14 new`;
+async function promoAdmin(env, chat_id, args) {
+  const say = text => tg(env, "sendMessage", { chat_id, text });
+  const cmd = (args[0] || "").toLowerCase();
+  if (cmd === "add") {
+    const code = normCode(args[1]), rw = E.promoParse(args[2]), uses = Math.floor(+args[3]), days = Math.floor(+(args[4] ?? 0));
+    if (!PROMO_RE.test(code)) return say("Код: 3–24 символа, буквы, цифры, _ и -");
+    if (!rw) return say("Не понял награду. Пример: 5000, vip3, frame_first или 3000+vip3\n\n" + PROMO_HELP);
+    if (!(uses >= 1 && uses <= 100000)) return say("Лимит активаций — от 1 до 100 000");
+    if (!(days >= 0 && days <= 365)) return say("Срок — от 0 до 365 дней");
+    const flags = args.slice(5).map(x => x.toLowerCase()), onlyNew = flags.includes("new") ? 1 : 0;
+    const rf = flags.find(f => /^r\d+$/.test(f)), minR = rf ? +rf.slice(1) : 0, now = Date.now();
+    const ins = await env.DB.prepare("INSERT OR IGNORE INTO promos (code, reward, uses, used, until, only_new, min_rounds, active, created) VALUES (?, ?, ?, 0, ?, ?, ?, 1, ?)")
+      .bind(code, String(args[2]).toLowerCase(), uses, days ? now + days * 864e5 : 0, onlyNew, minR, now).run();
+    if (!ins.meta.changes) return say(`Код ${code} уже есть. Выключите его (/promo off ${code}) или придумайте другой.`);
+    return say(`✓ Код ${code}: ${E.promoText(rw)}\nАктиваций: ${uses}${days ? `, до ${new Date(now + days * 864e5).toLocaleDateString("ru-RU")}` : ", бессрочно"}${onlyNew ? ", только новые игроки" : ""}${minR ? `, после ${minR} раундов` : ""}`);
+  }
+  if (cmd === "list") {
+    const rows = (await env.DB.prepare("SELECT * FROM promos ORDER BY created DESC LIMIT 40").all()).results || [];
+    if (!rows.length) return say("Промокодов пока нет.\n\n" + PROMO_HELP);
+    const now = Date.now();
+    return say(rows.map(r => { const rw = E.promoParse(r.reward), st = !r.active ? "выкл" : r.until && now > r.until ? "истёк" : r.used >= r.uses ? "закончился" : "работает";
+      return `${r.code} — ${rw ? E.promoText(rw) : r.reward}\n   ${r.used}/${r.uses} · ${st}${r.until ? " · до " + new Date(r.until).toLocaleDateString("ru-RU") : ""}${r.only_new ? " · новые" : ""}${r.min_rounds ? " · от " + r.min_rounds + " раундов" : ""}`; }).join("\n"));
+  }
+  if (cmd === "off" || cmd === "on") {
+    const code = normCode(args[1]);
+    const r = await env.DB.prepare("UPDATE promos SET active = ? WHERE code = ?").bind(cmd === "on" ? 1 : 0, code).run();
+    return say(r.meta.changes ? `Код ${code} ${cmd === "on" ? "включён" : "выключен"}` : `Кода ${code} нет`);
+  }
+  return say(PROMO_HELP);
+}
+
 /* ---------- ход игрока ---------- */
-async function playerAct(env, user, a, x, G) {
+async function playerAct(env, user, a, x, G, extra) {
   const uid = String(user.id);
   for (let attempt = 0; attempt < 5; attempt++) {
     let P = await loadRow(env, uid);
     if (!P) P = await createPlayer(env, user);
     const old = P.rev, name = nameOf(user);
     if (P.name !== name) P.name = name;
-    const ctx = { now: Date.now(), rand: cryptoRand, jp: { v: Number(G.jp || E.JP_SEED) } };
+    const ctx = { now: Date.now(), rand: cryptoRand, jp: { v: Number(G.jp || E.JP_SEED) }, ...(extra || {}) };
+    if (a.startsWith("pilot.") || (P.pilot?.bets || []).some(b => !b.done)) { ctx.pilot = await pilotCtx(env, P); ctx.now = Date.now(); }
     const { r, ev } = E.act(P, a, x, ctx);
     if (!(await saveRow(env, uid, P, old))) continue; // кто-то успел раньше — повторяем с новыми данными
+    if (ctx.pilotLog) await pilotLog(env, uid, P.name, ctx.pilotLog).catch(e => console.log("pilot log", e.message));
     // общий джекпот
     if (ctx.jp.hit) await env.DB.prepare("INSERT INTO globals (k, v) VALUES ('jp', ?) ON CONFLICT(k) DO UPDATE SET v = ?").bind(String(E.JP_SEED), String(E.JP_SEED)).run();
     else if (ctx.jp.add) await env.DB.prepare("INSERT INTO globals (k, v) VALUES ('jp', ?) ON CONFLICT(k) DO UPDATE SET v = CAST(v AS REAL) + ?").bind(String(E.JP_SEED + ctx.jp.add), ctx.jp.add).run();
-    // друг сыграл первую игру — награда пригласившему
-    if (ctx.refCredit) await mutate(env, ctx.refCredit, Q => { Q.refs = (Q.refs || 0) + 1; Q.chips += E.FRIEND_BONUS; note(Q, `Ваш друг ${P.name} сыграл первую игру: +${E.FRIEND_BONUS.toLocaleString("ru-RU")} бемок`); }).catch(e => console.log("ref", e.message));
+    // друг сыграл первую игру — пригласивший начинает получать 10% его проигрышей
+    if (ctx.refCredit) await mutate(env, ctx.refCredit, Q => { Q.refs = (Q.refs || 0) + 1; note(Q, `Ваш друг ${P.name} начал играть — теперь вы получаете ${Math.round(E.REF_SHARE * 100)}% его проигрышей`); }).catch(e => console.log("ref", e.message));
+    // партнёрка: фиксируем, сколько казино должно пригласившему (только растёт)
+    if (ctx.refOwed && P.refBy) await withSchema(env, () => env.DB.prepare("INSERT INTO ref_earn (ref_uid, uid, owed, paid) VALUES (?, ?, ?, 0) ON CONFLICT(ref_uid, uid) DO UPDATE SET owed = MAX(owed, excluded.owed)").bind(P.refBy, uid, ctx.refOwed).run()).catch(e => console.log("ref earn", e.message));
     const jp = ctx.jp.hit ? E.JP_SEED : Number(G.jp || E.JP_SEED) + ctx.jp.add;
     return { r, ev, p: E.view(P), jp };
   }
@@ -1003,7 +1461,11 @@ async function top(env, uid, tab) {
 async function friendsList(env, uid) {
   const week = E.isoWeek(Date.now());
   const rows = (await env.DB.prepare(`SELECT p.id, p.pub, p.chips, p.week, p.wnet, p.code FROM friends f JOIN players p ON p.id = f.b WHERE f.a = ? ORDER BY p.chips DESC LIMIT ?`).bind(uid, MAX_FRIENDS).all()).results || [];
-  return { rows: rows.map(r => ({ ...pubOf(r), code: r.code, chips: r.chips, wnet: r.week === week ? r.wnet : 0 })) };
+  const me = await loadRow(env, uid).catch(() => null);
+  let refBy = null;
+  try { const by = me && me.refBy; if (by) { const b = await env.DB.prepare("SELECT pub FROM players WHERE id = ?").bind(by).first(); if (b) refBy = pubOf(b).name || "друг"; } } catch {}
+  const ref = await withSchema(env, () => refInfo(env, uid)).catch(() => ({ available: 0, share: E.REF_SHARE }));
+  return { rows: rows.map(r => ({ ...pubOf(r), code: r.code, chips: r.chips, wnet: r.week === week ? r.wnet : 0 })), ref, refBy };
 }
 async function friendAdd(env, uid, code) {
   code = String(code || "").toUpperCase().replace(/\s/g, "");
@@ -1110,7 +1572,7 @@ function cors(env, request) {
   return { "Access-Control-Allow-Origin": allowed.includes(origin) ? origin : (allowed[0] || ""), "Access-Control-Allow-Methods": "POST, OPTIONS",
     "Access-Control-Allow-Headers": "Content-Type, X-Init-Data", "Access-Control-Max-Age": "86400", "Vary": "Origin" };
 }
-const json = (env, request, body, status = 200) => new Response(JSON.stringify(body), { status, headers: { "Content-Type": "application/json", ...cors(env, request) } });
+const json = (env, request, body, status = 200) => new Response(JSON.stringify(body && typeof body === "object" && !Array.isArray(body) ? { ...body, ver: APP_VER } : body), { status, headers: { "Content-Type": "application/json", ...cors(env, request) } });
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 
 async function handleApi(request, env, path, ctx) {
@@ -1128,8 +1590,12 @@ async function handleApi(request, env, path, ctx) {
       const P = await loadRow(env, uid);
       if (P) { E.setNow(Date.now()); const w = E.crashWait(P); if (w > 0) await sleep(Math.min(w + 30, 20000)); }
     }
+    if (a === "promo.redeem") return json(env, request, await withSchema(env, () => redeemPromo(env, user, args.code, G)));
+    if (a === "ref.collect") return json(env, request, await withSchema(env, () => refCollect(env, user, G)));
+    if (a === "promo.apply") return json(env, request, { error: "Нельзя" }, 403);
     return json(env, request, await playerAct(env, user, a, args, G));
   }
+  if (path === "/pilot") return json(env, request, await pilotView(env, uid, x));
   if (path === "/top") return json(env, request, await top(env, uid, x.tab));
   if (path === "/friends") return json(env, request, await friendsList(env, uid));
   if (path === "/friend.add") return json(env, request, await friendAdd(env, uid, x.code));
@@ -1147,7 +1613,7 @@ async function handleUpdate(update, env) {
   const isAdmin = env.ADMIN_ID && String(msg.from?.id) === String(env.ADMIN_ID);
   if (text.startsWith("/start")) {
     const ref = text.split(/\s+/)[1] || "", url = env.GAME_URL ? env.GAME_URL + "?startapp" + (ref.startsWith("ref_") ? "=" + encodeURIComponent(ref) : "") : "";
-    await tg(env, "sendMessage", { chat_id, text: "🎰 «Лудка» — социальное казино на бемки: слоты, рулетка, самолётик, минное поле и ещё 7 игр. Соревнуйтесь с друзьями в рейтинге!\n\nТолько 18+. Бемки виртуальные — их нельзя вывести.",
+    await tg(env, "sendMessage", { chat_id, text: "🎰 «Лудка» — социальное казино на бемки: Пилот, Кирка, слоты, рулетка, минное поле и ещё 8 игр. Соревнуйтесь с друзьями в рейтинге!\n\nТолько 18+. Бемки виртуальные — их нельзя вывести.",
       reply_markup: url ? { inline_keyboard: [[{ text: "Играть", url }]] } : undefined });
   } else if (text.startsWith("/terms")) {
     await tg(env, "sendMessage", { chat_id, text: TERMS });
@@ -1157,16 +1623,26 @@ async function handleUpdate(update, env) {
     await tg(env, "sendMessage", { chat_id, text: `Вопросы и идеи по игре: ${support}. Поддержка Telegram с покупками в этой игре не помогает.` });
   } else if (text.startsWith("/refund") && isAdmin) {
     await refund(env, chat_id, text.split(/\s+/)[1]);
+  } else if (text.startsWith("/promo") && isAdmin) {
+    await withSchema(env, () => promoAdmin(env, chat_id, text.split(/\s+/).slice(1)));
   } else if (text.startsWith("/stats") && isAdmin) {
     const s = await env.DB.prepare("SELECT COUNT(*) AS n, SUM(rounds) AS r FROM players").first();
     const p = await env.DB.prepare("SELECT COUNT(*) AS n, SUM(stars) AS s FROM payments WHERE refunded = 0").first();
-    await tg(env, "sendMessage", { chat_id, text: `Игроков: ${s?.n || 0}\nРаундов: ${s?.r || 0}\nПокупок: ${p?.n || 0} на ${p?.s || 0} ⭐` });
+    await tg(env, "sendMessage", { chat_id, text: `Игроков: ${s?.n || 0}\nРаундов: ${s?.r || 0}\nПокупок: ${p?.n || 0} на ${p?.s || 0} ⭐\n\n${await loadReport(env)}` });
+  } else if (text.startsWith("/load") && isAdmin) {
+    await tg(env, "sendMessage", { chat_id, text: await loadReport(env) });
+  } else if (text.startsWith("/backup") && isAdmin) {
+    try { await tg(env, "sendMessage", { chat_id, text: "Собираю копию базы…" }); await sendBackup(env, chat_id); }
+    catch (e) { await tg(env, "sendMessage", { chat_id, text: "Не получилось сделать копию: " + e.message }); }
   }
 }
 
 /* ---------- точка входа ---------- */
 export default {
   async fetch(request, env, ctx) {
+    if (!env.RAW_DB) env = { ...env, RAW_DB: env.DB, DB: countDB(env.DB) };
+    LOAD.req++; if (!LOAD.day) { LOAD.day = utcDay(Date.now()); LOAD.at = Date.now(); }
+    ctx.waitUntil(loadFlush(env));
     const url = new URL(request.url), path = url.pathname;
     if (request.method === "OPTIONS") return new Response(null, { status: 204, headers: cors(env, request) });
 
@@ -1191,7 +1667,7 @@ export default {
       return new Response("Лудка — настройка:\n" + out.join("\n"), { headers: { "Content-Type": "text/plain; charset=utf-8" } });
     }
 
-    if (["/api", "/top", "/friends", "/friend.add", "/friend.del", "/invoice"].includes(path) && request.method === "POST") {
+    if (["/api", "/pilot", "/top", "/friends", "/friend.add", "/friend.del", "/invoice"].includes(path) && request.method === "POST") {
       try { return await handleApi(request, env, path, ctx); }
       catch (e) {
         if (e.user) return json(env, request, { error: e.message, code: e.code }, 200);
@@ -1201,5 +1677,11 @@ export default {
     }
     return new Response("Лудка — сервер работает", { headers: { "Content-Type": "text/plain; charset=utf-8" } });
   },
-  async scheduled(event, env, ctx) { ctx.waitUntil(weeklyTitles(env)); }
+  async scheduled(event, env, ctx) {
+    ctx.waitUntil(weeklyTitles(env));
+    ctx.waitUntil(env.DB.batch([
+      env.DB.prepare("DELETE FROM pilot_bets WHERE at < ?").bind(Date.now() - 3 * 864e5),
+      env.DB.prepare("DELETE FROM pilot_rounds WHERE crash < ? AND n < (SELECT MAX(n) - 100 FROM pilot_rounds)").bind(Date.now() - 3 * 864e5)
+    ]).catch(e => console.log("cleanup", e.message)));
+  }
 };
