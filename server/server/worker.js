@@ -586,7 +586,7 @@ const E = (() => {
     if (P.g) fail("Сначала завершите текущую игру", 409);
     if (P.resetAt && NOW - P.resetAt < 30 * H24) fail("Начать заново можно раз в 30 дней", 429);
     const keep = { created: P.created, rev: P.rev, name: P.name, code: P.code, adult: P.adult, rg: P.rg, spent: P.spent, refs: P.refs, refBy: P.refBy, refDone: P.refDone, gifts: P.gifts,
-      refMax: P.refMax, refBase: P.refBase, refOwed: P.refOwed, refSent: P.refSent, refEarn: P.refEarn, promos: P.promos,
+      refMax: P.refMax, refBase: P.refBase, betaIn: P.betaIn, refOwed: P.refOwed, refSent: P.refSent, refEarn: P.refEarn, promos: P.promos,
       cos: { owned: P.cos.owned, eq: P.cos.eq, vip: P.cos.vip, wt: P.cos.wt }, resetAt: NOW };
     for (const k of Object.keys(P)) delete P[k];
     Object.assign(P, newPlayer(NOW), keep);
@@ -608,6 +608,35 @@ const E = (() => {
   const dayWord = n => n % 10 === 1 && n % 100 !== 11 ? "день" : n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20) ? "дня" : "дней";
   const promoText = rw => rw.map(r => r.k === "chips" ? `${r.n.toLocaleString("ru-RU")} бемок` : r.k === "vip" ? `VIP на ${r.n} ${dayWord(r.n)}` : `${cosItem(r.id).g.toLowerCase()} «${cosItem(r.id).t}»`).join(" + ");
   // начислить награду кода; сам код (лимиты, повторы) проверяет сервер, условия игрока — здесь
+  /* ---------- перенос прогресса из беты (тогда игра в Telegram работала как демо и хранила всё на телефоне) ----------
+     Данные приходят с телефона и их можно подделать, поэтому переносим один раз и с потолками. */
+  const BETA_CREATED_BEFORE = Date.UTC(2026, 9, 29), BETA_UNTIL = Date.UTC(2026, 11, 1);
+  const BETA_MAX_CHIPS = 100000, BETA_MAX_LVL = 20, BETA_MAX_IDLE = 300000;
+  const betaCan = P => !P.betaIn && P.created < BETA_CREATED_BEFORE && NOW < BETA_UNTIL;
+  A["beta.import"] = (P, x, ev) => {
+    if (P.betaIn) fail("Прогресс из беты уже перенесён");
+    if (!betaCan(P)) fail("Перенос прогресса из беты больше недоступен");
+    const d = x && typeof x === "object" ? x : {}, num = (v, max) => Math.max(0, Math.min(max, Math.floor(Number(v) || 0)));
+    const before = P.chips, out = { chips: 0, lvl: 0, ach: 0, idle: 0 };
+    // бемки: не меньше, чем сейчас, и не больше потолка
+    const chips = num(d.chips, BETA_MAX_CHIPS); if (chips > P.chips) { out.chips = chips - P.chips; P.chips = chips; }
+    // уровень (без наград за уровни — их уже получили в бете)
+    const lvl = Math.max(1, num(d.lvl, BETA_MAX_LVL)); if (lvl > P.prog.lvl) { out.lvl = lvl - P.prog.lvl; P.prog.lvl = lvl; P.prog.xp = 0; }
+    // достижения — только отметка, без повторной награды
+    for (const id of Array.isArray(d.ach) ? d.ach.slice(0, 200) : []) if (ACH.some(a => a.id === id) && !P.ach.got[id]) { P.ach.got[id] = NOW; out.ach++; }
+    // «Моё казино»: здания, перчатка и сейф в пределах суммарной стоимости BETA_MAX_IDLE
+    const I = idleS(P), src = d.idle && typeof d.idle === "object" ? d.idle : {}; let budget = BETA_MAX_IDLE;
+    for (const b of IDLE_B) { const want = num(src.b && src.b[b.k], 300); while (bLevel(P, b.k) < want) { const c = bCost(P, b); if (c > budget) break; budget -= c; I.b[b.k] = bLevel(P, b.k) + 1; out.idle++; } }
+    const glove = num(src.glove, 30); while (I.glove < glove && GLOVE_COST(I.glove) <= budget) { budget -= GLOVE_COST(I.glove); I.glove++; out.idle++; }
+    const safe = num(src.safe, SAFE.length - 1); while (I.safe < safe && SAFE[I.safe + 1].cost <= budget) { budget -= SAFE[I.safe + 1].cost; I.safe++; out.idle++; }
+    I.last = NOW;
+    // перенесённые бемки не идут в партнёрку пригласившему: проценты только с проигрышей сверх них
+    if (P.refBy) P.refBase = Math.max(P.refBase || 0, P.refMax || 0) + (P.chips - before);
+    // достижения, которые теперь выполнены (уровень и т.п.), отмечаем без награды — иначе получилось бы больше потолка
+    for (const a of ACH) if (a.p && !P.ach.got[a.id]) { const [v, goal] = a.p(P); if (v >= goal) P.ach.got[a.id] = NOW; }
+    P.betaIn = NOW;
+    return out;
+  };
   A["promo.apply"] = (P, x, ev) => {
     const pr = CTX.promo; if (!pr) fail("Промокоды работают в Telegram", 403);
     if (pr.minRounds && P.ach.c.rounds < pr.minRounds) fail(`Код станет доступен после ${pr.minRounds} сыгранных раундов`);
@@ -1055,7 +1084,7 @@ const E = (() => {
     act, view, pub, newPlayer, fix, setNow, product, grant, revoke, canSpend, spend, crashWait, isoWeek, weekEnd, today, dayOf,
     START_CHIPS, MIN_BET, MAX_BET, MAX_TABLE, PACKS, DAY_LIMIT_STARS, MONTH_LIMIT_STARS, RG_DAY, RG_MONTH, RG_REMIND, H24, GAME_NAMES, STATEFUL,
     promoParse, promoText, xpNeed, xpFor, levelReward, GAME_EDGE, XP_K, XP_BACK, Q_MIN_BET, levelTitle, Q_A, Q_B, Q_ALL_BONUS, qDef, qProgress, qAllDone, STREAK, FW, streakNext, dailyAmount, rgLimits,
-    ACH, ACH_CLIENT, COS, BUNDLES, VIP_PRICE, VIP_DAYS, cosItem, vipOn, owns, eqd, WEEK_TITLES, weekTitle, FRIEND_BONUS, REF_SHARE,
+    ACH, ACH_CLIENT, COS, BUNDLES, VIP_PRICE, VIP_DAYS, cosItem, vipOn, owns, eqd, WEEK_TITLES, weekTitle, FRIEND_BONUS, REF_SHARE, BETA_MAX_CHIPS, BETA_MAX_LVL, betaCan,
     IDLE_B, IDLE_MS, IDLE_SOFT, SAFE, GLOVE_COST, PRESTIGE_AT, bLevel, bCost, bRate, idleRate, idleGain, safeCap, tapValue,
     SYMS, WHEEL, REDS, colorOf, OUT, SUITS, RANKS, score, CRASH_RTP, CRASH_SPEED, AUTOS, ROAD, ROAD_RTP, roadMult, MINES_RTP, MINE_OPTS, minesMult,
     P_ROWS, P_RISK, RF_COLS, RF_ROWS, RF_SYMS, RF_SCAT, RF_SCAT_PAY, RF_PAY_SCALE, rfNew, rfIdx, rfPlay, SC_PRIZES, JP_SEED, JP_RATE, JP_ODDS,
@@ -1066,7 +1095,7 @@ const E = (() => {
 })();
 /* ENGINE:END */
 
-const APP_VER = 202610212154; // номер сборки — ставит build.js; игра сравнивает его со своим и предлагает обновиться
+const APP_VER = 202610212208; // номер сборки — ставит build.js; игра сравнивает его со своим и предлагает обновиться
 
 const INIT_DATA_MAX_AGE = 7 * 24 * 3600;
 const CODE_ABC = "23456789ABCDEFGHJKMNPQRSTUVWXYZ";
