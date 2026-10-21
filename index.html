@@ -1,9 +1,15 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover, shrink-to-fit=no">
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
 <title>Лудка</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800;900&family=Inter:wght@400;500;600;700;800;900&display=swap" media="print" onload="this.media='all'">
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800;900&family=Inter:wght@400;500;600;700;800;900&display=swap"></noscript>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&family=Inter:wght@400;500;600;700;800;900&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&family=Inter:wght@400;500;600;700;800;900&display=swap"></noscript>
 <style>
 /* Layout: lobby of three tables; each table is its own world — neon Vegas slots, classic felt roulette, pirate-tavern blackjack. Single dark look by choice. */
 :root {
@@ -22,9 +28,9 @@
   /* blackjack */
   --wood: #3a2414; --wood-dark: #24160b; --parch: #efe0b9; --rum: #b5652a;
   --f-body: "Inter", system-ui, sans-serif;
-  --f-neon: "Playfair Display", Georgia, serif;
-  --f-classic: "Playfair Display", Georgia, serif;
-  --f-pirate: "Playfair Display", Georgia, serif;
+  --f-neon: "Montserrat", system-ui, sans-serif;
+  --f-classic: "Montserrat", system-ui, sans-serif;
+  --f-pirate: "Montserrat", system-ui, sans-serif;
   --coin: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E %3CradialGradient id='ce' cx='38%25' cy='30%25' r='75%25'%3E%3Cstop offset='0' stop-color='%23fff3b0'/%3E%3Cstop offset='.35' stop-color='%23ffd34d'/%3E%3Cstop offset='.75' stop-color='%23e3a514'/%3E%3Cstop offset='1' stop-color='%23a86d00'/%3E%3C/radialGradient%3E %3ClinearGradient id='re' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23ffe680'/%3E%3Cstop offset='.5' stop-color='%23c88a0a'/%3E%3Cstop offset='1' stop-color='%237a4d00'/%3E%3C/linearGradient%3E %3ClinearGradient id='be' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%237a4800'/%3E%3Cstop offset='1' stop-color='%235c3500'/%3E%3C/linearGradient%3E%3C/defs%3E %3Ccircle cx='50' cy='50' r='48' fill='url(%23re)'/%3E %3Ccircle cx='50' cy='50' r='45' fill='none' stroke='%237a4d00' stroke-width='3' stroke-dasharray='1.6 2.1' opacity='.55'/%3E %3Ccircle cx='50' cy='50' r='40' fill='url(%23ce)'/%3E %3Ccircle cx='50' cy='50' r='40' fill='none' stroke='%23fff6c8' stroke-width='1.2' opacity='.6'/%3E %3Cg transform='rotate(-12 50 50)'%3E%3Cg fill='%23fff4c2' opacity='.55' transform='translate(0 1.2)'%3E%3Crect x='30.8' y='28.9' width='4.0' height='10' rx='1.2'/%3E%3Crect x='38.4' y='28.9' width='4.0' height='10' rx='1.2'/%3E%3Crect x='30.8' y='62.1' width='4.0' height='10' rx='1.2'/%3E%3Crect x='38.4' y='62.1' width='4.0' height='10' rx='1.2'/%3E%3Cpath transform='translate(26.26 65.05)' d='M1.5625 0.0H15.2734375C21.58203125 0.0 25.3125 -3.4765625 25.3125 -8.2421875C25.3125 -12.34375 22.4609375 -15.15625 18.7109375 -15.29296875V-15.33203125C22.08984375 -15.9765625 24.3359375 -18.45703125 24.3359375 -21.8359375C24.3359375 -26.07421875 20.8203125 -29.1015625 14.1796875 -29.1015625H1.5625ZM9.453125 -6.09375V-11.8359375H13.75C15.72265625 -11.8359375 16.9921875 -10.703125 16.9921875 -8.96484375C16.9921875 -7.2265625 15.72265625 -6.09375 13.75 -6.09375ZM9.453125 -17.578125V-23.0078125H13.26171875C15.05859375 -23.0078125 16.2109375 -21.93359375 16.2109375 -20.29296875C16.2109375 -18.65234375 15.05859375 -17.578125 13.26171875 -17.578125Z'/%3E%3Cpath transform='translate(49.68 65.05)' d='M11.85546875 0.46875C17.28515625 0.46875 21.66015625 -2.51953125 22.421875 -6.73828125H15.5078125C15.078125 -5.625 13.828125 -4.9609375 12.16796875 -4.9609375C9.90234375 -4.9609375 8.53515625 -6.25 8.4765625 -8.4375H22.5V-10.52734375C22.5 -16.71875 18.02734375 -21.09375 11.69921875 -21.09375C5.37109375 -21.09375 0.8984375 -16.62109375 0.8984375 -10.3125C0.8984375 -4.00390625 5.4296875 0.46875 11.85546875 0.46875ZM8.53515625 -12.8125C8.80859375 -14.51171875 10.01953125 -15.5078125 11.9140625 -15.5078125C13.80859375 -15.5078125 15.01953125 -14.51171875 15.29296875 -12.8125Z'/%3E%3C/g%3E%3Cg fill='url(%23be)'%3E%3Crect x='30.8' y='28.9' width='4.0' height='10' rx='1.2'/%3E%3Crect x='38.4' y='28.9' width='4.0' height='10' rx='1.2'/%3E%3Crect x='30.8' y='62.1' width='4.0' height='10' rx='1.2'/%3E%3Crect x='38.4' y='62.1' width='4.0' height='10' rx='1.2'/%3E%3Cpath transform='translate(26.26 65.05)' d='M1.5625 0.0H15.2734375C21.58203125 0.0 25.3125 -3.4765625 25.3125 -8.2421875C25.3125 -12.34375 22.4609375 -15.15625 18.7109375 -15.29296875V-15.33203125C22.08984375 -15.9765625 24.3359375 -18.45703125 24.3359375 -21.8359375C24.3359375 -26.07421875 20.8203125 -29.1015625 14.1796875 -29.1015625H1.5625ZM9.453125 -6.09375V-11.8359375H13.75C15.72265625 -11.8359375 16.9921875 -10.703125 16.9921875 -8.96484375C16.9921875 -7.2265625 15.72265625 -6.09375 13.75 -6.09375ZM9.453125 -17.578125V-23.0078125H13.26171875C15.05859375 -23.0078125 16.2109375 -21.93359375 16.2109375 -20.29296875C16.2109375 -18.65234375 15.05859375 -17.578125 13.26171875 -17.578125Z'/%3E%3Cpath transform='translate(49.68 65.05)' d='M11.85546875 0.46875C17.28515625 0.46875 21.66015625 -2.51953125 22.421875 -6.73828125H15.5078125C15.078125 -5.625 13.828125 -4.9609375 12.16796875 -4.9609375C9.90234375 -4.9609375 8.53515625 -6.25 8.4765625 -8.4375H22.5V-10.52734375C22.5 -16.71875 18.02734375 -21.09375 11.69921875 -21.09375C5.37109375 -21.09375 0.8984375 -16.62109375 0.8984375 -10.3125C0.8984375 -4.00390625 5.4296875 0.46875 11.85546875 0.46875ZM8.53515625 -12.8125C8.80859375 -14.51171875 10.01953125 -15.5078125 11.9140625 -15.5078125C13.80859375 -15.5078125 15.01953125 -14.51171875 15.29296875 -12.8125Z'/%3E%3C/g%3E%3C/g%3E %3Cpath d='M22 34 A32 32 0 0 1 48 16' fill='none' stroke='%23fff' stroke-width='3' stroke-linecap='round' opacity='.45'/%3E%3C/svg%3E");
   color-scheme: dark;
 }
@@ -130,12 +136,12 @@ button:focus-visible { outline: 3px solid var(--chip); outline-offset: 2px; }
 
 /* ---------- самолётик (краш) ---------- */
 .t-crash { background: linear-gradient(160deg, #3b4f9a, #f08a6b 130%); border-color: #5b6fc0; }
-.t-crash h3 { font-family: "Playfair Display", Georgia, serif; font-size: 34px; color: #fff; }
+.t-crash h3 { font-family: "Montserrat", system-ui, sans-serif; font-size: 34px; color: #fff; }
 .t-road { background: repeating-linear-gradient(90deg, #2b2d31 0 46px, #ffd23f 46px 50px); border-color: #4a4c52; }
-.t-road h3 { font-family: "Playfair Display", Georgia, serif; font-weight: 400; font-size: 22px; color: #ffd23f; text-shadow: 0 2px 0 #000; }
+.t-road h3 { font-family: "Montserrat", system-ui, sans-serif; font-weight: 400; font-size: 22px; color: #ffd23f; text-shadow: 0 2px 0 #000; }
 .t-road p, .t-road .deco { text-shadow: 0 1px 2px #000; }
 .s-crash { background: linear-gradient(180deg, #1d2b64 0, #4a3f8f 55%, #e9846b 130%); }
-.paper-title { font-family: "Playfair Display", Georgia, serif; font-size: 40px; color: #fff; text-align: center; margin: 0; line-height: 1; }
+.paper-title { font-family: "Montserrat", system-ui, sans-serif; font-size: 40px; color: #fff; text-align: center; margin: 0; line-height: 1; }
 .hist { display: flex; gap: 6px; overflow: hidden; mask-image: linear-gradient(90deg, #000 80%, transparent); }
 .hist span { flex: none; font-size: 12.5px; font-weight: 800; padding: 3px 8px; border-radius: 20px; background: #ffffff1c; color: #c9d3ff; font-variant-numeric: tabular-nums; }
 .hist span.hi { color: #ffd38a; background: #ffb4472a; }
@@ -156,13 +162,13 @@ button:focus-visible { outline: 3px solid var(--chip); outline-offset: 2px; }
 
 /* ---------- курочка на дороге ---------- */
 .s-road { background: #1c1d21; }
-.road-title { font-family: "Playfair Display", Georgia, serif; color: #ffd23f; font-size: 26px; text-align: center; margin: 0; text-shadow: 0 3px 0 #000; }
+.road-title { font-family: "Montserrat", system-ui, sans-serif; color: #ffd23f; font-size: 26px; text-align: center; margin: 0; text-shadow: 0 3px 0 #000; }
 .roadview { position: relative; height: 250px; overflow: hidden; border-radius: 16px; border: 2px solid #3a3c42; }
 .track { position: absolute; top: 0; bottom: 0; left: 0; display: flex; transition: transform .45s ease; }
 .side { width: 70px; background: repeating-linear-gradient(0deg, #6b6f78 0 24px, #5e626b 24px 26px); flex: none; }
 .side.fin { background: repeating-conic-gradient(#fff 0 25%, #222 0 50%) 0 0/20px 20px; }
 .lane { width: 78px; flex: none; position: relative; background: #2b2d31; border-right: 3px dashed #d8d8d855; }
-.lane .mlt { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 58px; height: 58px; border-radius: 50%; display: grid; place-items: center; font-family: "Playfair Display", Georgia, serif; font-size: 12px; color: #c8cad0; background: #3a3c42; border: 3px solid #4a4c52; }
+.lane .mlt { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 58px; height: 58px; border-radius: 50%; display: grid; place-items: center; font-family: "Montserrat", system-ui, sans-serif; font-size: 12px; color: #c8cad0; background: #3a3c42; border: 3px solid #4a4c52; }
 .lane.next .mlt { border-color: #ffd23f; color: #ffd23f; }
 .lane.done .mlt { background: #1f6b45; border-color: #3fd58f; color: #fff; }
 .lane .car { position: absolute; left: 50%; top: -70px; font-size: 40px; transform: translateX(-50%) rotate(-90deg); animation: drive var(--d) linear var(--del) infinite; }
@@ -171,18 +177,22 @@ button:focus-visible { outline: 3px solid var(--chip); outline-offset: 2px; }
 .lane.hit .car { animation: none; top: 50%; margin-top: -24px; }
 @keyframes drive { to { top: 270px; } }
 .chicken { position: absolute; top: 50%; font-size: 44px; transform: translate(-50%, -50%) scaleX(-1); transition: left .3s ease; z-index: 2; }
-.chicken.dead { transform: translate(-50%, -50%) scale(1.3); }
+.chicken.dead { transform: translate(-50%, -50%) scale(1.3); animation: chboom .5s ease-out; filter: drop-shadow(0 0 12px #ff6a2a); }
+@keyframes chboom { 0% { transform: translate(-50%, -50%) scale(.4) } 60% { transform: translate(-50%, -50%) scale(1.7) } 100% { transform: translate(-50%, -50%) scale(1.3) } }
+.roadview.boom { animation: krshake .35s; }
+.roadview.boom::after { content: ""; position: absolute; inset: 0; background: #ff3b3b; opacity: 0; animation: rdflash .45s ease-out; pointer-events: none; }
+@keyframes rdflash { 15% { opacity: .35 } }
 .levels { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
 .levels button { padding: 9px 4px; border-radius: 10px; background: #2b2d31; font-weight: 700; font-size: 13px; border: 1px solid #3a3c42; }
 .levels button[aria-pressed="true"] { background: #ffd23f; color: #1c1d21; }
-.roadbtn { background: #ffd23f; color: #1c1d21; font-family: "Playfair Display", Georgia, serif; font-weight: 400; }
+.roadbtn { background: #ffd23f; color: #1c1d21; font-family: "Montserrat", system-ui, sans-serif; font-weight: 400; }
 .roadmsg { text-align: center; min-height: 22px; font-weight: 700; color: #ffe9a3; }
 
 /* ---------- минное поле ---------- */
 .t-mines { background: radial-gradient(120% 120% at 100% 0, #1d6f74 0, #0b2326 65%); border-color: #24585c; }
-.t-mines h3 { font-family: "Playfair Display", Georgia, serif; font-weight: 400; font-size: 24px; color: #7ff5e4; }
+.t-mines h3 { font-family: "Montserrat", system-ui, sans-serif; font-weight: 400; font-size: 24px; color: #7ff5e4; }
 .s-mines { background: radial-gradient(110% 60% at 50% 0, #15474b 0, #071618 75%); }
-.mines-title { font-family: "Playfair Display", Georgia, serif; color: #7ff5e4; font-size: 28px; text-align: center; margin: 0; text-shadow: 0 0 14px #7ff5e455; }
+.mines-title { font-family: "Montserrat", system-ui, sans-serif; color: #7ff5e4; font-size: 28px; text-align: center; margin: 0; text-shadow: 0 0 14px #7ff5e455; }
 .mgrid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 7px; }
 .mcell { aspect-ratio: 1; border-radius: 12px; font-size: 30px; display: grid; place-items: center; background: linear-gradient(#2c6a6e, #1b4a4d); box-shadow: 0 4px 0 #0c2d2f, inset 0 1px 0 #ffffff22; transition: transform .12s; }
 .mcell:not(:disabled):active { transform: translateY(3px); box-shadow: 0 1px 0 #0c2d2f; }
@@ -195,29 +205,29 @@ button:focus-visible { outline: 3px solid var(--chip); outline-offset: 2px; }
 .mcount { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
 .mcount button { padding: 9px 4px; border-radius: 10px; background: #12393c; border: 1px solid #24585c; font-weight: 700; font-size: 13px; }
 .mcount button[aria-pressed="true"] { background: #7ff5e4; color: #062022; }
-.mbtn { background: #7ff5e4; color: #062022; font-family: "Playfair Display", Georgia, serif; font-weight: 400; }
+.mbtn { background: #7ff5e4; color: #062022; font-family: "Montserrat", system-ui, sans-serif; font-weight: 400; }
 .minfo { display: flex; justify-content: space-between; font-size: 13.5px; color: #bfe9e3; }
 .mmsg { text-align: center; min-height: 22px; font-weight: 700; color: #c9fff6; }
 
 /* ---------- звездопад (плинко) ---------- */
 .t-plinko { background: radial-gradient(1.5px 1.5px at 20% 30%, #fff, transparent), radial-gradient(1px 1px at 60% 70%, #fff, transparent), radial-gradient(1.5px 1.5px at 80% 20%, #fff, transparent), radial-gradient(120% 120% at 100% 0, #5b2bb5 0, #120a2e 65%); border-color: #3d2a78; }
-.t-plinko h3 { font-family: "Playfair Display", Georgia, serif; font-weight: 800; font-size: 22px; background: linear-gradient(90deg, #8fb4ff, #e08cff, #ffb86b); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.t-plinko h3 { font-family: "Montserrat", system-ui, sans-serif; font-weight: 800; font-size: 22px; background: linear-gradient(90deg, #8fb4ff, #e08cff, #ffb86b); -webkit-background-clip: text; background-clip: text; color: transparent; }
 .s-plinko { position: relative; background:
   radial-gradient(1.2px 1.2px at 12% 18%, #ffffffcc, transparent), radial-gradient(1px 1px at 78% 9%, #ffffffaa, transparent),
   radial-gradient(1.4px 1.4px at 90% 44%, #ffffffbb, transparent), radial-gradient(1px 1px at 6% 62%, #ffffff99, transparent),
   radial-gradient(90% 50% at 50% 0, #3a1f7a 0, transparent 70%), radial-gradient(80% 40% at 50% 100%, #5a1f5e66 0, transparent 70%), #0b0720; }
-.plinko-title { font-family: "Playfair Display", Georgia, serif; font-weight: 800; font-size: 26px; text-align: center; margin: 0; letter-spacing: .02em; background: linear-gradient(90deg, #8fb4ff, #e08cff 50%, #ffb86b); -webkit-background-clip: text; background-clip: text; color: transparent; filter: drop-shadow(0 0 14px #b67bff55); }
+.plinko-title { font-family: "Montserrat", system-ui, sans-serif; font-weight: 800; font-size: 26px; text-align: center; margin: 0; letter-spacing: .02em; background: linear-gradient(90deg, #8fb4ff, #e08cff 50%, #ffb86b); -webkit-background-clip: text; background-clip: text; color: transparent; filter: drop-shadow(0 0 14px #b67bff55); }
 .pboard { position: relative; border-radius: 20px; padding: 6px 4px 8px; background: linear-gradient(180deg, #ffffff0a, #ffffff03); border: 1px solid #ffffff14; box-shadow: inset 0 1px 0 #ffffff12, 0 20px 40px -20px #000; }
 .pboard canvas { display: block; width: 100%; }
 .phist { position: absolute; right: 10px; top: 10px; display: flex; flex-direction: column; gap: 4px; pointer-events: none; }
-.phist span { font-family: "Playfair Display", Georgia, serif; font-weight: 800; font-size: 10.5px; padding: 4px 7px; border-radius: 7px; color: #fff; text-align: center; min-width: 30px; box-shadow: 0 2px 6px #0007; animation: pin .3s ease-out; }
+.phist span { font-family: "Montserrat", system-ui, sans-serif; font-weight: 800; font-size: 10.5px; padding: 4px 7px; border-radius: 7px; color: #fff; text-align: center; min-width: 30px; box-shadow: 0 2px 6px #0007; animation: pin .3s ease-out; }
 .phist span:nth-child(n+2) { opacity: .8 } .phist span:nth-child(n+4) { opacity: .5 }
 @keyframes pin { from { transform: translateY(-8px) scale(.7); opacity: 0 } }
 .prisk { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; padding: 4px; border-radius: 14px; background: #ffffff0d; border: 1px solid #ffffff12; }
 .prisk button { padding: 9px 4px; border-radius: 10px; font-weight: 700; font-size: 13px; color: #c9c0ff; }
 .prisk button[aria-pressed="true"] { background: linear-gradient(135deg, #6d5cff, #c04dff); color: #fff; box-shadow: 0 4px 14px #8b5cff66; }
 .pctl { display: grid; grid-template-columns: 1fr auto; gap: 8px; }
-.pdrop { font-family: "Playfair Display", Georgia, serif; font-weight: 800; font-size: 17px; letter-spacing: .04em; color: #1a0b33; background: linear-gradient(135deg, #ffd27a, #ff8fd0 55%, #a98bff); box-shadow: 0 8px 24px -6px #ff8fd099, inset 0 1px 0 #fff8; }
+.pdrop { font-family: "Montserrat", system-ui, sans-serif; font-weight: 800; font-size: 17px; letter-spacing: .04em; color: #1a0b33; background: linear-gradient(135deg, #ffd27a, #ff8fd0 55%, #a98bff); box-shadow: 0 8px 24px -6px #ff8fd099, inset 0 1px 0 #fff8; }
 .pdrop:active { transform: translateY(1px) scale(.99); }
 .pauto { padding: 0 16px; border-radius: 14px; font-weight: 800; font-size: 14px; background: #ffffff10; border: 1px solid #ffffff22; color: #e5ddff; }
 .pauto[aria-pressed="true"] { background: #ff5a8a; border-color: #ff5a8a; color: #fff; }
@@ -283,9 +293,9 @@ button:focus-visible { outline: 3px solid var(--chip); outline-offset: 2px; }
 /* ---------- золотой билет (скретч) ---------- */
 .t-scratch { background: linear-gradient(135deg, #14110b, #2a2214 60%, #14110b); border-color: #8a6d2f; }
 .t-scratch::after { content: ""; position: absolute; inset: 6px; border: 1px solid #c9a24a66; border-radius: 13px; pointer-events: none; }
-.t-scratch h3 { font-family: "Playfair Display", Georgia, serif; font-weight: 400; font-size: 27px; color: #f1d58a; letter-spacing: .04em; }
+.t-scratch h3 { font-family: "Montserrat", system-ui, sans-serif; font-weight: 400; font-size: 27px; color: #f1d58a; letter-spacing: .04em; }
 .s-scratch { background: radial-gradient(80% 50% at 50% 0, #2b2414 0, #0c0a07 70%); }
-.sc-title { margin: 0; text-align: center; font-family: "Playfair Display", Georgia, serif; font-size: 30px; letter-spacing: .12em; color: #f1d58a; text-shadow: 0 0 20px #f1d58a33; }
+.sc-title { margin: 0; text-align: center; font-family: "Montserrat", system-ui, sans-serif; font-size: 30px; letter-spacing: .12em; color: #f1d58a; text-shadow: 0 0 20px #f1d58a33; }
 .sc-sub { text-align: center; color: #b9a67a; font-size: 13px; letter-spacing: .14em; text-transform: uppercase; margin-top: -8px; }
 .ticket { position: relative; padding: 18px 18px 16px; border-radius: 10px; color: #2a2010;
   background: radial-gradient(circle at 0 50%, transparent 10px, #0000 10px) , linear-gradient(160deg, #fbf3df, #efe1bc 60%, #e8d6a8);
@@ -297,7 +307,7 @@ button:focus-visible { outline: 3px solid var(--chip); outline-offset: 2px; }
 .ticket::before { content: ""; position: absolute; inset: 7px; border: 1.5px solid #b8913a; border-radius: 6px; pointer-events: none;
   background: linear-gradient(45deg, #b8913a 0 2px, transparent 2px) top left / 14px 14px no-repeat, linear-gradient(-45deg, #b8913a 0 2px, transparent 2px) top right / 14px 14px no-repeat; }
 .tk-head { display: flex; justify-content: space-between; align-items: baseline; padding: 2px 6px 10px; border-bottom: 1px dashed #b8913a88; margin-bottom: 12px; }
-.tk-head b { font-family: "Playfair Display", Georgia, serif; font-size: 22px; letter-spacing: .1em; color: #6b4e14; }
+.tk-head b { font-family: "Montserrat", system-ui, sans-serif; font-size: 22px; letter-spacing: .1em; color: #6b4e14; }
 .tk-head span { font-size: 11.5px; letter-spacing: .1em; text-transform: uppercase; color: #8a7444; font-weight: 700; }
 .tk-area { position: relative; border-radius: 8px; touch-action: none; }
 .tk-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
@@ -317,7 +327,7 @@ button:focus-visible { outline: 3px solid var(--chip); outline-offset: 2px; }
 @keyframes stamp { from { transform: translate(-50%, -50%) rotate(-8deg) scale(2.2); opacity: 0 } }
 .sc-prizes { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; }
 .sc-prizes span { font-size: 12px; padding: 4px 9px; border-radius: 20px; border: 1px solid #8a6d2f88; color: #e7d29c; font-variant-numeric: tabular-nums; }
-.sc-btn { background: linear-gradient(135deg, #f6dc8f, #c9962e); color: #2a1a00; font-family: "Playfair Display", Georgia, serif; font-weight: 400; font-size: 20px; letter-spacing: .08em; box-shadow: 0 8px 22px -8px #c9962e99; }
+.sc-btn { background: linear-gradient(135deg, #f6dc8f, #c9962e); color: #2a1a00; font-family: "Montserrat", system-ui, sans-serif; font-weight: 400; font-size: 20px; letter-spacing: .08em; box-shadow: 0 8px 22px -8px #c9962e99; }
 .sc-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 
 /* ---------- джекпот ---------- */
@@ -340,9 +350,9 @@ button:focus-visible { outline: 3px solid var(--chip); outline-offset: 2px; }
 .t-wheel { background: repeating-conic-gradient(from 0deg at 110% 50%, #c4162a 0 10deg, #f6e7c8 10deg 20deg); border-color: #e2b23c; }
 .t-wheel::before { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, #2a0508ee 30%, #2a050888 70%, transparent); }
 .t-wheel > * { position: relative; }
-.t-wheel h3 { font-family: "Playfair Display", Georgia, serif; font-weight: 400; font-size: 30px; color: #ffd75e; text-shadow: 0 2px 0 #7a0010; }
+.t-wheel h3 { font-family: "Montserrat", system-ui, sans-serif; font-weight: 400; font-size: 30px; color: #ffd75e; text-shadow: 0 2px 0 #7a0010; }
 .s-wheel { background: radial-gradient(120% 60% at 50% 0, #7a0f1d 0, #3a0710 55%, #1a0307 100%); }
-.wh-title { margin: 0; text-align: center; font-family: "Playfair Display", Georgia, serif; font-weight: 400; font-size: 36px; color: #ffd75e; text-shadow: 0 3px 0 #7a0010, 0 0 24px #ffb80044; }
+.wh-title { margin: 0; text-align: center; font-family: "Montserrat", system-ui, sans-serif; font-weight: 400; font-size: 36px; color: #ffd75e; text-shadow: 0 3px 0 #7a0010, 0 0 24px #ffb80044; }
 .wh-stage { position: relative; display: grid; place-items: center; padding-top: 10px; }
 .wh-wrap { position: relative; width: min(84vw, 330px); aspect-ratio: 1; }
 .wh-wheel, .wh-rim { position: absolute; inset: 0; width: 100%; height: 100%; }
@@ -367,7 +377,7 @@ button:focus-visible { outline: 3px solid var(--chip); outline-offset: 2px; }
 .wh-info { display: flex; justify-content: space-between; font-size: 13.5px; color: #ffd9c2; }
 .wh-bonus { position: absolute; inset: 0; z-index: 4; display: grid; place-content: center; justify-items: center; gap: 14px; text-align: center; border-radius: 50%; }
 .wh-bonus[hidden] { display: none; }
-.wh-bonus h4 { margin: 0; font-family: "Playfair Display", Georgia, serif; font-weight: 400; font-size: 30px; color: #ffd75e; text-shadow: 0 2px 0 #7a0010; }
+.wh-bonus h4 { margin: 0; font-family: "Montserrat", system-ui, sans-serif; font-weight: 400; font-size: 30px; color: #ffd75e; text-shadow: 0 2px 0 #7a0010; }
 .wh-bonus p { margin: 0; color: #ffe3d0; font-size: 14px; font-weight: 700; }
 .wh-bonus .big { font-family: "Inter", system-ui, sans-serif; font-weight: 900; font-size: 34px; color: #fff; text-shadow: 0 0 20px #ffd75e; animation: bnr .5s cubic-bezier(.3, 1.6, .5, 1); }
 .wh-bonusbg { background: radial-gradient(circle, #3a0710f2 0, #1a0307f7 70%); box-shadow: 0 0 0 6px #e2b23c, 0 0 40px #000; }
@@ -392,13 +402,13 @@ button:focus-visible { outline: 3px solid var(--chip); outline-offset: 2px; }
 
 /* ---------- ледяная башня ---------- */
 .t-tower { background: linear-gradient(170deg, #9fd6ff -30%, #2e6db0 35%, #0b1d3a); border-color: #5d9ad6; }
-.t-tower h3 { font-family: "Playfair Display", Georgia, serif; font-weight: 700; font-size: 25px; color: #eaf6ff; text-shadow: 0 0 14px #9fd6ff; }
+.t-tower h3 { font-family: "Montserrat", system-ui, sans-serif; font-weight: 700; font-size: 25px; color: #eaf6ff; text-shadow: 0 0 14px #9fd6ff; }
 .s-tower { position: relative; background: linear-gradient(180deg, #0b1d3a 0, #173a6b 45%, #2c5f99 100%); overflow-x: hidden; }
 .s-tower > * { position: relative; z-index: 1; }
 .tw-snow { position: absolute !important; inset: 0; z-index: 0 !important; pointer-events: none; overflow: hidden; }
 .tw-snow i { position: absolute; top: -10px; width: 4px; height: 4px; border-radius: 50%; background: #fff; opacity: .7; animation: snow linear infinite; }
 @keyframes snow { to { transform: translate(30px, 110vh) } }
-.tw-title { margin: 0; text-align: center; font-family: "Playfair Display", Georgia, serif; font-weight: 700; font-size: 30px; color: #eaf6ff; text-shadow: 0 0 18px #9fd6ffaa; }
+.tw-title { margin: 0; text-align: center; font-family: "Montserrat", system-ui, sans-serif; font-weight: 700; font-size: 30px; color: #eaf6ff; text-shadow: 0 0 18px #9fd6ffaa; }
 .tw-tower { display: grid; gap: 6px; padding: 10px; border-radius: 18px; background: linear-gradient(180deg, #ffffff12, #ffffff06); border: 1px solid #bfe3ff40; box-shadow: inset 0 1px 0 #ffffff30; }
 .tw-row { display: grid; grid-template-columns: 54px 1fr; gap: 8px; align-items: center; transition: opacity .3s; }
 .tw-row .lvl { font-family: "Inter", system-ui, sans-serif; font-weight: 800; font-size: 12.5px; color: #9fc6ec; text-align: right; font-variant-numeric: tabular-nums; }
@@ -415,12 +425,12 @@ button:focus-visible { outline: 3px solid var(--chip); outline-offset: 2px; }
 .tw-tile.ghost:disabled { opacity: .5; }
 @keyframes shake { 25% { transform: translateX(-4px) } 75% { transform: translateX(4px) } }
 .tw-row:not(.cur):not(.done) .tw-tile:not(.trap):not(.ghost) { opacity: .55; }
-.tw-btn { background: linear-gradient(135deg, #eaf6ff, #9fd6ff); color: #0b1d3a; font-family: "Playfair Display", Georgia, serif; font-weight: 700; }
+.tw-btn { background: linear-gradient(135deg, #eaf6ff, #9fd6ff); color: #0b1d3a; font-family: "Montserrat", system-ui, sans-serif; font-weight: 700; }
 .tw-msg { text-align: center; min-height: 22px; font-weight: 700; color: #dff1ff; }
 
 /* ---------- лобби: игрок, подарки, разделы ---------- */
 .brand { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: -4px; }
-.brand b { font-family: "Playfair Display", Georgia, serif; font-weight: 800; font-size: 26px; letter-spacing: .01em; background: linear-gradient(90deg, #b46bff, #46e0a8); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.brand b { font-family: "Montserrat", system-ui, sans-serif; font-weight: 800; font-size: 26px; letter-spacing: .01em; background: linear-gradient(90deg, #b46bff, #46e0a8); -webkit-background-clip: text; background-clip: text; color: transparent; }
 .brand span { font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); font-weight: 700; }
 .lb-head { display: grid; grid-template-columns: auto 1fr auto; gap: 12px; align-items: center; }
 .avatar { position: relative; width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center; font-weight: 800; font-size: 20px; background: linear-gradient(135deg, #f2c14e, #c4162a); color: #fff; box-shadow: 0 0 0 2px #f2c14e55; }
@@ -503,7 +513,7 @@ button:focus-visible { outline: 3px solid var(--chip); outline-offset: 2px; }
 .pause-ico { font-size: 54px; }
 .row3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
 .row3 .tile b { font-size: 14px; } .row3 .tile span { font-size: 11.5px; }
-.sup-title { margin: 0; font-family: "Playfair Display", Georgia, serif; font-weight: 800; font-size: 26px; background: linear-gradient(90deg, #b46bff, #46e0a8); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.sup-title { margin: 0; font-family: "Montserrat", system-ui, sans-serif; font-weight: 800; font-size: 26px; background: linear-gradient(90deg, #b46bff, #46e0a8); -webkit-background-clip: text; background-clip: text; color: transparent; }
 .sup-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .sup-card { display: grid; gap: 4px; text-align: left; padding: 14px; border-radius: 16px; background: var(--panel); border: 1px solid var(--line); }
 .sup-card span { font-size: 26px; } .sup-card b { font-size: 14.5px; } .sup-card small { font-size: 12px; color: var(--muted); line-height: 1.35; }
@@ -549,7 +559,7 @@ button:focus-visible { outline: 3px solid var(--chip); outline-offset: 2px; }
 .bigwin i { position: absolute; left: 50%; top: 50%; width: 34px; height: 34px; margin: -17px; background: var(--coin) center / contain no-repeat; animation: burst 1.4s cubic-bezier(.2, .8, .3, 1) var(--d) both; }
 @keyframes burst { from { transform: rotate(var(--a)) translateY(0) scale(.3); opacity: 1 } to { transform: rotate(var(--a)) translateY(-46vmin) scale(1) rotate(200deg); opacity: 0 } }
 .bw-in { position: relative; display: grid; justify-items: center; gap: 8px; text-align: center; animation: bnr .6s cubic-bezier(.3, 1.6, .5, 1); }
-.bw-in h2 { margin: 0; font-family: "Playfair Display", Georgia, serif; font-weight: 800; font-size: clamp(32px, 11vw, 48px); line-height: 1.02; color: #ffd75e; text-shadow: 0 4px 0 #8a5200, 0 0 40px #ffb800aa; }
+.bw-in h2 { margin: 0; font-family: "Montserrat", system-ui, sans-serif; font-weight: 800; font-size: clamp(32px, 11vw, 48px); line-height: 1.02; color: #ffd75e; text-shadow: 0 4px 0 #8a5200, 0 0 40px #ffb800aa; }
 .bigwin.huge .bw-in h2 { color: #ffb070; text-shadow: 0 4px 0 #8a2e00, 0 0 40px #ff7a2faa; }
 .bigwin.mega .bw-in h2 { background: linear-gradient(180deg, #e2b5ff, #46e0a8); -webkit-background-clip: text; background-clip: text; color: transparent; text-shadow: none; filter: drop-shadow(0 4px 0 #3a1470) drop-shadow(0 0 30px #b46bff); }
 .bigwin.mega { background: radial-gradient(circle, #24104acc, #07041aee 70%); }
@@ -570,7 +580,7 @@ button:focus-visible { outline: 3px solid var(--chip); outline-offset: 2px; }
 
 /* ===================================================================
    ПРЕМИУМ-СТИЛЬ — общая тема поверх всех экранов
-   Палитра: слива и чёрный, золото, слоновая кость. Заголовки — Playfair Display, текст — Inter.
+   Палитра: слива и чёрный, золото, слоновая кость. Заголовки — Montserrat, текст — Inter.
    =================================================================== */
 :root {
   --ink: #0d0911; --panel: #160f1a; --panel2: #1d1422; --line: #e3c27a2e; --line2: #e3c27a55;
@@ -792,7 +802,7 @@ h1, h2, h3 { font-family: var(--f-classic); }
 .cos-prev { height: 64px; display: grid; place-items: center; }
 .cos-prev svg { width: 54px; height: 40px; }
 .cv-emo { font-size: 40px; display: inline-block; line-height: 1; }
-.cv-king, .chicken { position: relative; } .cv-king i, .chicken .crown { position: absolute; font-style: normal; font-size: .5em; left: 50%; top: -.38em; transform: translateX(-50%); }
+.cv-king { position: relative; } .cv-king i, .chicken .crown { position: absolute; font-style: normal; font-size: .5em; left: 50%; top: -.38em; transform: translateX(-50%); }
 .chicken .crown { transform: translateX(-50%) scaleX(-1); }
 .cv-ball { width: 36px; height: 36px; border-radius: 50%; display: block; }
 .cv-planet { position: relative; } .cv-planet::after { content: ""; position: absolute; left: -12px; right: -12px; top: 13px; height: 9px; border: 2px solid #f5dfa8; border-radius: 50%; transform: rotate(-18deg); }
@@ -895,6 +905,16 @@ h1, h2, h3 { font-family: var(--f-classic); }
 
 /* ---------- друзья: лестница, вызов, подарки, карточка ---------- */
 .ladder { display: grid; gap: 6px; }
+html, body { max-width: 100%; overflow-x: clip; }
+.updbar { position: fixed; left: 12px; right: 12px; bottom: calc(12px + env(safe-area-inset-bottom, 0px)); z-index: 90; display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 10px 10px 14px; border-radius: 12px; background: #1b1320f2; border: 1px solid #e3c27a77; box-shadow: 0 8px 30px #000a; font-size: 14px; font-weight: 700; color: var(--fg, #f3eefb); }
+.updbar .btn { padding: 9px 14px; font-size: 14px; flex: none; }
+.refbox { display: grid; gap: 10px; padding: 16px; border-radius: var(--r); border: 1px solid #3fd58f55; background: linear-gradient(180deg, #10241b, #0d140f); }
+.refhead { display: grid; gap: 4px; } .refhead b { font-size: 19px; color: #eafff4; }
+.refbadge { justify-self: start; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: #0d140f; background: #3fd58f; border-radius: 999px; padding: 3px 9px; font-weight: 800; }
+.refnums { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; } .refnums div { display: grid; gap: 2px; padding: 10px; border-radius: 8px; background: #ffffff0a; }
+.refnums span { font-size: 12px; color: #a9c4b6; } .refnums b { font-size: 20px; color: #eafff4; font-variant-numeric: tabular-nums; }
+.refwhy { margin: 0; font-size: 13.5px; line-height: 1.5; color: #cfe3d8; } .refwhy b { color: #fff; }
+.refby { margin: 0; padding: 10px; border-radius: 8px; background: #ffffff0a; font-size: 13px; color: #cfe3d8; }
 .lstep { display: grid; grid-template-columns: 26px 28px 1fr auto; gap: 8px; align-items: center; padding: 10px 12px; border-radius: var(--r); background: var(--panel); border: 1px solid var(--line); }
 .lstep .ln { font-family: var(--f-classic); font-weight: 800; color: var(--gold-hi); text-align: center; } .lstep .li { font-size: 18px; text-align: center; }
 .lstep b { font-size: 13.5px; font-weight: 600; } .lstep em { font-style: normal; color: var(--muted); }
@@ -957,10 +977,134 @@ body.dock .idle-shade, body.dock .idle-tab, body.dock .idle-x { display: none !i
 body.dock .app { margin-left: max(360px, calc(50% - 240px + 170px)); }
 
 
+/* ---------- Пилот ---------- */
+.t-pilot { background: linear-gradient(110deg, #3a0a14, #120408) !important; }
+.t-kirka { background: linear-gradient(110deg, #2e2214, #100b07) !important; }
+.s-pilot { background: #0b0b0d; }
+.pl-head { display: flex; align-items: baseline; justify-content: space-between; }
+.pl-title { margin: 0; font-family: Inter, system-ui, sans-serif; font-weight: 900; font-style: italic; font-size: 30px; letter-spacing: -.01em; color: #e5133a; }
+.pl-online { font-size: 12px; color: #9a9aa2; font-variant-numeric: tabular-nums; }
+.pl-hist { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; padding-bottom: 2px; mask-image: linear-gradient(90deg, #000 85%, transparent); }
+.pl-hist::-webkit-scrollbar { display: none; }
+.pl-hist span { flex: none; padding: 3px 9px; border-radius: 11px; background: #ffffff0d; font-weight: 700; font-size: 12px; font-variant-numeric: tabular-nums; }
+.pl-h1 { color: #34b4ff; } .pl-h2 { color: #a65dff; } .pl-h3 { color: #ff3fc8; }
+.pl-stage { position: relative; aspect-ratio: 16 / 10; border-radius: 16px; overflow: hidden; background: #000; border: 1px solid #ffffff14; }
+.pl-rays { position: absolute; left: -60%; bottom: -100%; width: 220%; aspect-ratio: 1; background: repeating-conic-gradient(from 0deg, #ffffff08 0deg 6deg, transparent 6deg 12deg); border-radius: 50%; animation: plray 30s linear infinite; }
+.pl-stage.fly .pl-rays { animation-duration: 12s; }
+@keyframes plray { to { transform: rotate(360deg) } }
+.pl-curve { position: absolute; inset: 0; width: 100%; height: 100%; }
+.pl-plane { position: absolute; transform: translate(-30%, -70%); transition: opacity .3s; filter: drop-shadow(0 4px 10px #e5133a66); }
+.pl-stage.wait .pl-plane { left: 4% !important; top: 92% !important; animation: plbob 1.6s ease-in-out infinite; }
+.pl-stage.end .pl-plane { opacity: 0; transform: translate(60%, -160%); transition: transform .6s ease-in, opacity .6s; }
+@keyframes plbob { 50% { transform: translate(-30%, -78%) } }
+.pl-center { position: absolute; inset: 0; display: grid; place-content: center; justify-items: center; gap: 6px; text-align: center; pointer-events: none; }
+.pl-center small { color: #d6d6dc; font-weight: 700; font-size: 13px; letter-spacing: .06em; text-transform: uppercase; }
+.pl-center .pl-sec { text-transform: none; letter-spacing: 0; color: #9a9aa2; font-weight: 600; }
+.pl-big { font-family: Inter, system-ui, sans-serif; font-weight: 900; font-size: 58px; color: #fff; line-height: 1; font-variant-numeric: tabular-nums; text-shadow: 0 4px 20px #0008; }
+.pl-big.crash { color: #e5133a; }
+.pl-bar { width: 180px; height: 6px; border-radius: 3px; background: #ffffff1a; overflow: hidden; }
+.pl-bar i { display: block; height: 100%; background: #e5133a; }
+.pl-panels { display: grid; gap: 10px; }
+.pl-panel { display: grid; grid-template-columns: 1fr 1.05fr; gap: 10px; padding: 10px; border-radius: 16px; background: #1b1c1f; border: 1px solid #ffffff10; }
+.pl-panel.on { border-color: #e5133a66; }
+.pl-amt { display: grid; gap: 6px; align-content: start; }
+.pl-step { display: grid; grid-template-columns: 34px 1fr 34px; align-items: center; background: #0e0e10; border-radius: 18px; padding: 3px; }
+.pl-step b { text-align: center; font-weight: 800; font-size: 16px; color: #fff; font-variant-numeric: tabular-nums; }
+.pl-step button { width: 30px; height: 30px; border-radius: 50%; background: #2c2d31; color: #d6d6dc; font-size: 18px; font-weight: 700; }
+.pl-quick { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; }
+.pl-quick button { padding: 5px 0; border-radius: 10px; background: #2c2d31; color: #b9b9c2; font-size: 12px; font-weight: 700; }
+.pl-auto { display: flex; align-items: center; gap: 6px; font-size: 12px; color: #b9b9c2; }
+.pl-auto input[type=checkbox] { accent-color: #28a909; width: 16px; height: 16px; }
+.pl-autov { width: 54px; padding: 4px 6px; border-radius: 8px; border: 1px solid #ffffff1a; background: #0e0e10; color: #fff; font: inherit; font-weight: 700; text-align: right; }
+.pl-autov:disabled { opacity: .45; }
+.pl-btn { display: grid; place-content: center; gap: 2px; border-radius: 14px; min-height: 92px; color: #fff; text-align: center; font-family: Inter, system-ui, sans-serif; box-shadow: inset 0 -3px 0 #0003; }
+.pl-btn small { font-size: 13px; font-weight: 700; opacity: .92; }
+.pl-btn b { font-size: 20px; font-weight: 900; font-variant-numeric: tabular-nums; }
+.pl-btn.bet { background: #28a909; border: 1px solid #b2f2a3; }
+.pl-btn.cancel { background: #cb011a; border: 1px solid #ff7d8d; font-weight: 900; font-size: 18px; }
+.pl-btn.cancel small { font-size: 11px; font-weight: 600; }
+.pl-btn.cash { background: #d07206; border: 1px solid #ffbd71; }
+.pl-btn.won { background: #1f3a1a; border: 1px solid #28a909; opacity: 1; }
+.pl-tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; padding: 3px; border-radius: 18px; background: #1b1c1f; }
+.pl-tabs button { padding: 7px 0; border-radius: 15px; color: #9a9aa2; font-weight: 700; font-size: 13px; }
+.pl-tabs button[aria-selected="true"] { background: #2c2d31; color: #fff; }
+.pl-list { display: grid; gap: 3px; }
+.pl-row { display: grid; grid-template-columns: 1.4fr 1fr .8fr 1fr; gap: 6px; align-items: center; padding: 7px 10px; border-radius: 10px; background: #141416; font-size: 13px; color: #d6d6dc; font-variant-numeric: tabular-nums; }
+.pl-row span:not(.pl-n) { text-align: right; }
+.pl-row.won { background: #1b2a17; border: 1px solid #28a90955; }
+.pl-row.me .pl-n { color: #fff; font-weight: 800; }
+.pl-row .pl-x i { font-style: normal; font-weight: 800; padding: 1px 6px; border-radius: 8px; background: #0006; }
+.pl-row .pl-w { color: #fff; font-weight: 700; }
+.pl-n { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pl-th { background: none; color: #77777f; font-size: 11px; text-transform: uppercase; letter-spacing: .06em; padding-block: 2px; }
+.pl-empty { text-align: center; color: #77777f; font-size: 13px; margin: 10px 0; }
+/* ---------- Кирка ---------- */
+.s-kirka { background: radial-gradient(120% 60% at 50% 0, #3a2414, #120c08 70%); }
+.s-kirka.fs { background: radial-gradient(120% 60% at 50% 0, #2a1a40, #0c0814 70%); }
+.kr-title { margin: 0; text-align: center; font-family: var(--f-classic); font-weight: 900; font-size: 30px; color: var(--gold-hi); }
+.kr-fsbar { display: flex; justify-content: space-between; padding: 8px 12px; border-radius: var(--r); background: #2a1a40; border: 1px solid #9b63ff66; color: #e8dcff; font-size: 13px; }
+.kr-fsbar b { color: #fff; }
+.kr-mine { position: relative; display: grid; gap: 6px; padding: 8px; border-radius: 10px; background: #0a0705; border: 1px solid #e3c27a33; }
+.kr-drop, .kr-grid, .kr-chests { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 5px; }
+.kr-drop { padding-bottom: 6px; border-bottom: 1px dashed #e3c27a33; }
+.kd { aspect-ratio: 1.25; display: grid; place-items: center; border-radius: 8px; background: #ffffff06; }
+.kd svg { width: 78%; height: 78%; }
+.kd.in { animation: kdin .35s cubic-bezier(.3, 1.4, .5, 1) both; }
+@keyframes kdin { from { transform: translateY(-40px); opacity: 0 } }
+.kd.act { background: #e3c27a33; box-shadow: 0 0 0 2px var(--gold); }
+.kd.act svg { animation: kdswing .3s ease-in-out infinite alternate; }
+@keyframes kdswing { from { transform: rotate(-18deg) } to { transform: rotate(22deg) } }
+.kd.used { opacity: .3; }
+.kd.up { animation: kdup .5s ease-out; } @keyframes kdup { 50% { transform: scale(1.3); filter: drop-shadow(0 0 10px #6fe7ff) } }
+.kd.eye { background: #e3c27a44; }
+.kb { position: relative; aspect-ratio: 1.3; border-radius: 7px; overflow: visible; box-shadow: inset 0 2px 0 #ffffff26, inset 0 -3px 0 #0005; display: grid; place-items: center; }
+.kb em { position: absolute; right: 4px; bottom: 2px; font-style: normal; font-size: 9px; font-weight: 800; color: #fffc; text-shadow: 0 1px 2px #000; }
+.kb .kb-cr { position: absolute; inset: 0; border-radius: inherit; opacity: var(--dmg, 0); background: repeating-linear-gradient(35deg, transparent 0 9px, #000a 9px 10.5px), repeating-linear-gradient(-55deg, transparent 0 13px, #0009 13px 14.5px); }
+.kb.dirt { background: linear-gradient(#7a5233, #5a3a22); }
+.kb.stone { background: linear-gradient(#8d939b, #5f656d); }
+.kb.coal { background: radial-gradient(circle at 30% 40%, #1a1a1a 0 3px, transparent 4px), radial-gradient(circle at 68% 62%, #111 0 4px, transparent 5px), linear-gradient(#5d6168, #3d4046); }
+.kb.ruby { background: radial-gradient(circle at 50% 45%, #ff6b7d 0 6px, #c4162a 7px 11px, transparent 12px), linear-gradient(#6a6e75, #474a50); }
+.kb.gold { background: radial-gradient(circle at 40% 45%, #fff2b0 0 4px, #e9b93a 5px 9px, transparent 10px), radial-gradient(circle at 66% 62%, #e9b93a 0 5px, transparent 6px), linear-gradient(#6a6e75, #474a50); }
+.kb.dia { background: radial-gradient(circle at 50% 45%, #e8fdff 0 4px, #6fe7ff 5px 10px, transparent 11px), linear-gradient(#5a6670, #39434b); }
+.kb.obs { background: linear-gradient(135deg, #2a1640, #120a1e 60%, #3a1f5e); box-shadow: inset 0 2px 0 #b07bff40, inset 0 -3px 0 #0008, 0 0 10px #8b5cff55; }
+.kb.gone { background: #0f0a07; box-shadow: inset 0 2px 6px #000c; }
+.kb.mini { width: 34px; aspect-ratio: 1.3; flex: none; }
+.kb.hit { animation: kbhit .18s; } @keyframes kbhit { 40% { transform: translateY(3px) scale(.96) } }
+.kb.pop { animation: kbpop .26s ease-out forwards; } @keyframes kbpop { to { transform: scale(1.25); opacity: 0 } }
+.kr-grid.shake { animation: krshake .35s; } @keyframes krshake { 25% { transform: translateX(-4px) } 50% { transform: translateX(4px) } 75% { transform: translateX(-2px) } }
+.kr-float { position: absolute; left: 50%; top: 0; transform: translate(-50%, 0); font-family: var(--f-classic); font-weight: 800; font-size: 14px; color: var(--gold-hi); text-shadow: 0 2px 4px #000; pointer-events: none; white-space: nowrap; z-index: 2; animation: krfl .9s ease-out forwards; }
+@keyframes krfl { to { transform: translate(-50%, -34px); opacity: 0 } }
+.kc { height: 30px; display: grid; place-items: center; border-radius: 6px; background: linear-gradient(#5a3a1c, #3a2410); border: 1px solid #c9962e88; color: transparent; font-weight: 900; font-size: 14px; }
+.kc.open { background: linear-gradient(#f5dfa8, #c9962e); color: #2b1a0c; box-shadow: 0 0 14px #e3c27a99; animation: kdup .5s; }
+.kr-banner[hidden], .kr-fsbar[hidden] { display: none !important; }
+.kr-banner { position: absolute; inset: 20% 6%; display: grid; place-content: center; text-align: center; gap: 4px; border-radius: 14px; background: #0d0911ee; border: 1px solid var(--gold); z-index: 3; }
+.kr-banner small { color: #c7b08a; letter-spacing: .1em; text-transform: uppercase; font-size: 12px; } .kr-banner strong { font-family: var(--f-classic); font-size: 30px; color: var(--gold-hi); line-height: 1.1; } .kr-banner em { color: #c7b08a; font-style: normal; }
+.kr-win { display: flex; align-items: baseline; justify-content: center; gap: 10px; } .kr-win span { color: #c7b08a; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; } .kr-win b { font-family: var(--f-classic); font-size: 28px; color: var(--gold-hi); font-variant-numeric: tabular-nums; } .kr-win em { font-style: normal; color: #6fe7ff; font-weight: 800; }
+.kr-spin svg { width: 40px; height: 40px; }
+.kr-pt { display: grid; gap: 6px; margin: 8px 0; } .kr-pt > div { display: grid; grid-template-columns: 40px 1fr auto auto; gap: 8px; align-items: center; font-size: 13px; } .kr-pt em { font-style: normal; color: var(--gold-hi); font-weight: 700; } .kr-pt span:not(.kb):not(.kd) { color: var(--muted); }
+.kd.mini { width: 36px; aspect-ratio: 1; }
+/* ---------- шрифт Montserrat: он шире, поэтому крупные заголовки чуть меньше ---------- */
+.brand b { font-size: 26px !important; letter-spacing: -.01em !important; }
+.jp-banner b { font-size: 34px !important; letter-spacing: -.01em; }
+.table h3 { font-size: 19px !important; letter-spacing: -.01em !important; }
+.table.mini h3 { font-size: 15px !important; }
+.neon-title, .rf-title, .classic-title, .pirate-title, .wh-title, .paper-title, .mines-title, .plinko-title, .road-title, .tw-title, .sc-title, .kr-title, .sup-title { font-size: 26px !important; letter-spacing: -.01em !important; text-wrap: balance; }
+.sheet h2 { font-size: 22px !important; letter-spacing: -.01em; }
+.frame_first { border: 0 !important; box-shadow: 0 0 0 2px #46e0a8, 0 0 0 4px #160f1a, 0 0 0 6px #b46bff, 0 0 14px #46e0a866 !important; }
+.pcode { text-transform: uppercase; letter-spacing: .12em; font-weight: 800; text-align: center; font-size: 20px; }
+.promo-done { display: grid; justify-items: center; gap: 4px; text-align: center; }
+.promo-done .pd-ico { font-size: 52px; animation: kdup .6s ease-out; }
+.promo-done small { color: #c7b08a; letter-spacing: .14em; text-transform: uppercase; font-size: 11px; }
+.promo-done h2 { margin: 0 0 6px; }
+.pd-list { display: grid; gap: 8px; width: 100%; }
+.pd-list > div { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 10px; border-radius: var(--r); background: #e3c27a14; border: 1px solid var(--line2); font-size: 16px; }
+.pd-list b { color: var(--gold-hi); font-size: 18px; }
+.pd-prev { display: inline-grid; place-items: center; transform: scale(.8); }
 .toast.resume { width: 100%; cursor: pointer; font: inherit; font-weight: 700; color: var(--gold-hi); background: linear-gradient(180deg, #2a1d10, #150d10); border: 1px solid var(--gold); border-radius: var(--r); padding: 12px 14px; }
 @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
 </style>
-
+</head>
+<body>
 <div class="app" id="app"></div>
 <button class="idle-tab" id="idletab" aria-label="Моё казино" hidden><span class="it-coin" aria-hidden="true"></span><span class="it-txt">Моё казино</span><span class="it-bar"><i id="itfill"></i></span></button>
 <div class="idle-shade" id="idleshade" hidden></div>
@@ -970,6 +1114,7 @@ body.dock .app { margin-left: max(360px, calc(50% - 240px + 170px)); }
 /* ================= Настройки ================= */
 // Адрес сервера (Cloudflare Worker), например "https://ludka.ИМЯ.workers.dev". Пусто — демо: всё считается на устройстве.
 const API_BASE = "https://ludka.bemizaru.workers.dev";
+const APP_VER = 202610212154; // номер сборки — ставит build.js
 const BOT_USERNAME = "LudkaCasinoGame_Bot";
 const BETS = [10, 50, 100, 500, 1000];
 
@@ -1002,13 +1147,19 @@ const E = (() => {
   const PACKS = [{ id: "c5k", chips: 5000, stars: 25 }, { id: "c25k", chips: 25000, stars: 100 }, { id: "c50k", chips: 50000, stars: 200 }];
   const DAY_LIMIT_STARS = 200, MONTH_LIMIT_STARS = 1000;
   const RG_DAY = [200, 100, 50, 0], RG_MONTH = [1000, 500, 200, 0], RG_REMIND = [0, 30, 60, 120], H24 = 864e5;
-  const GAME_NAMES = { slots: "Neon 777", reef: "Сокровища рифа", roul: "Рулетка", bj: "Таверна «21»", wheel: "Колесо удачи", crash: "Самолётик", mines: "Минное поле", plinko: "Звездопад", road: "Через дорогу", tower: "Ледяная башня", scratch: "Золотой билет" };
-  const STATEFUL = ["bj", "crash", "road", "mines", "tower", "reef", "wheel"];
+  const GAME_NAMES = { slots: "Neon 777", reef: "Сокровища рифа", roul: "Рулетка", bj: "Таверна «21»", wheel: "Колесо удачи", crash: "Самолётик", mines: "Минное поле", plinko: "Звездопад", road: "Через дорогу", tower: "Ледяная башня", scratch: "Золотой билет", kirka: "Кирка", pilot: "Пилот" };
+  const STATEFUL = ["bj", "crash", "road", "mines", "tower", "reef", "wheel", "kirka"];
 
   /* ---------- уровни, задания, бонусы ---------- */
-  const xpNeed = l => 150 + (l - 1) * 75;
-  const xpFor = bet => Math.max(5, Math.min(35, Math.round(10 * (1 + Math.log10(Math.max(1, bet) / 10)))));
-  const levelReward = l => Math.min(5000, 300 * l);
+  // Опыт = 10 за каждую бемку, которую игра в среднем оставляет себе (ставка × доля казино).
+  // Поэтому спам мелкими ставками ничего не даёт: опыт всегда «стоит» одинаково в любой игре.
+  // Награда за уровень ≈ 40% от того, что в среднем ушло на этот уровень, — возврат части, а не заработок.
+  const XP_K = 10, XP_BACK = 0.4, Q_MIN_BET = 50;
+  const GAME_EDGE = { slots: 0.024, roul: 0.027, bj: 0.02, reef: 0.1, wheel: 0.1, crash: 0.1, mines: 0.1, plinko: 0.1, road: 0.1, tower: 0.1, scratch: 0.1, kirka: 0.045, pilot: 0.03 };
+  const xpNeed = l => 1000 + (l - 1) * 600;
+  const xpFor = (bet, g) => bet * (GAME_EDGE[g] ?? 0.05) * XP_K;
+  const levelReward = l => Math.round(XP_BACK * xpNeed(l - 1) / XP_K);
+  const xpNeedOld = l => 150 + (l - 1) * 75;
   const levelTitle = l => l >= 30 ? "Амбассадор микрозаймов" : l >= 20 ? "Игрок" : l >= 10 ? "Лудоман" : l >= 5 ? "Лудик" : "Недолудик";
   const Q_A = [{ id: "rounds20", t: "Сыграйте 20 раундов", goal: 20, k: "rounds", r: 500 }, { id: "rounds50", t: "Сыграйте 50 раундов", goal: 50, k: "rounds", r: 1000 },
     { id: "games3", t: "Сыграйте в 3 разные игры", goal: 3, k: "games", r: 600 }, { id: "games5", t: "Сыграйте в 5 разных игр", goal: 5, k: "games", r: 1000 }];
@@ -1029,7 +1180,7 @@ const E = (() => {
   const ACH = [
     { g: "Начало", id: "first_round", i: "🎲", t: "Первый шаг", d: "Сыграйте первый раунд", r: 100 },
     { g: "Начало", id: "first_win", i: "🎉", t: "Первая победа", d: "Выиграйте в первый раз", r: 200 },
-    { g: "Начало", id: "explorer", i: "🧭", t: "Турист", d: "Сыграйте во все 11 игр", r: 2000, p: P => [P.ach.c.games.length, 11] },
+    { g: "Начало", id: "explorer", i: "🧭", t: "Турист", d: "Сыграйте во все 13 игр", r: 2000, p: P => [P.ach.c.games.length, 13] },
     { g: "Начало", id: "rounds100", i: "💯", t: "Сотка", d: "Сыграйте 100 раундов", r: 500, p: P => [P.ach.c.rounds, 100] },
     { g: "Начало", id: "rounds1000", i: "🎰", t: "Тысячник", d: "Сыграйте 1 000 раундов", r: 2000, p: P => [P.ach.c.rounds, 1000] },
     { g: "Начало", id: "rounds10000", i: "🏛️", t: "Старожил", d: "Сыграйте 10 000 раундов", r: 10000, p: P => [P.ach.c.rounds, 10000] },
@@ -1053,6 +1204,10 @@ const E = (() => {
     { g: "Игры", id: "plinko_edge", i: "☄️", t: "На краю", d: "Попадите в крайнюю ячейку «Звездопада»", r: 2000 },
     { g: "Игры", id: "tower_top", i: "🏔️", t: "Покоритель", d: "Поднимитесь на вершину «Ледяной башни»", r: 2000 },
     { g: "Игры", id: "scratch_100", i: "🎟️", t: "Золотая жила", d: "Выиграйте ×100 и больше на «Золотом билете»", r: 3000 },
+    { g: "Игры", id: "kirka_bonus", i: "⛏️", t: "Глубокая жила", d: "Запустите бесплатные спуски в «Кирке»", r: 1500 },
+    { g: "Игры", id: "kirka_chest", i: "🧰", t: "Клад", d: "Откройте сундук на дне «Кирки»", r: 1000 },
+    { g: "Игры", id: "pilot_x20", i: "🛩️", t: "Ас", d: "Заберите ×20 и выше в «Пилоте»", r: 2000 },
+    { g: "Игры", id: "pilot_double", i: "✌️", t: "Две ставки", d: "Выиграйте обеими ставками в одном раунде «Пилота»", r: 800 },
     { g: "Игры", id: "wheel_super", i: "⭐", t: "Супер!", d: "Попадите в «Супер» с поставленной на него ставкой", r: 2000 },
     { g: "Рост", id: "lvl5", i: "🥉", t: "Лудик", d: "Достигните 5 уровня", r: 500, p: P => [P.prog.lvl, 5] },
     { g: "Рост", id: "lvl10", i: "🥈", t: "Лудоман", d: "Достигните 10 уровня", r: 1500, p: P => [P.prog.lvl, 10] },
@@ -1101,6 +1256,8 @@ const E = (() => {
     { id: "chick_party", cat: "games", slot: "chicken", g: "Через дорогу", t: "Курица-тусовщица", price: null, free: { t: "Пригласите 5 друзей", ok: P => (P.refs || 0) >= 5 } },
     { id: "frame_owner", cat: "profile", slot: "frame", g: "Рамка аватара", t: "Владелец казино", price: null, free: { t: "Откройте новое заведение в «Моём казино»", ok: P => (P.idle?.pr || 0) >= 1 } },
     { id: "title_owner", cat: "profile", slot: "title", g: "Звание", t: "Владелец казино", price: null, free: { t: "Откройте новое заведение в «Моём казино»", ok: P => (P.idle?.pr || 0) >= 1 } },
+    { id: "frame_first", cat: "profile", slot: "frame", g: "Рамка аватара", t: "Первые игроки", price: null, promo: 1 },
+    { id: "title_first", cat: "profile", slot: "title", g: "Звание", t: "Первопроходец", price: null, promo: 1 },
     { id: "sound_retro", cat: "fx", slot: "sound", g: "Набор звуков", t: "Ретро-аркада", price: 40 },
     { id: "sound_live", cat: "fx", slot: "sound", g: "Набор звуков", t: "Живое казино", price: 40 },
     { id: "fx_fireworks", cat: "fx", slot: "fx", g: "Эффект выигрыша", t: "Фейерверк", price: 50 },
@@ -1124,6 +1281,9 @@ const E = (() => {
   ];
   const weekTitle = P => { const w = P.cos.wt; return w && w.until > NOW && WEEK_TITLES[w.place - 1] ? { ...WEEK_TITLES[w.place - 1], place: w.place } : null; };
   const FRIEND_BONUS = 5000;
+  // Партнёрка «как у блогеров»: пригласивший получает 10% чистого проигрыша друга (платит казино, не друг).
+  // Считается от самого глубокого минуса: отыгрался — новых процентов нет, пока не уйдёт ниже прежнего.
+  const REF_SHARE = 0.10, REF_SEND_STEP = 100, REF_SEND_MS = 20000;
 
   /* ---------- «Моё казино» ---------- */
   const IDLE_B = [
@@ -1261,6 +1421,81 @@ const E = (() => {
   const TW_ROWS = 8, TW_RTP = 0.90;
   const TW = { easy: { t: "Лёгкий", cols: 4, safe: 3 }, mid: { t: "Средний", cols: 3, safe: 2 }, hard: { t: "Сложный", cols: 2, safe: 1 }, hell: { t: "Безумный", cols: 3, safe: 1 } };
   const twMult = (lv, k) => Math.floor(TW_RTP * Math.pow(TW[lv].cols / TW[lv].safe, k) * 100) / 100;
+  /* ---------- «Кирка»: шахта 5×6, кирки падают сверху ---------- */
+  // Блоки: [прочность, выплата в ставках]. Кирки: число ударов. Отдача ≈ 96%, потолок 5000×.
+  const KR_COLS = 5, KR_ROWS = 6, KR_DROP = 3, KR_FS = 4, KR_MAX = 5000, KR_SCALE = 0.955;
+  const KR_BLK = { dirt: { t: "Земля", hp: 1, pay: 0 }, stone: { t: "Камень", hp: 2, pay: 0.2 }, coal: { t: "Уголь", hp: 3, pay: 0.75 },
+    ruby: { t: "Рубин", hp: 4, pay: 1.8 }, gold: { t: "Золото", hp: 5, pay: 5.5 }, dia: { t: "Алмаз", hp: 6, pay: 9 }, obs: { t: "Обсидиан", hp: 7, pay: 45 } };
+  const KR_ROWW = [
+    { dirt: 70, stone: 30 }, { dirt: 45, stone: 55 },
+    { stone: 50, coal: 30, ruby: 14, gold: 5, dia: 1 },
+    { stone: 40, coal: 30, ruby: 18, gold: 8, dia: 3, obs: 1 },
+    { stone: 30, coal: 28, ruby: 22, gold: 12, dia: 6, obs: 2 },
+    { stone: 22, coal: 25, ruby: 25, gold: 15, dia: 9, obs: 4 }];
+  const KR_SYM = { none: 6000, wood: 2000, stone: 1100, gold: 450, dia: 170, tnt: 320, book: 200, eye: 260 };
+  const KR_PICK = { wood: 1, stone: 2, gold: 3, dia: 5 };
+  const KR_CHEST = [[2, 50], [3, 25], [5, 15], [10, 8], [25, 2]];
+  const wPick = w => { const keys = Object.keys(w), t = keys.reduce((a, k) => a + w[k], 0); let r = rand(t); for (const k of keys) { if ((r -= w[k]) < 0) return k; } return keys[0]; };
+  function krGrid() { return Array.from({ length: KR_COLS }, () => Array.from({ length: KR_ROWS }, (_, r) => { const k = wPick(KR_ROWW[r]); return { k, hp: KR_BLK[k].hp }; })); }
+  // один спуск кирок: меняет поле g и сундуки ch; возвращает шаги для анимации
+  function krSpin(g, ch) {
+    const drop = Array.from({ length: KR_COLS }, () => Array.from({ length: KR_DROP }, () => wPick(KR_SYM)));
+    const orig = drop.map(c => c.slice()), steps = [];
+    let win = 0, eyes = 0;
+    const top = c => g[c].findIndex(b => b);
+    const brk = (c, r, out) => {
+      const b = g[c][r]; if (!b) return;
+      win += KR_BLK[b.k].pay; g[c][r] = null; out.push({ c, r, k: b.k, pay: KR_BLK[b.k].pay });
+      if (g[c].every(x => !x) && !ch[c]) { ch[c] = whPick(KR_CHEST); out.push({ c, chest: ch[c] }); }
+    };
+    for (let c = 0; c < KR_COLS; c++) {
+      const bi = drop[c].indexOf("book");
+      if (bi >= 0) { const up = []; for (let i = 0; i < KR_DROP; i++) if (KR_PICK[drop[c][i]] && drop[c][i] !== "dia") { drop[c][i] = "dia"; up.push(i); } steps.push({ c, i: bi, s: "book", up }); }
+      for (let i = 0; i < KR_DROP; i++) {
+        const s = drop[c][i];
+        if (s === "eye") { eyes++; steps.push({ c, i, s }); continue; }
+        if (s === "tnt") { const r = top(c), out = []; if (r >= 0) for (const cc of [c - 1, c, c + 1]) if (cc >= 0 && cc < KR_COLS) brk(cc, r, out); steps.push({ c, i, s, r, out }); continue; }
+        let h = KR_PICK[s] || 0; if (!h) continue;
+        const out = [];
+        while (h > 0) { const r = top(c); if (r < 0) break; g[c][r].hp--; h--; out.push({ c, r, hp: g[c][r].hp }); if (g[c][r].hp <= 0) brk(c, r, out); }
+        steps.push({ c, i, s, out });
+      }
+    }
+    return { drop: orig, steps, win: Math.round(win * 100) / 100, eyes };
+  }
+  const krMult = ch => ch.reduce((a, x) => a + (x || 0), 0) || 1;
+  /* ---------- «Пилот»: общий раунд для всех игроков ---------- */
+  // Раунд: приём ставок → полёт (множитель растёт) → падение → пауза. Точка падения: P(≥x) = 0,97/x → отдача 97%.
+  const PL_BET_MS = 7000, PL_PAUSE = 3000, PL_SPEED = 0.08, PL_RTP = 0.97, PL_GRACE = 400, PL_CAP = 10000;
+  const PL_AUTO_MAX = 1000;
+  const plPoint = u => Math.min(PL_CAP, Math.max(1, Math.floor(PL_RTP / (1 - u) * 100) / 100));
+  // следующий раунд после prev; u — случайное число 0…1 (на сервере — из секрета)
+  function plNext(prev, now, u) {
+    const start = Math.max(now, prev ? prev.crash + PL_PAUSE : 0), point = plPoint(u), fly = start + PL_BET_MS;
+    return { n: prev ? prev.n + 1 : 1, start, fly, crash: Math.round(fly + Math.log(point) / PL_SPEED * 1000), point };
+  }
+  const plPhase = (R, t) => t < R.fly ? "bet" : t < R.crash ? "fly" : t < R.crash + PL_PAUSE ? "end" : "next";
+  const plMult = (R, t) => Math.max(1, Math.exp(PL_SPEED * Math.max(0, t - R.fly) / 1000));
+  // что раунда можно показывать всем (точку — только после падения)
+  const plPublic = (R, t) => R && ({ n: R.n, start: R.start, fly: R.fly, ...(t >= R.crash ? { crash: R.crash, point: R.point } : {}) });
+  const plS = P => P.pilot || (P.pilot = { bets: [] });
+  // рассчитать ставки, чьи раунды уже закончились (автовывод или проигрыш)
+  function plSettle(P, ev) {
+    const pc = CTX.pilot; if (!pc || !P.pilot) return;
+    for (const b of P.pilot.bets) {
+      if (b.done) continue;
+      const R = pc.rounds?.[b.n] || (pc.cur && pc.cur.n === b.n ? pc.cur : null);
+      if (!R) continue;
+      if (!b.h && NOW >= R.fly) b.h = { ...roundStart(P, "pilot", b.bet, ev, true), t: R.fly }; // раунд состоялся
+      if (NOW < R.crash + PL_GRACE) continue;
+      const m = b.auto && b.auto < R.point ? b.auto : 0;
+      b.pay = m ? Math.floor(b.bet * m) : 0; b.cash = m; b.done = 1;
+      roundEnd(P, b.h, b.pay, ev, m || R.point);
+      (CTX.pilotLog = CTX.pilotLog || []).push({ n: b.n, slot: b.slot, cash: m, pay: b.pay });
+      if (m >= 20) achGive(P, "pilot_x20", ev);
+    }
+    P.pilot.bets = P.pilot.bets.filter(b => !b.done || NOW - b.t < 60000).slice(-8);
+  }
   const shuffle = a => { for (let i = a.length - 1; i > 0; i--) { const j = rand(i + 1); [a[i], a[j]] = [a[j], a[i]]; } return a; };
 
   /* ================= Игрок ================= */
@@ -1269,7 +1504,7 @@ const E = (() => {
     return {
       v: 1, created: now, rev: 0, name: "Игрок", code: "", adult: false,
       chips: START_CHIPS, stats: { maxChips: START_CHIPS, bigWin: 0 },
-      prog: { xp: 0, lvl: 1 }, streak: { last: "", n: 0 },
+      prog: { xp: 0, lvl: 1, v: 2 }, streak: { last: "", n: 0 },
       q: { day: "", list: [], c: {}, done: [], bonus: false }, wheelDay: "",
       rg: { day: 200, month: 1000, pend: null, remind: 60, pause: 0 },
       spent: { day: "", dayStars: 0, month: "", monthStars: 0 },
@@ -1284,10 +1519,13 @@ const E = (() => {
   }
   // дополняет старые записи новыми полями
   function fix(P) {
-    const d = newPlayer(NOW);
+    const d = newPlayer(NOW), xpV = P.prog ? P.prog.v : 2;
     for (const k in d) if (P[k] === undefined) P[k] = d[k];
     for (const k of ["stats", "prog", "streak", "rg", "spent", "lb", "cos"]) P[k] = { ...d[k], ...P[k] };
     P.ach = { got: P.ach.got || {}, c: { ...d.ach.c, ...(P.ach.c || {}) } };
+    // партнёрка для тех, кто играл до неё: старый минус не считается, проценты только с новых проигрышей
+    if (P.refBase === undefined) { P.refBase = P.refDone ? Math.max(0, -(P.lb.aNet || 0)) : 0; P.refMax = Math.max(P.refMax || 0, P.refBase); }
+    if (xpV !== 2) { P.prog.xp = Math.floor(Math.min(1, (P.prog.xp || 0) / xpNeedOld(P.prog.lvl)) * xpNeed(P.prog.lvl)); P.prog.v = 2; }
     return P;
   }
 
@@ -1333,16 +1571,20 @@ const E = (() => {
 
   /* ---------- раунд ---------- */
   function betOk(bet, max = MAX_BET) { bet = Math.round(+bet); if (!(bet >= MIN_BET && bet <= max)) fail(`Ставка от ${MIN_BET} до ${max.toLocaleString("ru-RU")}`); return bet; }
-  function roundStart(P, g, bet, ev) {
+  function canPlay(P, bet) {
     if (!P.adult) fail("Подтвердите возраст", 403);
     if (paused(P)) fail("Вы взяли паузу от игры", 403);
     if (P.chips < bet) fail("Недостаточно бемок", 402);
-    P.chips -= bet;
+  }
+  // charged — ставка уже списана раньше (ставка «Пилота» засчитывается при взлёте)
+  function roundStart(P, g, bet, ev, charged) {
+    if (!charged) { canPlay(P, bet); P.chips -= bet; }
     const c = P.ach.c; c.rounds++; if (!c.games.includes(g)) c.games.push(g);
     achGive(P, "first_round", ev);
     questsEnsure(P);
-    const q = P.q.c; q.rounds = (q.rounds || 0) + 1; q.games = q.games || []; if (!q.games.includes(g)) q.games.push(g); q["g:" + g] = (q["g:" + g] || 0) + 1;
-    addXP(P, xpFor(bet), ev);
+    // задания засчитывают только раунды со ставкой от Q_MIN_BET — иначе их «накручивают» минимальными ставками
+    if (bet >= Q_MIN_BET) { const q = P.q.c; q.rounds = (q.rounds || 0) + 1; q.games = q.games || []; if (!q.games.includes(g)) q.games.push(g); q["g:" + g] = (q["g:" + g] || 0) + 1; }
+    addXP(P, xpFor(bet, g), ev);
     if (P.refBy && !P.refDone) { P.refDone = true; P.chips += FRIEND_BONUS; ev.push({ t: "ref", r: FRIEND_BONUS }); CTX.refCredit = P.refBy; }
     return { g, bet, t: NOW };
   }
@@ -1351,9 +1593,8 @@ const E = (() => {
     const mm = bet ? (profit + bet) / bet : 0;
     [[10, "mult10"], [50, "mult50"], [100, "mult100"], [1000, "mult1000"]].forEach(([k, id]) => mm >= k && achGive(P, id, ev));
     if (profit >= 10000) achGive(P, "win10k", ev); if (profit >= 100000) achGive(P, "win100k", ev);
-    questsEnsure(P); const c = P.q.c;
-    c.wins = (c.wins || 0) + 1; c.profit = (c.profit || 0) + profit; c.mult = Math.max(c.mult || 0, mm);
-    addXP(P, Math.round(xpFor(bet) / 2), ev);
+    questsEnsure(P);
+    if (bet >= Q_MIN_BET) { const c = P.q.c; c.wins = (c.wins || 0) + 1; c.profit = (c.profit || 0) + profit; c.mult = Math.max(c.mult || 0, mm); }
   }
   function noteWin(P, profit, bet, ev) { if (profit > P.stats.bigWin) P.stats.bigWin = profit; if (profit > 0) onWin(P, profit, bet, ev); }
   // конец раунда: выплата, история, рейтинг, победа
@@ -1416,7 +1657,7 @@ const E = (() => {
     if (id === "__all") { if (!qAllDone(P) || P.q.bonus) fail("Сундук пока закрыт"); P.q.bonus = true; P.chips += Q_ALL_BONUS; return { r: Q_ALL_BONUS }; }
     if (!P.q.list.includes(id) || P.q.done.includes(id)) fail("Задание недоступно");
     const d = qDef(id); if (qProgress(P, id) < d.goal) fail("Задание ещё не выполнено");
-    P.q.done.push(id); P.chips += d.r; P.ach.c.quests++; addXP(P, 50, ev); if (qAllDone(P)) achGive(P, "quests_all", ev);
+    P.q.done.push(id); P.chips += d.r; P.ach.c.quests++; addXP(P, 200, ev); if (qAllDone(P)) achGive(P, "quests_all", ev);
     return { r: d.r };
   };
   A["ach.claim"] = (P, x, ev) => { if (!ACH_CLIENT.includes(x.id)) fail("Нельзя"); achGive(P, x.id, ev); return { ok: 1 }; };
@@ -1435,15 +1676,50 @@ const E = (() => {
   A["rg.pause"] = (P, x) => { const d = +x.days; if (![1, 7, 30].includes(d)) fail("Неверный срок"); P.rg.pause = Math.max(P.rg.pause || 0, NOW + d * H24); return { until: P.rg.pause }; };
 
   A["notes.seen"] = P => { P.notes = []; return { ok: 1 }; };
+  // забрать доход с приглашённых (сумму считает сервер по таблице партнёрки)
+  A["ref.collect"] = P => {
+    const n = Math.floor(CTX.refIn || 0); if (n <= 0) fail("Пока нечего забирать");
+    P.chips += n; P.refEarn = (P.refEarn || 0) + n; return { n, total: P.refEarn };
+  };
   // начать заново: покупки, лимиты и пауза сохраняются; не чаще раза в 30 дней
   A.reset = P => {
     if (P.g) fail("Сначала завершите текущую игру", 409);
     if (P.resetAt && NOW - P.resetAt < 30 * H24) fail("Начать заново можно раз в 30 дней", 429);
     const keep = { created: P.created, rev: P.rev, name: P.name, code: P.code, adult: P.adult, rg: P.rg, spent: P.spent, refs: P.refs, refBy: P.refBy, refDone: P.refDone, gifts: P.gifts,
+      refMax: P.refMax, refBase: P.refBase, refOwed: P.refOwed, refSent: P.refSent, refEarn: P.refEarn, promos: P.promos,
       cos: { owned: P.cos.owned, eq: P.cos.eq, vip: P.cos.vip, wt: P.cos.wt }, resetAt: NOW };
     for (const k of Object.keys(P)) delete P[k];
     Object.assign(P, newPlayer(NOW), keep);
     return { ok: 1 };
+  };
+
+  /* промокоды: что даёт код. Запись «5000+vip3+frame_first» — бемки, дни VIP, предметы */
+  const PROMO_MAX_CHIPS = 100000, PROMO_MAX_VIP = 30;
+  function promoParse(spec) {
+    const out = [];
+    for (const part of String(spec || "").toLowerCase().split("+").map(x => x.trim()).filter(Boolean)) {
+      if (/^\d+$/.test(part)) { const n = +part; if (!(n >= 1 && n <= PROMO_MAX_CHIPS)) return null; out.push({ k: "chips", n }); }
+      else if (/^vip\d+$/.test(part)) { const n = +part.slice(3); if (!(n >= 1 && n <= PROMO_MAX_VIP)) return null; out.push({ k: "vip", n }); }
+      else if (cosItem(part)) out.push({ k: "item", id: part });
+      else return null;
+    }
+    return out.length ? out : null;
+  }
+  const dayWord = n => n % 10 === 1 && n % 100 !== 11 ? "день" : n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20) ? "дня" : "дней";
+  const promoText = rw => rw.map(r => r.k === "chips" ? `${r.n.toLocaleString("ru-RU")} бемок` : r.k === "vip" ? `VIP на ${r.n} ${dayWord(r.n)}` : `${cosItem(r.id).g.toLowerCase()} «${cosItem(r.id).t}»`).join(" + ");
+  // начислить награду кода; сам код (лимиты, повторы) проверяет сервер, условия игрока — здесь
+  A["promo.apply"] = (P, x, ev) => {
+    const pr = CTX.promo; if (!pr) fail("Промокоды работают в Telegram", 403);
+    if (pr.minRounds && P.ach.c.rounds < pr.minRounds) fail(`Код станет доступен после ${pr.minRounds} сыгранных раундов`);
+    if (pr.onlyNew && P.created < pr.created) fail("Этот код — только для новых игроков");
+    const rw = promoParse(pr.reward); if (!rw) fail("Код повреждён — напишите в поддержку");
+    for (const r of rw) {
+      if (r.k === "chips") P.chips += r.n;
+      else if (r.k === "vip") P.cos.vip = Math.max(NOW, P.cos.vip || 0) + r.n * 864e5;
+      else { const it = cosItem(r.id); if (!P.cos.owned.includes(r.id)) P.cos.owned.push(r.id); if (!P.cos.eq[it.slot]) P.cos.eq[it.slot] = r.id; }
+    }
+    P.promos = [...(P.promos || []), { code: pr.code, at: NOW }].slice(-30);
+    return { code: pr.code, rewards: rw, text: promoText(rw), chips: rw.filter(r => r.k === "chips").reduce((a, r) => a + r.n, 0) };
   };
 
   /* косметика: надеть / снять */
@@ -1710,6 +1986,87 @@ const E = (() => {
   };
   A["tower.cash"] = (P, x, ev) => { const g = needG(P, "tower"); if (!g.row) fail("Выберите плитку"); return twCash(P, g, ev); };
 
+  /* пилот */
+  A["pilot.bet"] = (P, x, ev) => {
+    const R = CTX.pilot?.cur; if (!R) fail("Раунд ещё не готов, подождите секунду");
+    const slot = x.slot === 1 ? 1 : 0, bet = betOk(x.bet);
+    const auto = x.auto ? Math.floor(+x.auto * 100) / 100 : 0;
+    if (auto && !(auto >= 1.01 && auto <= PL_AUTO_MAX)) fail(`Автовывод от 1.01× до ${PL_AUTO_MAX}×`);
+    const n = NOW < R.fly - 300 ? R.n : R.n + 1; // во время полёта — ставка на следующий раунд
+    const S2 = plS(P);
+    if (S2.bets.some(b => b.n === n && b.slot === slot)) fail("Эта ставка уже сделана");
+    if (S2.bets.filter(b => !b.done).length >= 4) fail("Слишком много ставок");
+    canPlay(P, bet); P.chips -= bet;
+    S2.bets.push({ n, slot, bet, auto, h: null, cash: 0, pay: 0, done: 0, t: NOW });
+    (CTX.pilotLog = CTX.pilotLog || []).push({ n, slot, bet, auto, op: "bet" });
+    return { n, slot, bet, auto, next: n !== R.n };
+  };
+  A["pilot.cash"] = (P, x, ev) => {
+    const R = CTX.pilot?.cur, slot = x.slot === 1 ? 1 : 0;
+    const b = R && plS(P).bets.find(y => y.n === R.n && y.slot === slot);
+    if (!b) fail("Ставки в этом раунде нет");
+    if (b.done) return { slot, n: b.n, cash: b.cash, pay: b.pay, late: !b.cash };
+    if (NOW < R.fly || !b.h) fail("Самолёт ещё не взлетел");
+    let claim = Math.floor(+x.m * 100) / 100; const mNow = plMult(R, NOW);
+    if (!(claim >= 1) || claim > mNow * 1.02 + 0.01) fail("Неверный множитель");
+    if (b.auto && claim > b.auto) claim = b.auto;
+    b.done = 1;
+    // опоздали к падению, но стоял автовывод ниже точки — он и срабатывает
+    if (NOW > R.crash + PL_GRACE && b.auto && b.auto < R.point) claim = b.auto;
+    else if (NOW > R.crash + PL_GRACE || claim >= R.point) { b.pay = 0; roundEnd(P, b.h, 0, ev, R.point); (CTX.pilotLog = CTX.pilotLog || []).push({ n: b.n, slot, cash: 0, pay: 0 }); return { slot, n: b.n, cash: 0, pay: 0, late: 1 }; }
+    b.cash = claim; b.pay = Math.floor(b.bet * claim);
+    roundEnd(P, b.h, b.pay, ev, claim);
+    if (claim >= 20) achGive(P, "pilot_x20", ev);
+    const both = plS(P).bets.filter(y => y.n === R.n && y.cash > 1);
+    if (both.length === 2) achGive(P, "pilot_double", ev);
+    (CTX.pilotLog = CTX.pilotLog || []).push({ n: b.n, slot, cash: claim, pay: b.pay });
+    return { slot, n: b.n, cash: claim, pay: b.pay };
+  };
+  // снять ставку, пока раунд не начался (на следующий раунд — тоже)
+  A["pilot.cancel"] = (P, x, ev) => {
+    const R = CTX.pilot?.cur, slot = x.slot === 1 ? 1 : 0, S2 = plS(P);
+    const b = R && S2.bets.find(y => !y.done && y.slot === slot && (y.n > R.n || (y.n === R.n && NOW < R.fly - 300)));
+    if (!b) fail("Раунд уже начался — снять ставку нельзя");
+    // раунд для этой ставки ещё не засчитан — просто возвращаем бемки
+    P.chips += b.bet; S2.bets = S2.bets.filter(y => y !== b);
+    (CTX.pilotLog = CTX.pilotLog || []).push({ n: b.n, slot, op: "del" });
+    return { slot, refund: b.bet };
+  };
+  A["pilot.sync"] = () => ({ ok: 1 });
+
+  /* кирка */
+  A["kirka.spin"] = (P, x, ev) => {
+    const G = P.g && P.g.k === "kirka" ? P.g : null;
+    if (P.g && !G) needFree(P, "kirka");
+    if (!G) {
+      const bet = betOk(x.bet), h = roundStart(P, "kirka", bet, ev);
+      const grid = krGrid(), start = JSON.parse(JSON.stringify(grid)), ch = [];
+      const sp = krSpin(grid, ch), mult = krMult(ch);
+      if (ch.some(Boolean)) achGive(P, "kirka_chest", ev);
+      let pay = Math.floor(Math.min(sp.win * mult * KR_SCALE, KR_MAX) * bet);
+      if (sp.eyes >= 3) {
+        achGive(P, "kirka_bonus", ev);
+        P.chips += pay;
+        P.g = { k: "kirka", bet, h, left: KR_FS, grid: krGrid(), ch: [], total: pay };
+        return { start, ...sp, chests: ch, mult, paid: pay, bet, fs: 0, left: KR_FS, total: pay, next: P.g.grid };
+      }
+      roundEnd(P, h, pay, ev, sp.win * mult * KR_SCALE);
+      return { start, ...sp, chests: ch, mult, paid: pay, pay, bet, left: 0 };
+    }
+    // бесплатные спуски: поле и открытые сундуки сохраняются
+    const start = JSON.parse(JSON.stringify(G.grid));
+    const had = G.ch.filter(Boolean).length, sp = krSpin(G.grid, G.ch), mult = krMult(G.ch);
+    if (G.ch.filter(Boolean).length > had) achGive(P, "kirka_chest", ev);
+    let paid = Math.floor(sp.win * mult * KR_SCALE * G.bet);
+    paid = Math.max(0, Math.min(paid, KR_MAX * G.bet - G.total));
+    G.total += paid; P.chips += paid; G.left--;
+    let extra = 0; if (sp.eyes >= 3) { G.left += 2; extra = 2; }
+    if (G.total >= KR_MAX * G.bet) G.left = 0;
+    const out = { start, ...sp, chests: G.ch.slice(), mult, paid, bet: G.bet, fs: 1, left: G.left, total: G.total, extra };
+    if (G.left <= 0) { P.chips -= G.total; roundEnd(P, G.h, G.total, ev); P.g = null; out.end = 1; }
+    return out;
+  };
+
   /* ---------- покупки (сервер вызывает после оплаты, демо — сразу) ---------- */
   // описание товара: { stars, title, description }
   function product(kind, id) {
@@ -1754,10 +2111,16 @@ const E = (() => {
     const fn = A[a]; if (!fn) fail("Неизвестное действие", 404);
     const ev = [];
     if (P.cos.wt && P.cos.wt.until <= NOW) P.cos.wt = null;
-    crashSettle(P, ev);
+    crashSettle(P, ev); plSettle(P, ev);
     questsEnsure(P); lbRoll(P); idleAccrue(P); rgLimits(P); spentRoll(P);
     const I = idleS(P); if (!I.hrAt || NOW > I.hrAt + HR_WINDOW) I.hrAt = hrNext();
     const r = fn(P, x, ev);
+    // партнёрка: сколько казино должно пригласившему (10% от самого глубокого чистого минуса)
+    if (P.refBy && P.refDone) {
+      const loss = Math.max(0, -(P.lb.aNet || 0)); if (loss > (P.refMax || 0)) P.refMax = loss;
+      const owed = Math.floor(Math.max(0, (P.refMax || 0) - (P.refBase || 0)) * REF_SHARE); P.refOwed = owed;
+      if (owed > (P.refSent || 0) && (owed - (P.refSent || 0) >= REF_SEND_STEP || NOW - (P.refSentAt || 0) >= REF_SEND_MS || a === "state")) { CTX.refOwed = owed; P.refSent = owed; P.refSentAt = NOW; }
+    }
     if (P.chips > P.stats.maxChips) P.stats.maxChips = P.chips;
     P.chips = Math.max(0, Math.floor(P.chips));
     P.rev = (P.rev || 0) + 1;
@@ -1775,6 +2138,7 @@ const E = (() => {
       else if (g.k === "tower") v.g = { k: "tower", bet: g.bet, lv: g.lv, row: g.row, picks: g.picks };
       else if (g.k === "reef") v.g = { k: "reef", bet: g.bet, free: g.free, acc: g.acc, bonusWin: g.bonusWin };
       else if (g.k === "wheel") v.g = { k: "wheel", stake: g.stake, bet: g.total };
+      else if (g.k === "kirka") v.g = { k: "kirka", bet: g.bet, left: g.left, total: g.total, grid: g.grid, ch: g.ch };
     }
     v.now = NOW;
     return v;
@@ -1790,18 +2154,20 @@ const E = (() => {
   return {
     act, view, pub, newPlayer, fix, setNow, product, grant, revoke, canSpend, spend, crashWait, isoWeek, weekEnd, today, dayOf,
     START_CHIPS, MIN_BET, MAX_BET, MAX_TABLE, PACKS, DAY_LIMIT_STARS, MONTH_LIMIT_STARS, RG_DAY, RG_MONTH, RG_REMIND, H24, GAME_NAMES, STATEFUL,
-    xpNeed, xpFor, levelReward, levelTitle, Q_A, Q_B, Q_ALL_BONUS, qDef, qProgress, qAllDone, STREAK, FW, streakNext, dailyAmount, rgLimits,
-    ACH, ACH_CLIENT, COS, BUNDLES, VIP_PRICE, VIP_DAYS, cosItem, vipOn, owns, eqd, WEEK_TITLES, weekTitle, FRIEND_BONUS,
+    promoParse, promoText, xpNeed, xpFor, levelReward, GAME_EDGE, XP_K, XP_BACK, Q_MIN_BET, levelTitle, Q_A, Q_B, Q_ALL_BONUS, qDef, qProgress, qAllDone, STREAK, FW, streakNext, dailyAmount, rgLimits,
+    ACH, ACH_CLIENT, COS, BUNDLES, VIP_PRICE, VIP_DAYS, cosItem, vipOn, owns, eqd, WEEK_TITLES, weekTitle, FRIEND_BONUS, REF_SHARE,
     IDLE_B, IDLE_MS, IDLE_SOFT, SAFE, GLOVE_COST, PRESTIGE_AT, bLevel, bCost, bRate, idleRate, idleGain, safeCap, tapValue,
     SYMS, WHEEL, REDS, colorOf, OUT, SUITS, RANKS, score, CRASH_RTP, CRASH_SPEED, AUTOS, ROAD, ROAD_RTP, roadMult, MINES_RTP, MINE_OPTS, minesMult,
     P_ROWS, P_RISK, RF_COLS, RF_ROWS, RF_SYMS, RF_SCAT, RF_SCAT_PAY, RF_PAY_SCALE, rfNew, rfIdx, rfPlay, SC_PRIZES, JP_SEED, JP_RATE, JP_ODDS,
-    WH_TYPES, WH_T, WH_SEGS, WH_COIN, WH_CHEST, WH_SUPER, TW_ROWS, TW_RTP, TW, twMult
+    WH_TYPES, WH_T, WH_SEGS, WH_COIN, WH_CHEST, WH_SUPER, TW_ROWS, TW_RTP, TW, twMult,
+    KR_COLS, KR_ROWS, KR_DROP, KR_FS, KR_MAX, KR_SCALE, KR_BLK, KR_PICK, KR_CHEST, krGrid,
+    PL_BET_MS, PL_PAUSE, PL_SPEED, PL_RTP, PL_GRACE, PL_AUTO_MAX, plPoint, plNext, plPhase, plMult, plPublic
   };
 })();
 /* ENGINE:END */
 
 const { START_CHIPS, PACKS, DAY_LIMIT_STARS, MONTH_LIMIT_STARS, MIN_BET, MAX_BET, MAX_TABLE, GAME_NAMES, xpNeed, xpFor, levelReward, levelTitle, Q_ALL_BONUS, STREAK, FW,
-  ACH, BUNDLES, VIP_PRICE, VIP_DAYS, WEEK_TITLES, FRIEND_BONUS, IDLE_MS, SAFE, GLOVE_COST, PRESTIGE_AT, SYMS, WHEEL, REDS, colorOf, OUT, SUITS, RANKS, score,
+  ACH, BUNDLES, VIP_PRICE, VIP_DAYS, WEEK_TITLES, FRIEND_BONUS, REF_SHARE, IDLE_MS, SAFE, GLOVE_COST, PRESTIGE_AT, SYMS, WHEEL, REDS, colorOf, OUT, SUITS, RANKS, score,
   CRASH_SPEED, AUTOS, ROAD, roadMult, MINE_OPTS, minesMult, P_ROWS, P_RISK, RF_COLS, RF_ROWS, RF_SYMS, RF_SCAT, RF_SCAT_PAY, RF_PAY_SCALE, rfIdx, SC_PRIZES, JP_SEED,
   WH_TYPES, WH_T, WH_SEGS, TW_ROWS, TW, twMult, RG_DAY, RG_MONTH, RG_REMIND, H24 } = E;
 
@@ -1846,10 +2212,30 @@ const Local = {
     }
     return E.fix(P);
   },
+  // «Пилот» в демо: раунды идут на устройстве, других игроков нет
+  rounds: null,
+  plCur() {
+    const now = Date.now(), L = this.rounds || (this.rounds = store.get("plRounds", []));
+    let last = L[L.length - 1];
+    if (!last || now >= last.crash + E.PL_PAUSE) { last = E.plNext(last, now, Math.random()); L.push(last); while (L.length > 30) L.shift(); store.set("plRounds", L); }
+    return last;
+  },
+  async plView(x) {
+    let R = this.plCur(); const wait = Number(x.wait || 0);
+    if (wait && R.n === wait) { const ms = R.crash + E.PL_GRACE - Date.now(); if (ms > 0) await sleep(Math.min(ms + 30, 20000)); R = this.plCur(); }
+    const now = Date.now(), L = this.rounds, show = wait && R.n !== wait ? wait : R.n;
+    const P = this.P || (this.P = this.load());
+    const bets = (P.pilot?.bets || []).filter(b => b.n === show).map(b => ({ me: true, slot: b.slot, name: P.name || "Вы", bet: b.bet, cash: b.cash, pay: b.pay }));
+    const prev = show !== R.n ? L.find(r => r.n === show) : null;
+    return { now, cur: E.plPublic(R, now), prev: prev && E.plPublic(prev, now), hist: L.filter(r => r.crash <= now).map(r => r.point).reverse().slice(0, 24), bets, count: bets.length, sum: bets.reduce((a, b) => a + b.bet, 0), top: x.top ? [] : undefined };
+  },
   async act(a, x) {
     const P = this.P || (this.P = this.load());
     if (a === "crash.watch") { E.setNow(Date.now()); const w = E.crashWait(P); if (w > 0) await sleep(Math.min(w + 30, 20000)); }
     const ctx = { now: Date.now(), rand, jp: { v: store.get("jp", JP_SEED) }, demo: true };
+    if (a.startsWith("pilot.") || (P.pilot?.bets || []).some(b => !b.done)) {
+      const cur = this.plCur(), rounds = {}; (this.rounds || []).forEach(r => { rounds[r.n] = r; }); ctx.pilot = { cur, rounds };
+    }
     const snap = JSON.stringify(P);
     let out;
     try { out = E.act(P, a, JSON.parse(JSON.stringify(x || {})), ctx); }
@@ -1863,8 +2249,26 @@ async function post(path, body) {
   try {
     const r = await fetch(API_BASE.replace(/\/$/, "") + path, { method: "POST", headers: { "Content-Type": "application/json", "X-Init-Data": TG.initData }, body: JSON.stringify(body) });
     const j = await r.json().catch(() => null);
+    if (j && j.ver) updCheck(j.ver);
     return j || { error: "Сервер не ответил, попробуйте ещё раз" };
   } catch (e) { return { error: "Нет связи с сервером. Проверьте интернет." }; }
+}
+// новая версия на сервере: в лобби перезагружаемся сразу, в игре — плашка «Обновить» (раунд не перебиваем)
+let UPD = 0;
+const updTried = v => { try { return sessionStorage.getItem("ludka-upd") === String(v); } catch (e) { return false; } };
+function updGo() {
+  try { sessionStorage.setItem("ludka-upd", String(UPD)); } catch (e) {}
+  const u = new URL(location.href); u.searchParams.set("v", UPD); location.replace(u.toString());
+}
+function updCheck(v) {
+  if (!APP_VER || !(v > APP_VER) || UPD >= v) return;
+  UPD = v;
+  if (updTried(v)) return; // уже перезагружались ради этой версии — новая страница ещё не доехала, не зацикливаемся
+  const busy = S.g || (S.pilot?.bets || []).some(b => !b.done);
+  if (!busy && document.querySelector(".lb-head, .splash")) return setTimeout(updGo, 300);
+  const b = document.createElement("div"); b.className = "updbar"; b.setAttribute("role", "status");
+  b.innerHTML = `<span>Вышло обновление игры</span><button class="btn gold" type="button">Обновить</button>`;
+  b.querySelector("button").onclick = updGo; document.body.appendChild(b);
 }
 // одно действие игрока: ответ { r, ev, p }; adj(res) — поправка показа баланса до перерисовки
 async function api(a, x = {}, adj) {
@@ -2024,6 +2428,8 @@ function canBet(amount, back) { if (shown() >= amount) return true; lowChips(bac
 /* ================= Иконки (золотые линии) ================= */
 const IC = (d, w = 1.4) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
 const ICON = {
+  pilot: IC('<path d="M3 15.5l5.5-1.5 7-8.5c1-1.2 2.8-1.4 3.8-.4s.8 2.8-.4 3.8l-8.5 7-1.5 5.5-2-1.5.5-4-4 .5z"/><path d="M3 20.5c3.5-1 7.5-1 11 0"/>'),
+  kirka: IC('<path d="M4 7c4-4 12-4 16 0-4-1.5-12-1.5-16 0z"/><path d="M12 5.5l-1 15.5h2z"/>'),
   slots: IC('<rect x="3" y="5" width="18" height="14" rx="1.5"/><path d="M9 5v14M15 5v14M5.5 12h1.5M11.2 12h1.6M17 12h1.5"/>'),
   reef: IC('<path d="M12 20c-5 0-8-3.5-8-8 3 1 5 0 8-6 3 6 5 7 8 6 0 4.5-3 8-8 8z"/><path d="M12 6v14M8 9.5l4 10.5M16 9.5l-4 10.5"/>'),
   roul: IC('<circle cx="12" cy="12" r="9.5"/><circle cx="12" cy="12" r="5.5"/><circle cx="12" cy="12" r="1.3" fill="currentColor"/><path d="M12 2.5v4M12 17.5v4M2.5 12h4M17.5 12h4"/>'),
@@ -2045,9 +2451,12 @@ const ICON = {
 
 /* ================= Лобби ================= */
 function renderLobby() {
+  if (UPD && !updTried(UPD) && !(S.pilot?.bets || []).some(b => !b.done)) return updGo();
   if (S.rg.pause > nowS()) return renderPause();
   idleTabShow(true); idleDock();
   const TABLES = [
+    { k: "pilot", cat: "fast", cls: "t-pilot", deco: ICON.pilot, h: "Пилот", p: "Общий раунд для всех: две ставки, заберите до того, как улетит", fn: renderPilot },
+    { k: "kirka", cat: "slots", cls: "t-kirka", deco: ICON.kirka, h: "Кирка", p: "Кирки ломают шахту, сундуки на дне умножают выигрыш", fn: renderKirka },
     { k: "slots", cat: "slots", cls: "t-slots", deco: ICON.slots, h: "Neon 777", p: "Слоты · ставка от 10", fn: renderSlots },
     { k: "reef", cat: "slots", cls: "t-reef", deco: ICON.reef, h: "Сокровища рифа", p: "Каскады, бонус и жемчужины до ×100", fn: renderReef },
     { k: "roul", cat: "table", cls: "t-roul", deco: ICON.roul, h: "Рулетка", p: "Европейская, один зеро", fn: renderRoulette },
@@ -2060,7 +2469,7 @@ function renderLobby() {
     { k: "tower", cat: "fast", cls: "t-tower", deco: ICON.tower, h: "Ледяная башня", p: "Поднимайтесь по этажам, обходя ловушки", fn: renderTower },
     { k: "scratch", cat: "fast", cls: "t-scratch", deco: ICON.scratch, h: "Золотой билет", p: "Сотрите слой и найдите три одинаковые суммы", fn: renderScratch }
   ];
-  const POPULAR = ["crash", "reef", "mines"];
+  const POPULAR = ["pilot", "kirka", "mines"];
   const TABS = [["all", "Все"], ...(S.fav.length ? [["fav", "★"]] : []), ["slots", "Слоты"], ["table", "Настольные"], ["fast", "Быстрые"]];
   if (S.tab === "fav" && !S.fav.length) S.tab = "all";
   const qReady = S.q.list.filter(id => !S.q.done.includes(id) && qProgress(id) >= qDef(id).goal).length + (qAllDone() && !S.q.bonus ? 1 : 0);
@@ -2076,7 +2485,7 @@ function renderLobby() {
     <div class="brand"><b>Лудка</b><span>18+ · игра на бемки</span></div>
     <div class="lb-head">
       <button class="avatar ${skinCls("frame")}${vipOn() ? " vip" : ""}" id="prof" aria-label="Профиль">${esc(playerName().slice(0, 1).toUpperCase())}<span class="lvbadge">${lv}</span>${vipOn() ? `<span class="vipbadge">VIP</span>` : ""}</button>
-      <div class="lb-who"><b class="${skinCls("name")}">${esc(playerName())}</b><span>${weekTitle() ? weekTitle().i + " " + weekTitle().t : playerTitle(lv)} · ${S.prog.xp}/${need} XP</span><div class="xpbar"><i style="width:${pct}%"></i></div></div>
+      <div class="lb-who"><b class="${skinCls("name")}">${esc(playerName())}</b><span>${weekTitle() ? weekTitle().i + " " + weekTitle().t : playerTitle(lv)} · ${fmt(S.prog.xp)}/${fmt(need)} XP</span><div class="xpbar"><i style="width:${pct}%"></i></div></div>
       ${balHTML()}
     </div>
     <div class="jp-banner"><span>Джекпот слотов</span><b data-jp>${fmt(Math.floor(S.jp))}</b><small>растёт с каждой ставкой в слотах</small></div>
@@ -2126,7 +2535,7 @@ function popToast(text) {
 }
 /* задания */
 function questsModal() {
-  modal(`<h2>Задания дня</h2><p>Новые задания каждый день. За все три — дополнительный сундук.</p>
+  modal(`<h2>Задания дня</h2><p>Новые задания каждый день. За все три — дополнительный сундук. Засчитываются раунды со ставкой от ${E.Q_MIN_BET} ${bem(E.Q_MIN_BET)}.</p>
     <div class="qlist">${S.q.list.map(id => { const d = qDef(id), v = Math.min(d.goal, qProgress(id)), done = S.q.done.includes(id), ready = !done && v >= d.goal;
       return `<div class="quest${done ? " done" : ""}"><div class="qt"><b>${esc(d.t)}</b><span>${done ? "Получено" : `${d.k === "mult" ? (v >= d.goal ? "готово" : "ещё нет") : fmt(v) + " / " + fmt(d.goal)}`}</span></div>
         <div class="qbar"><i style="width:${Math.round(v / d.goal * 100)}%"></i></div>
@@ -2186,23 +2595,56 @@ function profileModal() {
   modal(`<h2>Профиль</h2>${publicCardHTML(myPublic())}<p class="fine">Так вас видят другие игроки. <button class="linkbtn" id="decor2">Украсить</button></p>
     <p>${levelTitle(lv)} · уровень ${lv}</p>
     <div class="xpbar big"><i style="width:${Math.round(S.prog.xp / xpNeed(lv) * 100)}%"></i></div>
-    <p class="fine">${S.prog.xp} / ${xpNeed(lv)} XP · следующий уровень даст +${fmt(levelReward(lv + 1))} ${bem(levelReward(lv + 1))}</p>
+    <p class="fine">${fmt(S.prog.xp)} / ${fmt(xpNeed(lv))} XP · следующий уровень даст +${fmt(levelReward(lv + 1))} ${bem(levelReward(lv + 1))}</p>
     <div class="row2"><div class="tile"><b>${fmt(S.stats.maxChips)}</b><span>Рекорд баланса</span></div><div class="tile"><b>${fmt(S.stats.bigWin)}</b><span>Крупнейший выигрыш</span></div></div>
     <div class="row2"><div class="tile"><b>${S.streak.n || 0}</b><span>Серия дней</span></div><div class="tile"><b>${fmt(S.chips)}</b><span>Баланс</span></div></div>
     <div class="row2"><button class="tile tog" id="tsnd" aria-pressed="${S.sound}"><b>${S.sound ? "🔊 Звук вкл." : "🔇 Звук выкл."}</b><span>Эффекты в играх</span></button><button class="tile tog" id="tvib" aria-pressed="${S.vib}"><b>${S.vib ? "📳 Вибрация вкл." : "📴 Вибрация выкл."}</b><span>В Telegram</span></button></div>
     <button class="btn gold" id="achbtn">🏆 Достижения · ${Object.keys(S.ach.got).length} из ${ACH.length}</button>
     <button class="btn ghost" id="histbtn">🕘 История игр</button>
+    <button class="btn ghost" id="promobtn">🎟️ Ввести промокод</button>
     <button class="btn ghost" id="rgbtn">🛡️ Ответственная игра</button>
-    <p class="fine">Опыт за раунд зависит от ставки: 10 при ставке 10, 20 при 100, 30 при 1 000. За выигрыш — ещё половина, за задание — 50.</p>
+    <p class="fine">Опыт зависит от ставки и игры: 10 XP за каждую бемку, которую игра в среднем оставляет себе. Мелкие ставки дают мало опыта, крупные — много. Награда за уровень — возврат примерно 40% потраченного на него. Задание дня — ещё 200 XP.</p>
     <button class="btn ghost" id="close">Закрыть</button>`, (m, close) => {
     m.querySelector("#close").onclick = close;
     m.querySelector("#rgbtn").onclick = () => { close(); rgModal(); };
     m.querySelector("#decor2").onclick = () => { close(); renderStore("profile"); };
     m.querySelector("#achbtn").onclick = () => { close(); achModal(); };
     m.querySelector("#histbtn").onclick = () => { close(); histModal(); };
+    m.querySelector("#promobtn").onclick = () => { close(); promoModal(); };
     m.querySelector("#tsnd").onclick = () => { S.sound = !S.sound; store.set("sound", S.sound); close(); profileModal(); };
     m.querySelector("#tvib").onclick = () => { S.vib = !S.vib; store.set("vib", S.vib); close(); profileModal(); };
   });
+}
+
+/* ================= Промокоды ================= */
+// Коды создаёт админ в боте (/promo add). Проверка — на сервере: один код один раз на аккаунт.
+function promoModal(prefill = "") {
+  modal(`<h2>🎟️ Промокод</h2><p>Коды раздаём в канале игры, у блогеров и по праздникам. Один код можно ввести один раз.</p>
+    <label class="fine" for="pcode">Код</label>
+    <input class="sup-ta betin pcode" id="pcode" maxlength="24" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="Например, START" value="${esc(prefill)}">
+    <p class="fine" id="pmsg" role="status"></p>
+    <button class="btn gold" id="pok">Активировать</button><button class="btn ghost" id="close">Закрыть</button>`, (m, close) => {
+    const inp = m.querySelector("#pcode"), msg = m.querySelector("#pmsg"), ok = m.querySelector("#pok");
+    setTimeout(() => inp.focus(), 50);
+    m.querySelector("#close").onclick = close;
+    const go = async () => {
+      const code = inp.value.trim().toUpperCase().replace(/\s+/g, "");
+      if (code.length < 3) { msg.textContent = "Введите код"; return inp.focus(); }
+      if (!LIVE) { msg.textContent = "Промокоды работают, когда игра открыта в Telegram."; return; }
+      ok.disabled = true; msg.textContent = "Проверяем…";
+      try { const res = await api("promo.redeem", { code }); close(); promoDone(res); }
+      catch (e) { msg.textContent = e.message; ok.disabled = false; sfx.lose(); }
+    };
+    ok.onclick = go; inp.onkeydown = e => { if (e.key === "Enter") go(); };
+  });
+}
+function promoDone(res) {
+  const r = res.r; sfx.big(); [0, 1, 2, 3].forEach(i => setTimeout(sfx.coin, 300 + i * 160)); winFx(40); showEv(res.ev);
+  try { TG?.HapticFeedback?.notificationOccurred("success"); } catch (e) {}
+  modal(`<div class="promo-done"><div class="pd-ico" aria-hidden="true">🎁</div><small>Промокод ${esc(r.code)}</small><h2>Активирован!</h2>
+    <div class="pd-list">${r.rewards.map(x => `<div>${x.k === "chips" ? `<span class="chipicon" aria-hidden="true"></span><b>+${fmt(x.n)}</b> ${bem(x.n)}` : x.k === "vip" ? `<b>VIP</b> на ${x.n} дн.` : `<span class="pd-prev">${cosItem(x.id)?.prev || ""}</span><b>${esc(cosItem(x.id)?.t || x.id)}</b>`}</div>`).join("")}</div>
+    ${r.rewards.some(x => x.k === "item") ? `<p class="fine">Предмет уже надет, если слот был свободен. Сменить — в Магазине → Профиль.</p>` : ""}</div>
+    <button class="btn gold" id="close">Забрать</button>`, (m, close) => m.querySelector("#close").onclick = () => { close(); if (app.querySelector(".lb-head")) renderLobby(); });
 }
 
 /* ================= Ответственная игра ================= */
@@ -2303,7 +2745,7 @@ const FAQ = [
   ["Игры честные?", "Да. Результат каждого раунда определяет сервер игры криптографическим генератором случайных чисел — на исход нельзя повлиять ни с телефона, ни «подкрутить» под игрока. Отдача каждой игры указана в разделе «Честность игр»."],
   ["Можно ли вернуть покупку?", "Напишите в поддержку с описанием проблемы — разберёмся с каждым случаем."]
 ];
-const GAME_RTP = [["Neon 777", "97,6%"], ["Сокровища рифа", "≈90%"], ["Рулетка", "97,3%"], ["Таверна «21»", "≈99% при верной стратегии"], ["Колесо удачи", "≈90%"],
+const GAME_RTP = [["Пилот", "97%"], ["Кирка", "≈96%"], ["Neon 777", "97,6%"], ["Сокровища рифа", "≈90%"], ["Рулетка", "97,3%"], ["Таверна «21»", "≈99% при верной стратегии"], ["Колесо удачи", "≈90%"],
   ["Самолётик", "90%"], ["Минное поле", "90%"], ["Звездопад", "≈90%"], ["Через дорогу", "90%"], ["Ледяная башня", "90%"], ["Золотой билет", "90%"]];
 function openLink(u) { try { const tg = window.Telegram?.WebApp; if (tg?.openLink && tg.initData) return tg.openLink(u); } catch (e) {} window.open(u, "_blank", "noopener"); }
 function openTg(username) { const u = "https://t.me/" + username; try { const tg = window.Telegram?.WebApp; if (tg?.openTelegramLink && tg.initData) return tg.openTelegramLink(u); } catch (e) {} window.open(u, "_blank", "noopener"); }
@@ -2421,7 +2863,7 @@ function achModal() {
 }
 
 /* ================= История игр ================= */
-const GAME_ICON = { slots: "🎰", reef: "🐙", roul: "🎡", bj: "🃏", wheel: "🎪", crash: "✈️", mines: "💎", plinko: "☄️", road: "🐔", tower: "🏔️", scratch: "🎟️" };
+const GAME_ICON = { pilot: "🛩️", kirka: "⛏️", slots: "🎰", reef: "🐙", roul: "🎡", bj: "🃏", wheel: "🎪", crash: "✈️", mines: "💎", plinko: "☄️", road: "🐔", tower: "🏔️", scratch: "🎟️" };
 const HIST_MAX = 50;
 function histModal(filter = "all") {
   const day0 = new Date(); day0.setHours(0, 0, 0, 0);
@@ -2469,6 +2911,8 @@ function bigWin(amount, mult) {
 // Косметика не влияет на шансы и выплаты — только на внешний вид и звук.
 const GOLD_PLANE = `<svg viewBox="0 0 46 34" width="46" height="34" aria-hidden="true"><path d="M2 18 L44 3 L18 22 Z" fill="#f5dfa8"/><path d="M18 22 L44 3 L24 32 Z" fill="#c9962e"/><path d="M18 22 L21 29 L24 32" fill="#8a6420"/></svg>`;
 const COS_PREV = {
+  frame_first: `<span class="cv-av frame_first">Р</span>`,
+  title_first: `<span class="cv-title">Первопроходец</span>`,
   plane_rocket: `<span class="cv-emo" style="transform:rotate(45deg)">🚀</span>`,
   plane_gold: GOLD_PLANE,
   plane_dragon: `<span class="cv-emo">🐉</span>`,
@@ -2591,7 +3035,7 @@ function renderStore(tab = "coins") {
       groups.map(g => `<h3 class="rg-h">${g}</h3><div class="cos-grid">${items.filter(x => x.g === g).map(it => {
         const own = owns(it.id), on = eqd(it.slot) === it.id;
         const act = own ? `<button class="cos-act${on ? " on" : ""}" data-eq="${it.id}">${on ? "Надето ✓" : "Надеть"}</button>`
-          : it.price ? `<button class="cos-act buy" data-buy="${it.id}">${it.price} ⭐</button>` : `<span class="cos-lock">🔒 ${it.free.t}</span>`;
+          : it.price ? `<button class="cos-act buy" data-buy="${it.id}">${it.price} ⭐</button>` : `<span class="cos-lock">🔒 ${it.free?.t || "Только по промокоду"}</span>`;
         return `<div class="cos${on ? " on" : ""}"><div class="cos-prev">${it.prev}</div><b>${it.t}</b>${it.free && !own && it.price ? `<small>или бесплатно: ${it.free.t}</small>` : ""}${act}</div>`; }).join("")}</div>`).join("");
   }
   app.innerHTML = `<section class="screen wrap store">
@@ -2645,7 +3089,7 @@ function winCard(amount, mult, game) {
   x.fillStyle = bg; x.fillRect(0, 0, W, H);
   x.save(); x.translate(W / 2, 420); for (let i = 0; i < 36; i++) { x.rotate(Math.PI / 18); x.fillStyle = i % 2 ? "rgba(227,194,122,.05)" : "rgba(227,194,122,.0)"; x.beginPath(); x.moveTo(0, 0); x.lineTo(-90, -900); x.lineTo(90, -900); x.fill(); } x.restore();
   x.strokeStyle = "#e3c27a"; x.lineWidth = 3; x.strokeRect(36, 36, W - 72, H - 72); x.strokeStyle = "rgba(227,194,122,.35)"; x.lineWidth = 1.5; x.strokeRect(50, 50, W - 100, H - 100);
-  const serif = '"Playfair Display", Georgia, serif', sans = 'Inter, system-ui, sans-serif';
+  const serif = '"Montserrat", system-ui, sans-serif', sans = 'Inter, system-ui, sans-serif';
   x.textAlign = "center"; x.fillStyle = "#e3c27a"; x.font = `800 64px ${serif}`; x.fillText("Лудка", W / 2, 150);
   x.fillStyle = "#c7b08a"; x.font = `600 26px ${sans}`; x.fillText((GAME_NAMES[game] || "Лудка").toUpperCase().split("").join(" "), W / 2, 215);
   const g = x.createLinearGradient(0, 300, 0, 470); g.addColorStop(0, "#fff6d8"); g.addColorStop(.6, "#e3c27a"); g.addColorStop(1, "#b88a3a");
@@ -2703,7 +3147,7 @@ const LUDKA_LINK = "https://t.me/" + BOT_USERNAME; // ссылка на игру
 const myCode = () => S.code || "LK-…";
 const refCount = () => S.refs || 0;
 const REF_LADDER = [
-  { n: 1, t: "5 000 бемок вам и другу", i: "🪙" },
+  { n: 1, t: "Другу 5 000 бемок, вам 10% его проигрышей", i: "🪙" },
   { n: 3, t: "Рамка «Душа компании»", i: "💞" },
   { n: 5, t: "Скин «Курица-тусовщица»", i: "🥳" },
   { n: 10, t: "Анимированная рамка и звание «Тамада»", i: "🎤" }
@@ -2720,7 +3164,7 @@ function challengeFriend() {
 }
 async function inviteFriend() {
   const link = LUDKA_LINK ? `${LUDKA_LINK}?startapp=ref_${myCode()}` : "";
-  const text = `Играю в «Лудку» — социальное казино на бемки. Догоняй! Мой код друга: ${myCode()}`;
+  const text = `Играю в «Лудку» — социальное казино на бемки. Заходи по ссылке — получишь ${fmt(FRIEND_BONUS)} бемок на старт. Мой код друга: ${myCode()}`;
   try { const tg = window.Telegram?.WebApp; if (tg?.openTelegramLink && tg.initData && link) return tg.openTelegramLink(`https://t.me/share/url?url=${encodeURIComponent(link)}&text=${encodeURIComponent(text)}`); } catch (e) {}
   if (navigator.share) { try { await navigator.share({ text: link ? text + "\n" + link : text }); return; } catch (e) {} }
   popToast(await copyText(link ? text + "\n" + link : text) ? "Приглашение скопировано — отправьте другу" : "Ваш код: " + myCode());
@@ -2758,8 +3202,17 @@ async function renderRating(tab = "friends") {
     const fr = LIVE ? data.rows : [];
     const all = [{ ...myP, chips: shown(), wnet: lbWeekNet() }, ...fr].sort((a, b) => b.chips - a.chips);
     const rival = fr.slice().sort((a, b) => b.wnet - a.wnet)[0];
-    body = `<div class="frhero"><b>Соревнуйтесь с друзьями</b><span>Чьих бемок больше, кто больше выиграл за неделю — и вызовы один на один. Пригласите друга: вы оба получите <b>${fmt(FRIEND_BONUS)}</b> ${bem(FRIEND_BONUS)}, когда он сыграет первую игру.</span>
+    const pct = Math.round(REF_SHARE * 100), refAv = LIVE ? (data.ref?.available || 0) : 0, refEarn = S.refEarn || 0;
+    body = `<div class="frhero"><b>Соревнуйтесь с друзьями</b><span>Чьих бемок больше, кто больше выиграл за неделю — и вызовы один на один. Друг по вашей ссылке получит <b>${fmt(FRIEND_BONUS)}</b> ${bem(FRIEND_BONUS)} на старт, а вы — <b>${pct}% от всех его проигрышей</b>.</span>
       <button class="btn gold" id="invite">Пригласить друга</button></div>
+      <div class="refbox"><div class="refhead"><span class="refbadge">Партнёрская программа</span><b>${pct}% с проигрышей друзей</b></div>
+        <div class="refnums"><div><span>Можно забрать</span><b>${fmt(refAv)}</b></div><div><span>Заработано всего</span><b>${fmt(refEarn)}</b></div></div>
+        <button class="btn gold" id="refget"${refAv > 0 ? "" : " disabled"}>${refAv > 0 ? `Забрать ${fmt(refAv)} ${bem(refAv)}` : "Пока нечего забирать"}</button>
+        <p class="refwhy"><b>Именно так ваши любимые блогеры зарабатывают на своих подписчиках.</b> Казино платит им процент с проигрышей каждого, кто пришёл по их ссылке или промокоду. Чем больше проиграли зрители, тем больше заработал блогер — поэтому он и показывает «заносы» и зовёт играть.</p>
+        <p class="refwhy">Здесь всё то же самое, только честно и на бемки, которые нельзя ни вывести, ни обменять. А у блогеров это настоящие деньги их зрителей. Теперь вы знаете, откуда берутся «реферальные ссылки».</p>
+        <p class="fine">Платит казино — у друга ничего не забирается. Считается чистый проигрыш в играх: если друг отыгрался, новые проценты пойдут, только когда он уйдёт ниже прежнего минуса. Сколько проиграл каждый друг, вы не видите — только общую сумму.</p>
+        ${LIVE && data.refBy ? `<p class="refby">Вас пригласил <b>${esc(data.refBy)}</b> — он получает ${pct}% ваших проигрышей.</p>` : ""}
+        ${!LIVE ? `<p class="fine">В демо партнёрка не работает — только в Telegram.</p>` : ""}</div>
       <div class="frcode"><div><span>Ваш код друга</span><b>${myCode()}</b></div><button class="btn ghost" id="copycode">Скопировать</button></div>
       <div class="fradd"><input id="frin" class="sup-ta" placeholder="Код друга, например LK-7Q2M" maxlength="12" autocomplete="off"><button class="btn ghost" id="fradd">Добавить</button></div>
       <h3 class="rg-h">Друзья · ${LIVE ? fr.length : S.friends.length}</h3>
@@ -2770,7 +3223,7 @@ async function renderRating(tab = "friends") {
       <h3 class="rg-h">Награды за друзей · ${refCount()} из 10</h3>
       <div class="ladder">${REF_LADDER.map(r => { const ok = refCount() >= r.n;
         return `<div class="lstep${ok ? " ok" : ""}"><span class="ln">${r.n}</span><span class="li">${r.i}</span><b>${r.t}</b><em>${ok ? "✓" : "🔒"}</em></div>`; }).join("")}
-        <p class="fine">Друг засчитывается, когда сыграет первую игру. Эти награды нельзя купить — только заработать.</p></div>
+        <p class="fine">Друг засчитывается, когда сыграет первую игру. С этого момента вам идёт ${pct}% его проигрышей. Награды лестницы нельзя купить — только заработать.</p></div>
       <h3 class="rg-h">Вызов недели</h3>
       <div class="duel"><div class="duel-side"><span class="lbav ${skinCls("frame")}">${esc(myP.name.slice(0, 1).toUpperCase())}</span><b>${sgn(lbWeekNet()) || "+"}${fmt(Math.abs(lbWeekNet()))}</b><small>вы</small></div><span class="duel-vs">VS</span>
         <div class="duel-side"><span class="lbav ${esc(rival?.frame || "")}">${rival ? esc(rival.name.slice(0, 1).toUpperCase()) : "?"}</span><b>${rival ? (sgn(rival.wnet) || "+") + fmt(Math.abs(rival.wnet)) : "—"}</b><small>${rival ? esc(rival.name) : "друг"}</small></div></div>
@@ -2805,6 +3258,11 @@ async function renderRating(tab = "friends") {
   app.innerHTML = shell(body); wire();
   app.querySelectorAll("[data-pub]").forEach(r => r.onclick = () => { try { const p = JSON.parse(r.dataset.pub); publicModal(p.me ? myPublic() : p); } catch (e) {} });
   const inv = document.getElementById("invite"); if (inv) inv.onclick = inviteFriend;
+  const rg = document.getElementById("refget"); if (rg) rg.onclick = async () => {
+    rg.disabled = true;
+    try { const res = await api("ref.collect", {}); popToast(`+${fmt(res.r.n)} ${bem(res.r.n)} с проигрышей друзей`); renderRating("friends"); }
+    catch (e) { rg.disabled = false; popToast(e.message || "Не получилось"); }
+  };
   const chl = document.getElementById("challenge"); if (chl) chl.onclick = challengeFriend;
   const cc = document.getElementById("copycode"); if (cc) cc.onclick = async () => { popToast(await copyText(myCode()) ? "Код скопирован" : "Код: " + myCode()); };
   const fa = document.getElementById("fradd"); if (fa) fa.onclick = async () => {
@@ -2858,7 +3316,8 @@ function idleTabShow(on) {
 function idleTabFill() { const f = document.getElementById("itfill"); if (!f) return; const cap = safeCap(); f.style.height = (cap ? Math.min(100, idleBank() / cap * 100) : 0) + "%"; }
 let idleTimer = 0, hrTimer = 0, idleTab = "build", idleDocked = false;
 // широкий экран: «Моё казино» — постоянная колонка слева
-const IDLE_DOCK_MQ = "(min-width: 820px)";
+// только компьютер с мышью: на телефонах и планшетах — выезжающая панель, даже если экран почему-то «широкий»
+const IDLE_DOCK_MQ = "(min-width: 820px) and (hover: hover) and (pointer: fine)";
 function idleDock() {
   const wide = matchMedia(IDLE_DOCK_MQ).matches && S.adult && !(S.rg.pause > nowS());
   document.body.classList.toggle("dock", wide);
@@ -2963,6 +3422,322 @@ function idleRender() {
   idleLive();
 }
 document.addEventListener("click", e => { if (e.target.closest("#idletab")) idleOpen(); else if (e.target.id === "idleshade") idleClose(); });
+
+/* ================= Пилот (общий раунд, как Aviator) ================= */
+// Раунд один для всех игроков: 7 секунд приём ставок, полёт, падение. Точку падения знает только сервер.
+// Две ставки одновременно, у каждой свой автовывод. Автоставок нет — каждую ставку делает сам игрок.
+const PL_PLANE = `<svg viewBox="0 0 120 60" width="96" height="48" aria-hidden="true"><g fill="#e5133a"><path d="M14 30c0-5 9-9 30-9h40c10 0 18 4 22 9-4 5-12 9-22 9H44c-21 0-30-4-30-9z"/><path d="M50 22l18-20h10l-8 20zM52 38l14 18h10l-6-18z"/><path d="M14 30l-10-14h8l12 10z"/></g><path d="M86 24h10c3 0 6 2.5 7 6-1 3.5-4 6-7 6H86z" fill="#ff4d6d"/><rect x="104" y="12" width="4" height="36" rx="2" fill="#e5133a" opacity=".55"/><circle cx="62" cy="30" r="3" fill="#ffffffaa"/><circle cx="72" cy="30" r="3" fill="#ffffffaa"/></svg>`;
+const plSt = store.get("plSlots", [{ bet: 100, autoOn: false, auto: 2 }, { bet: 100, autoOn: false, auto: 2 }]);
+let pv = { id: 0, R: null, hist: [], bets: [], count: 0, sum: 0, top: [], tab: "all", raf: 0, skew: 0, cashing: [false, false], busy: [false, false], crashShown: 0, syncN: 0 };
+const plNow = () => Date.now() + pv.skew;
+const plPhaseNow = () => !pv.R ? "wait" : pv.R.point != null ? "end" : plNow() < pv.R.fly ? "bet" : "fly";
+const plM = () => pv.R ? E.plMult(pv.R, plNow()) : 1;
+const plColor = m => m >= 10 ? "pl-h3" : m >= 2 ? "pl-h2" : "pl-h1";
+// моя ставка в слоте: на этот раунд или на следующий
+function plMine(slot) {
+  const bets = (S.pilot?.bets || []).filter(b => b.slot === slot), n = pv.R?.n;
+  return bets.find(b => b.n === n) || bets.find(b => b.n > (n || 0) && !b.done) || null;
+}
+function plSave() { store.set("plSlots", plSt); }
+async function plFetch(x) { const v = LIVE ? await post("/pilot", x) : await Local.plView(x); if (v.error) throw new Error(v.error); return v; }
+function renderPilot() {
+  cancelAnimationFrame(pv.raf);
+  app.innerHTML = `<section class="screen wrap s-pilot">
+    <div class="topbar"><button class="back" id="back">← Лобби</button>${balHTML()}</div>
+    <div class="pl-head"><h2 class="pl-title">Пилот</h2><span class="pl-online" id="plcount"></span></div>
+    <div class="pl-hist" id="plhist" aria-label="Последние раунды"></div>
+    <div class="pl-stage" id="plstage">
+      <div class="pl-rays" aria-hidden="true"></div>
+      <svg class="pl-curve" viewBox="0 0 300 160" preserveAspectRatio="none" aria-hidden="true"><path id="plarea" fill="#e5133a33"/><path id="plline" fill="none" stroke="#e5133a" stroke-width="3" vector-effect="non-scaling-stroke"/></svg>
+      <div class="pl-plane" id="plplane">${PL_PLANE}</div>
+      <div class="pl-center" id="plcenter" role="status"></div>
+    </div>
+    <div class="pl-panels">${[0, 1].map(s => `<div class="pl-panel" id="plp${s}"></div>`).join("")}</div>
+    <div class="pl-tabs" role="tablist"><button data-plt="all" aria-selected="${pv.tab === "all"}">Все ставки</button><button data-plt="my" aria-selected="${pv.tab === "my"}">Мои</button><button data-plt="top" aria-selected="${pv.tab === "top"}">Топ</button></div>
+    <div class="pl-list" id="pllist"></div>
+    <p class="fine" style="text-align:center;color:#9a9aa2">Один раунд для всех игроков. Ставки принимаются 7 секунд до взлёта. Не успели забрать — ставка сгорает.</p>
+  </section>`;
+  document.getElementById("back").onclick = () => { pv.id++; cancelAnimationFrame(pv.raf); renderLobby(); };
+  app.querySelectorAll("[data-plt]").forEach(b => b.onclick = () => { pv.tab = b.dataset.plt; app.querySelectorAll("[data-plt]").forEach(x => x.setAttribute("aria-selected", x === b)); plList(); if (pv.tab === "top") plFetch({ top: 1 }).then(v => { pv.top = v.top || []; plList(); }).catch(() => {}); });
+  plPanels(); plHist(); plList();
+  const id = ++pv.id; plLoop(id); pv.raf = requestAnimationFrame(t => plTick(t, id));
+}
+function plHist() {
+  const h = document.getElementById("plhist"); if (!h) return;
+  h.innerHTML = pv.hist.map(m => `<span class="${plColor(m)}">${m.toFixed(2)}x</span>`).join("");
+  const c = document.getElementById("plcount"); if (c) c.textContent = pv.count ? `${pv.count} ${pv.count === 1 ? "ставка" : pv.count < 5 ? "ставки" : "ставок"} · ${fmt(pv.sum)}` : "";
+}
+function plPanels() {
+  for (const s of [0, 1]) {
+    const el = document.getElementById("plp" + s); if (!el) continue;
+    const st = plSt[s], b = plMine(s), ph = plPhaseNow();
+    const live = b && !b.done && b.n === pv.R?.n && ph === "fly" && b.h !== null;
+    const next = b && !b.done && (b.n > (pv.R?.n || 0) || (b.n === pv.R?.n && ph === "bet"));
+    const won = b && b.done && b.cash > 0 && b.n === pv.R?.n;
+    const locked = !!(b && !b.done) || pv.busy[s];
+    let btn;
+    if (next) btn = `<button class="pl-btn cancel" data-pa="cancel">${b.n > (pv.R?.n || 0) ? "<small>Ждём следующий раунд</small>" : ""}Отмена</button>`;
+    else if (b && !b.done && b.n === pv.R?.n && ph !== "bet") btn = `<button class="pl-btn cash" data-pa="cash"><small>Забрать</small><b data-plcash="${s}">${fmt(b.bet)}</b></button>`;
+    else if (won) btn = `<button class="pl-btn won" disabled><small>Выигрыш ×${b.cash.toFixed(2)}</small><b>+${fmt(b.pay)}</b></button>`;
+    else btn = `<button class="pl-btn bet" data-pa="bet"><small>Ставка</small><b>${fmt(st.bet)}</b></button>`;
+    el.innerHTML = `<div class="pl-amt">
+        <div class="pl-step"><button data-pm="-" ${locked ? "disabled" : ""} aria-label="Меньше">−</button><b>${fmt(st.bet)}</b><button data-pm="+" ${locked ? "disabled" : ""} aria-label="Больше">+</button></div>
+        <div class="pl-quick">${[10, 100, 500, 1000].map(v => `<button data-pq="${v}" ${locked ? "disabled" : ""}>${v >= 1000 ? v / 1000 + "K" : v}</button>`).join("")}</div>
+        <label class="pl-auto"><input type="checkbox" data-pao ${st.autoOn ? "checked" : ""} ${locked ? "disabled" : ""}><span>Автовывод</span><input class="pl-autov" data-pav type="number" inputmode="decimal" step="0.01" min="1.01" max="${E.PL_AUTO_MAX}" value="${st.auto.toFixed(2)}" ${locked || !st.autoOn ? "disabled" : ""} aria-label="Множитель автовывода">×</label>
+      </div>${btn}`;
+    el.classList.toggle("on", !!(b && !b.done));
+    el.querySelectorAll("[data-pm]").forEach(x => x.onclick = () => { const i = BETS.findIndex(v => v >= st.bet), up = x.dataset.pm === "+"; st.bet = up ? (BETS[i + (BETS[i] === st.bet ? 1 : 0)] || Math.min(MAX_BET, st.bet * 2)) : (st.bet > BETS[BETS.length - 1] ? Math.max(BETS[BETS.length - 1], Math.floor(st.bet / 2)) : BETS[Math.max(0, i - 1)]); plSave(); sfx.chip(); plPanels(); });
+    el.querySelectorAll("[data-pq]").forEach(x => x.onclick = () => { st.bet = +x.dataset.pq; plSave(); sfx.chip(); plPanels(); });
+    const ao = el.querySelector("[data-pao]"); ao.onchange = () => { st.autoOn = ao.checked; plSave(); plPanels(); };
+    const av = el.querySelector("[data-pav]"); av.onchange = () => { const v = Math.max(1.01, Math.min(E.PL_AUTO_MAX, Math.round(parseFloat(av.value) * 100) / 100 || 2)); st.auto = v; plSave(); av.value = v.toFixed(2); };
+    const pb = el.querySelector("[data-pa]"); if (pb) pb.onclick = () => plAct(s, pb.dataset.pa);
+  }
+}
+async function plAct(s, op) {
+  if (pv.busy[s]) return;
+  const st = plSt[s];
+  if (op === "bet" && !canBet(st.bet, renderPilot)) return;
+  pv.busy[s] = true;
+  try {
+    if (op === "bet") { const res = await api("pilot.bet", { slot: s, bet: st.bet, auto: st.autoOn ? st.auto : 0 }); sfx.chip(); sessTouch(st.bet); S.lastBet = st.bet; showEv(res.ev); if (res.r.next) popToast("Ставка на следующий раунд"); }
+    else if (op === "cancel") { await api("pilot.cancel", { slot: s }); sfx.chip(); }
+    else if (op === "cash") await plCash(s);
+  } catch (e) { apiErr(e, renderPilot); }
+  pv.busy[s] = false; plPanels();
+}
+async function plCash(s, atM) {
+  if (pv.cashing[s]) return; pv.cashing[s] = true;
+  const m = Math.floor((atM || plM()) * 100) / 100;
+  try {
+    const res = await api("pilot.cash", { slot: s, m });
+    showEv(res.ev); const r = res.r, b = plMine(s);
+    if (r.pay > 0) { winUI(r.pay, b?.bet || r.pay / r.cash, r.cash); sessNote(r.pay - (b?.bet || 0)); popToast(`Забрали ×${r.cash.toFixed(2)}: +${fmt(r.pay)}`); }
+    else if (r.late) popToast("Не успели — самолёт уже улетел");
+  } catch (e) { popToast(e.message); }
+  pv.cashing[s] = false; plPanels();
+}
+function plList() {
+  const el = document.getElementById("pllist"); if (!el) return;
+  const row = (name, bet, cash, pay, me) => `<div class="pl-row${cash ? " won" : ""}${me ? " me" : ""}"><span class="pl-n">${esc(name)}</span><span>${fmt(bet)}</span><span class="pl-x">${cash ? `<i class="${plColor(cash)}">${cash.toFixed(2)}x</i>` : ""}</span><span class="pl-w">${pay ? fmt(pay) : ""}</span></div>`;
+  const head = `<div class="pl-row pl-th"><span>Игрок</span><span>Ставка</span><span>×</span><span>Выигрыш</span></div>`;
+  let rows;
+  if (pv.tab === "all") rows = pv.bets.length ? pv.bets.map(b => row(b.me ? "Вы" : b.name, b.bet, b.cash, b.pay, b.me)).join("") : `<p class="pl-empty">${LIVE ? "В этом раунде пока нет ставок" : "В демо-режиме вы играете один. В Telegram здесь ставки всех игроков раунда."}</p>`;
+  else if (pv.tab === "my") { const h = S.hist.filter(x => x.g === "pilot").slice(0, 20); rows = h.length ? h.map(x => row(new Date(x.t).toLocaleTimeString("ru-RU", { hour: "2-digit", minute: "2-digit" }), x.bet, x.pay ? x.m : 0, x.pay, true)).join("") : `<p class="pl-empty">Вы ещё не играли</p>`; }
+  else rows = pv.top.length ? pv.top.map(t => row(t.me ? "Вы" : t.name, t.bet, t.cash, t.pay, t.me)).join("") : `<p class="pl-empty">${LIVE ? "Крупные выигрыши за сутки появятся здесь" : "Топ выигрышей игроков — в Telegram"}</p>`;
+  el.innerHTML = head + rows;
+}
+// сеть: состояние раунда; во время полёта сервер держит запрос до падения
+async function plLoop(id) {
+  let fails = 0;
+  while (pv.id === id && document.getElementById("plstage")) {
+    const ph = plPhaseNow();
+    let v;
+    try { v = await plFetch(ph === "fly" ? { wait: pv.R.n } : {}); fails = 0; }
+    catch (e) { if (++fails === 3) popToast(e.message); await sleep(2000); continue; }
+    if (pv.id !== id) return;
+    pv.skew = v.now - Date.now();
+    const old = pv.R; pv.R = v.cur; pv.hist = v.hist; pv.bets = v.bets; pv.count = v.count; pv.sum = v.sum;
+    if (old && old.n !== pv.R.n) { pv.crashShown = 0; plPanels(); } // новый раунд
+    // самолёт упал: рассчитываем свои ставки (автовывод/проигрыш) и показываем итог
+    const crashed = pv.R.point != null ? pv.R : v.prev && v.prev.point != null ? v.prev : null;
+    if (crashed && pv.crashShown !== crashed.n) {
+      pv.crashShown = crashed.n;
+      const mine = (S.pilot?.bets || []).filter(b => b.n === crashed.n && !b.done);
+      if (mine.length) { try { const res = await api("pilot.sync"); showEv(res.ev); const done = (S.pilot?.bets || []).filter(b => b.n === crashed.n); done.forEach(b => { sessNote((b.pay || 0) - b.bet); if (b.pay) winUI(b.pay, b.bet, b.cash); }); } catch (e) {} }
+      if (pv.R.point != null) sfx.boom();
+      plPanels();
+    }
+    plHist(); if (pv.tab === "all") plList();
+    const t = plNow(), R = pv.R;
+    if (R.point != null) await sleep(Math.max(200, R.crash + E.PL_PAUSE - t + 80));
+    else if (t < R.fly) await sleep(Math.max(150, Math.min(R.fly - t + 60, 2500)));
+  }
+}
+function plDraw(m, tSec) {
+  const W = Math.max(6, tSec), H = Math.max(2, m * 1.12), px = s => 6 + s / W * 270, py = v => 152 - (v - 1) / (H - 1) * 125;
+  let d = "M6 152";
+  for (let i = 1; i <= 40; i++) { const s = tSec * i / 40; d += ` L${px(s).toFixed(1)} ${py(Math.exp(E.PL_SPEED * s)).toFixed(1)}`; }
+  const line = document.getElementById("plline"); if (!line) return;
+  line.setAttribute("d", d); document.getElementById("plarea").setAttribute("d", d + ` L${px(tSec).toFixed(1)} 160 L6 160 Z`);
+  const p = document.getElementById("plplane"); p.style.left = (px(tSec) / 300 * 100) + "%"; p.style.top = (py(m) / 160 * 100) + "%";
+}
+function plTick(now, id) {
+  if (pv.id !== id || !document.getElementById("plstage")) return;
+  const c = document.getElementById("plcenter"), stage = document.getElementById("plstage"), R = pv.R, t = plNow();
+  if (!R) c.innerHTML = `<small>Подключаемся…</small>`;
+  else if (R.point != null) {
+    stage.className = "pl-stage end"; c.innerHTML = `<small>Улетел!</small><b class="pl-big crash">${R.point.toFixed(2)}x</b>`;
+    plDraw(R.point, Math.log(R.point) / E.PL_SPEED);
+  } else if (t < R.fly) {
+    stage.className = "pl-stage wait";
+    const left = Math.max(0, R.fly - t), k = left / E.PL_BET_MS;
+    c.innerHTML = `<small>Ожидание следующего раунда</small><div class="pl-bar"><i style="width:${(k * 100).toFixed(1)}%"></i></div><small class="pl-sec">${(left / 1000).toFixed(1)} с · делайте ставки</small>`;
+    plDraw(1, 0);
+  } else {
+    stage.className = "pl-stage fly";
+    const m = plM(), ts = (t - R.fly) / 1000;
+    c.innerHTML = `<b class="pl-big">${m.toFixed(2)}x</b>`;
+    plDraw(m, ts);
+    for (const s of [0, 1]) {
+      const b = plMine(s);
+      if (b && !b.done && b.n === R.n) {
+        const el = document.querySelector(`[data-plcash="${s}"]`); if (el) el.textContent = fmt(Math.floor(b.bet * m));
+        if (b.auto && m >= b.auto && !pv.cashing[s]) plCash(s, b.auto);
+        if (!el) plPanels();
+      }
+    }
+  }
+  pv.raf = requestAnimationFrame(x => plTick(x, id));
+}
+
+/* ================= Кирка (шахта, как MineDrop) ================= */
+// Сверху падают кирки, TNT, книги и глаза. Кирка бьёт верхний блок своего столбца столько раз, сколько у неё ударов.
+// Сломанный блок платит, пробитый до дна столбец открывает сундук — множитель выигрыша. 3 глаза — 4 бесплатных спуска.
+const KR_ICON = (() => {
+  const pick = (head, handle = "#7a4a22") => `<svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 10l-2.2 26h4.4z" fill="${handle}"/><path d="M5 15c7-8 23-8 30 0-8-3.5-22-3.5-30 0z" fill="${head}" stroke="#0006" stroke-width="1"/><path d="M8 13.2c6-4.5 18-4.5 24 0" stroke="#fff6" stroke-width="1.2" fill="none"/></svg>`;
+  return {
+    wood: pick("#b5823f"), stone: pick("#9aa4ae"), gold: pick("#f2c14e"), dia: pick("#6fe7ff"),
+    tnt: `<svg viewBox="0 0 40 40" aria-hidden="true"><rect x="8" y="12" width="24" height="20" rx="2" fill="#d6283a"/><rect x="8" y="18" width="24" height="7" fill="#f3e6c8"/><text x="20" y="24" text-anchor="middle" font-size="7" font-weight="900" font-family="Inter,sans-serif" fill="#2a0a0e">TNT</text><path d="M20 12c0-4 3-5 5-7" stroke="#c9a24a" stroke-width="1.5" fill="none"/><circle cx="25.5" cy="4.5" r="2.2" fill="#ffcf4a"/></svg>`,
+    book: `<svg viewBox="0 0 40 40" aria-hidden="true"><path d="M8 10h11c2 0 3 1 3 3v19c0-1.5-1-2.5-3-2.5H8z" fill="#7b3fe4"/><path d="M32 10H21c-2 0-3 1-3 3v19c0-1.5 1-2.5 3-2.5h11z" fill="#9b63ff"/><path d="M20 15l1.3 2.7 3 .4-2.2 2 .5 3-2.6-1.4-2.6 1.4.5-3-2.2-2 3-.4z" fill="#f5dfa8"/></svg>`,
+    eye: `<svg viewBox="0 0 40 40" aria-hidden="true"><path d="M4 20c5-8 11-11 16-11s11 3 16 11c-5 8-11 11-16 11S9 28 4 20z" fill="#2a1a10" stroke="#e3c27a" stroke-width="2"/><circle cx="20" cy="20" r="7" fill="#e3c27a"/><circle cx="20" cy="20" r="3" fill="#120c08"/><circle cx="22" cy="18" r="1.3" fill="#fff"/></svg>`
+  };
+})();
+let kr = { busy: false, fs: false, left: 0, total: 0, bet: 0, grid: null, ch: [], turbo: store.get("krTurbo", false), eyes: 0 };
+const krSleep = ms => new Promise(r => setTimeout(r, kr.turbo ? ms * 0.45 : ms));
+const krBlockHTML = (b, c, r) => b ? `<div class="kb ${b.k}" id="kb${c}_${r}" data-hp="${b.hp}" style="--dmg:${(1 - b.hp / E.KR_BLK[b.k].hp).toFixed(2)}"><span class="kb-cr" aria-hidden="true"></span>${E.KR_BLK[b.k].pay ? `<em>${E.KR_BLK[b.k].pay}×</em>` : ""}</div>` : `<div class="kb gone" id="kb${c}_${r}"></div>`;
+function krGridHTML(g) { let h = ""; for (let r = 0; r < E.KR_ROWS; r++) for (let c = 0; c < E.KR_COLS; c++) h += krBlockHTML(g[c][r], c, r); return h; }
+function krEmptyGrid() { return Array.from({ length: E.KR_COLS }, () => Array.from({ length: E.KR_ROWS }, (_, r) => ({ k: r < 2 ? "dirt" : "stone", hp: r < 2 ? 1 : 2 }))); }
+function renderKirka() {
+  if (!kr.fs && S.g?.k === "kirka") Object.assign(kr, { fs: true, left: S.g.left, total: S.g.total, bet: S.g.bet, grid: S.g.grid, ch: S.g.ch || [], resume: true });
+  const g = kr.grid || krEmptyGrid();
+  app.innerHTML = `<section class="screen wrap s-kirka${kr.fs ? " fs" : ""}">
+    <div class="topbar"><button class="back" id="back">← Лобби</button>${balHTML()}</div>
+    <h2 class="kr-title">Кирка</h2>
+    <div class="kr-fsbar" id="krfs" ${kr.fs ? "" : "hidden"}><span>Бесплатно: <b id="krleft">${kr.left}</b></span><span>Всего: <b id="krtotal">${fmt(kr.total)}</b></span></div>
+    <div class="kr-mine">
+      <div class="kr-drop" id="krdrop">${Array.from({ length: E.KR_COLS * E.KR_DROP }, (_, i) => `<div class="kd" id="kd${i % E.KR_COLS}_${Math.floor(i / E.KR_COLS)}"></div>`).join("")}</div>
+      <div class="kr-grid" id="krgrid">${krGridHTML(g)}</div>
+      <div class="kr-chests" id="krch">${Array.from({ length: E.KR_COLS }, (_, c) => `<div class="kc${kr.ch[c] ? " open" : ""}" id="kc${c}">${kr.ch[c] ? "×" + kr.ch[c] : ""}</div>`).join("")}</div>
+      <div class="kr-banner" id="krbanner" hidden></div>
+    </div>
+    <div class="kr-win"><span>Выигрыш</span><b id="krwin">0</b><em id="krmult"></em></div>
+    ${betsHTML()}
+    <div class="rf-ctl">
+      <button class="rf-side" id="krpay">Блоки</button>
+      <button class="rf-spin kr-spin" id="krspin" aria-label="Спуск">${KR_ICON.dia}</button>
+      <button class="rf-side" id="krturbo" aria-pressed="${kr.turbo}">Турбо</button>
+    </div>
+    <p class="fine" style="text-align:center;color:#c9b48a">Пробейте столбец до дна — сундук умножит выигрыш. 3 глаза — 4 бесплатных спуска, шахта не обновляется.</p>
+  </section>`;
+  wireBets(app.querySelector(".screen"));
+  document.getElementById("back").onclick = () => { if (!kr.busy) renderLobby(); };
+  document.getElementById("krspin").onclick = krSpin;
+  document.getElementById("krpay").onclick = krPaytable;
+  document.getElementById("krturbo").onclick = e => { kr.turbo = !kr.turbo; store.set("krTurbo", kr.turbo); e.currentTarget.setAttribute("aria-pressed", kr.turbo); };
+  if (kr.resume && kr.left > 0) { kr.resume = false; krLock(true); setTimeout(() => { kr.busy = false; krSpin(); }, 600); }
+}
+function krLock(on) { kr.busy = on; document.querySelectorAll("#krspin,[data-bet],[data-bop]").forEach(b => b.disabled = on); const bk = document.getElementById("back"); if (bk) bk.disabled = on; }
+async function krBanner(html, ms) { const b = document.getElementById("krbanner"); if (!b) return; b.innerHTML = html; b.hidden = false; b.classList.remove("show"); void b.offsetWidth; b.classList.add("show"); await krSleep(ms); b.hidden = true; }
+function krFloat(c, r, text) {
+  const el = document.getElementById(`kb${c}_${r}`); if (!el) return;
+  const f = document.createElement("span"); f.className = "kr-float"; f.textContent = text; el.appendChild(f); setTimeout(() => f.remove(), 900);
+}
+async function krSpin() {
+  if (kr.busy) return;
+  if (!kr.fs && !canBet(S.bet, renderKirka)) return;
+  krLock(true);
+  const free = kr.fs, bet = free ? kr.bet : S.bet;
+  if (!free) { sessTouch(bet); S.lastBet = bet; }
+  let res;
+  try { res = await api("kirka.spin", free ? {} : { bet }, R => { R.d = (R.r.paid || 0) + evGain(R.ev); S.hold += R.d; }); }
+  catch (e) { krLock(false); if (e.code === 409) { kr.fs = false; } return apiErr(e, renderKirka); }
+  const r = res.r, gridEl = document.getElementById("krgrid");
+  if (!gridEl) { S.hold = Math.max(0, S.hold - res.d); balRender(); return; }
+  if (!free) { kr.bet = bet; kr.ch = []; document.querySelectorAll(".kc").forEach(c => { c.className = "kc"; c.textContent = ""; }); document.getElementById("krmult").textContent = ""; }
+  // новая шахта (в бесплатных — та же)
+  gridEl.innerHTML = krGridHTML(r.start);
+  // символы падают в верхний ряд
+  for (let c = 0; c < E.KR_COLS; c++) for (let i = 0; i < E.KR_DROP; i++) {
+    const d = document.getElementById(`kd${c}_${i}`), s = r.drop[c][i];
+    d.className = "kd"; d.innerHTML = s !== "none" ? KR_ICON[s] : ""; d.style.animationDelay = `${(c * 60 + i * 40) * (kr.turbo ? .45 : 1)}ms`; void d.offsetWidth; d.classList.add("in");
+  }
+  sfx.whoosh(); await krSleep(650);
+  let win = 0, eyes = 0;
+  const showWin = () => { const w = document.getElementById("krwin"); if (w) w.textContent = fmt(Math.floor(win * bet)); };
+  for (const st of r.steps) {
+    const d = document.getElementById(`kd${st.c}_${st.i}`); if (!d) break;
+    d.classList.add("act");
+    if (st.s === "book") {
+      sfx.level();
+      await krSleep(350);
+      for (const i of st.up) { const u = document.getElementById(`kd${st.c}_${i}`); if (u) { u.innerHTML = KR_ICON.dia; u.classList.add("up"); } }
+      await krSleep(300);
+    } else if (st.s === "eye") {
+      eyes++; d.classList.add("eye"); sfx.coin(); await krSleep(300); continue;
+    } else if (st.s === "tnt") {
+      sfx.boom(); document.getElementById("krgrid").classList.add("shake");
+      await krSleep(250);
+      for (const o of st.out) krOut(o, bet, w => { win += w; });
+      showWin(); await krSleep(380); document.getElementById("krgrid")?.classList.remove("shake");
+    } else {
+      for (const o of st.out) { krOut(o, bet, w => { win += w; }); showWin(); await krSleep(o.k ? 170 : 110); }
+      await krSleep(120);
+    }
+    d.classList.remove("act"); d.classList.add("used");
+  }
+  // итог спуска
+  const mult = r.mult || 1;
+  if (mult > 1 && r.paid) { const m = document.getElementById("krmult"); if (m) m.textContent = `× ${mult} сундуки`; await krSleep(500); }
+  const w = document.getElementById("krwin"); if (w) w.textContent = fmt(r.paid);
+  S.hold = Math.max(0, S.hold - res.d); balRender(); showEv(res.ev);
+  // бонус: 3 глаза
+  if (!free && r.left > 0) {
+    sfx.big(); await krBanner(`<small>Глаза × ${eyes}</small><strong>${E.KR_FS} бесплатных<br>спуска</strong><em>шахта сохраняется</em>`, 2200);
+    Object.assign(kr, { fs: true, left: r.left, total: r.total, grid: r.next, ch: [] });
+    document.querySelector(".s-kirka")?.classList.add("fs"); const fb = document.getElementById("krfs"); if (fb) fb.hidden = false; krFsBar();
+    kr.busy = false; return krAuto();
+  }
+  if (free) {
+    kr.left = r.left; kr.total = r.total; kr.ch = r.chests || kr.ch; kr.grid = null;
+    if (r.extra) await krBanner(`<strong>+${r.extra} спуска</strong>`, 1300);
+    krFsBar();
+    if (!r.end) { kr.busy = false; return krAuto(); }
+    sessNote(r.total - bet); winUI(r.total, bet);
+    await krBanner(`<small>Бонус завершён</small><strong>${fmt(r.total)}</strong><em>${(r.total / bet).toFixed(1)}× от ставки</em>`, 2600);
+    Object.assign(kr, { fs: false, left: 0, total: 0, ch: [] });
+    document.querySelector(".s-kirka")?.classList.remove("fs"); const fb = document.getElementById("krfs"); if (fb) fb.hidden = true;
+  } else { sessNote(r.paid - bet); winUI(r.paid, bet); if (!r.paid) sfx.lose(); }
+  krLock(false);
+}
+// одно событие удара: трещина, сломанный блок или открытый сундук
+function krOut(o, bet, add) {
+  if (o.chest) {
+    kr.ch[o.c] = o.chest; const ch = document.getElementById("kc" + o.c);
+    if (ch) { ch.className = "kc open"; ch.textContent = "×" + o.chest; }
+    sfx.big(); return;
+  }
+  const el = document.getElementById(`kb${o.c}_${o.r}`); if (!el) return;
+  if (o.k) {
+    add(o.pay); if (o.pay) krFloat(o.c, o.r, "+" + fmt(Math.floor(o.pay * bet)));
+    el.classList.add("pop"); sfx.pop(o.r * 2); setTimeout(() => { el.className = "kb gone"; el.innerHTML = ""; }, 260);
+  } else {
+    const k = [...el.classList].find(x => E.KR_BLK[x]); const max = k ? E.KR_BLK[k].hp : 1;
+    el.style.setProperty("--dmg", (1 - o.hp / max).toFixed(2)); el.classList.remove("hit"); void el.offsetWidth; el.classList.add("hit"); sfx.tick(1.4);
+  }
+}
+function krFsBar() { const l = document.getElementById("krleft"); if (l) l.textContent = kr.left; const t = document.getElementById("krtotal"); if (t) t.textContent = fmt(kr.total); }
+async function krAuto() { await krSleep(600); if (kr.left > 0 && document.getElementById("krgrid")) krSpin(); }
+function krPaytable() {
+  const b = S.bet;
+  modal(`<h2>Блоки и кирки</h2><p>При ставке ${fmt(b)}. Блок платит, когда сломан.</p>
+    <div class="kr-pt">${Object.entries(E.KR_BLK).map(([k, v]) => `<div><span class="kb ${k} mini"></span><b>${v.t}</b><span>${v.hp} ${v.hp === 1 ? "удар" : v.hp < 5 ? "удара" : "ударов"}</span><em>${v.pay ? fmt(Math.floor(v.pay * E.KR_SCALE * b)) : "—"}</em></div>`).join("")}</div>
+    <div class="kr-pt">${[["wood", "Деревянная", 1], ["stone", "Каменная", 2], ["gold", "Золотая", 3], ["dia", "Алмазная", 5]].map(([k, t, h]) => `<div><span class="kd mini">${KR_ICON[k]}</span><b>${t} кирка</b><span>${h} ${h === 1 ? "удар" : h < 5 ? "удара" : "ударов"}</span><em></em></div>`).join("")}
+      <div><span class="kd mini">${KR_ICON.tnt}</span><b>TNT</b><span>ломает 3 блока в ряд</span><em></em></div>
+      <div><span class="kd mini">${KR_ICON.book}</span><b>Книга</b><span>кирки столбца → алмазные</span><em></em></div>
+      <div><span class="kd mini">${KR_ICON.eye}</span><b>Глаз</b><span>3 глаза — бонус</span><em></em></div></div>
+    <p>Сундуки на дне: ×2…×25, их множители складываются. В бесплатных спусках шахта и открытые сундуки сохраняются.</p>
+    <button class="btn ghost" id="close">Понятно</button>`, (m, close) => m.querySelector("#close").onclick = close);
+}
 
 /* ================= Слоты ================= */
 const symHTML = x => `<div class="sym${x.s === "7" ? " seven" : ""}">${x.s}</div>`;
@@ -3327,6 +4102,8 @@ async function roadStep() {
     showEv(res.ev); sessNote(-rd.bet); rd.state = "lost";
     roadUpdate(rd.step + 1);
     const ch = document.getElementById("chick"); ch.textContent = "💥"; ch.classList.add("dead"); sfx.boom();
+    document.getElementById("rview")?.classList.add("boom");
+    try { TG?.HapticFeedback?.notificationOccurred("error"); } catch (e) {}
     document.getElementById("rmsg").textContent = "Бип-бип! Курочку сбили — ставка сгорела";
     document.querySelectorAll("[data-lv]").forEach(b => b.disabled = false);
     rd.state = "idle"; rd.step = 0; roadControls();
@@ -3797,7 +4574,7 @@ function scFoil() {
   ctx.strokeStyle = "#8a6a2455"; ctx.lineWidth = 1;
   for (let x = -H; x < W + H; x += 16) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x + H, H); ctx.stroke(); ctx.beginPath(); ctx.moveTo(x + H, 0); ctx.lineTo(x, H); ctx.stroke(); }
   for (let i = 0; i < 900; i++) { ctx.fillStyle = Math.random() < .5 ? "#ffffff30" : "#5a3f0a22"; ctx.fillRect(Math.random() * W, Math.random() * H, 1.2, 1.2); }
-  ctx.fillStyle = "#6b4e14cc"; ctx.font = `400 ${Math.round(W / 11)}px "Playfair Display", serif`; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+  ctx.fillStyle = "#6b4e14cc"; ctx.font = `400 ${Math.round(W / 11)}px "Montserrat", sans-serif`; ctx.textAlign = "center"; ctx.textBaseline = "middle";
   ctx.fillText("СОТРИТЕ ЗДЕСЬ", W / 2, H / 2);
   ctx.globalCompositeOperation = "destination-out";
   ctx.lineCap = "round"; ctx.lineJoin = "round"; ctx.lineWidth = Math.max(26, W / 11);
@@ -4187,3 +4964,5 @@ function start() {
   document.addEventListener("visibilitychange", () => { if (document.hidden) tapFlush(); });
 })();
 </script>
+</body>
+</html>
